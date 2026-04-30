@@ -165,13 +165,24 @@
   </footer>
 
   <script>
+    function showFormError(msg) {
+      const existing = document.getElementById('form-error-msg');
+      if (existing) existing.remove();
+      const err = document.createElement('p');
+      err.id = 'form-error-msg';
+      err.style.cssText = 'color:#ff6b6b;font-size:.88rem;margin-top:.6rem;font-weight:600;';
+      err.textContent = msg;
+      document.getElementById('contact-form').insertBefore(err, document.querySelector('.btn-submit'));
+      setTimeout(() => { if (err.parentNode) err.remove(); }, 5000);
+    }
+
     function handleSubmit(e) {
       e.preventDefault();
       const name = document.getElementById('cf-name').value.trim();
       const email = document.getElementById('cf-email').value.trim();
       const msg = document.getElementById('cf-message').value.trim();
       if (!name || !email || !msg) {
-        alert('Please fill in all required fields.');
+        showFormError('Please fill in all required fields.');
         return;
       }
       document.getElementById('contact-form').reset();
