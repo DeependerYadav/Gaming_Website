@@ -3,9 +3,9 @@
    Handles caching for offline functionality
    ============================================= */
 
-const CACHE_NAME = 'minigames-hub-v1.1';
-const STATIC_CACHE = 'static-v1.1';
-const DYNAMIC_CACHE = 'dynamic-v1.1';
+const CACHE_NAME = 'minigames-hub-v2.0';
+const STATIC_CACHE = 'static-v2.0';
+const DYNAMIC_CACHE = 'dynamic-v2.0';
 
 // Files to cache on install (App Shell)
 const STATIC_ASSETS = [
@@ -42,7 +42,7 @@ const STATIC_ASSETS = [
   '/games/tictactoe/index.html',
   '/games/tictactoe/tictactoe.css',
   '/games/tictactoe/tictactoe.js',
-  'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Press+Start+2P&display=swap'
+  'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap'
 ];
 
 /* ---- Install Event: Cache all static assets ---- */
@@ -85,7 +85,9 @@ self.addEventListener('fetch', (event) => {
   if (request.method !== 'GET') return;
 
   // Skip cross-origin requests except Google Fonts
-  if (url.origin !== location.origin && !url.hostname.includes('fonts.google')) return;
+  if (url.origin !== location.origin &&
+      !url.hostname.includes('fonts.googleapis') &&
+      !url.hostname.includes('fonts.gstatic')) return;
 
   event.respondWith(
     caches.match(request).then((cachedResponse) => {
