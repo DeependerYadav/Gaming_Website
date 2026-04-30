@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Mini Games Hub – Play Snake, Memory Match, and Tic Tac Toe offline." />
+  <title>Home | Mini Games Hub 🎮</title>
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="icon" type="image/png" href="../assets/icons/icon-96x96.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet" href="../css/home.css"/>
+</head>
+<body class="dark-mode">
+
+  <!-- This page just redirects to index.html (root) -->
+  <!-- It exists so the router can reference it cleanly -->
+
+  <div style="
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2rem;
+    text-align: center;
+    font-family: 'Outfit', sans-serif;
+    background: #0d0d1a;
+    color: #f0f0ff;
+  ">
+    <div style="font-size: 4rem; animation: bounce 1s infinite alternate;">🎮</div>
+    <h1 style="font-size: 2rem; font-weight: 800;">Loading Mini Games Hub…</h1>
+    <p style="color: #a8a8cc;">Redirecting you to the homepage</p>
+  </div>
+
+  <style>
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to   { transform: translateY(-15px); }
+    }
+  </style>
+
+  <script>
+    // Redirect to root
+    setTimeout(() => {
+      window.location.replace('../index.html');
+    }, 500);
+  </script>
+</body>
+</html>

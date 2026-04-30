@@ -1,0 +1,142 @@
+/* =============================================
+   snake.css — Snake Game Specific Styles
+   Mini Games Hub
+   ============================================= */
+
+/* ---- Override canvas wrapper for snake ---- */
+#snake-canvas-wrapper {
+  border-color: rgba(0, 230, 118, 0.4);
+  box-shadow: 0 0 60px rgba(0,230,118,0.15), 0 20px 60px rgba(0,0,0,0.6);
+}
+
+#snake-canvas-wrapper:hover {
+  box-shadow: 0 0 80px rgba(0,230,118,0.25), var(--shadow-xl);
+}
+
+/* ---- Canvas itself ---- */
+#snake-canvas {
+  background: #0b1a12;
+  display: block;
+  border-radius: var(--radius-lg);
+}
+
+/* ---- Score card accent for snake ---- */
+.snake-accent {
+  border-color: rgba(0,230,118,0.4) !important;
+  background: rgba(0,230,118,0.07) !important;
+}
+
+.snake-accent .stat-card-value {
+  color: var(--clr-accent-green) !important;
+}
+
+#streak-val {
+  color: #ffd166;
+  text-shadow: 0 0 16px rgba(255, 209, 102, 0.35);
+}
+
+.snake-mode-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-top: calc(var(--space-4) * -1);
+}
+
+.mode-chip {
+  border: 1px solid rgba(0, 230, 118, 0.22);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--clr-text-secondary);
+  border-radius: var(--radius-full);
+  padding: 0.75rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.mode-chip:hover,
+.mode-chip.active {
+  color: var(--clr-accent-green);
+  border-color: rgba(0, 230, 118, 0.45);
+  background: rgba(0, 230, 118, 0.1);
+  box-shadow: 0 0 20px rgba(0, 230, 118, 0.18);
+}
+
+.snake-mode-hint {
+  margin-top: calc(var(--space-4) * -1);
+  color: var(--clr-text-muted);
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+/* ---- Speed indicator badge ---- */
+.speed-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  background: rgba(0,230,118,0.1);
+  border: 1px solid rgba(0,230,118,0.3);
+  color: var(--clr-accent-green);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ---- Overlay for snake — green glow ---- */
+#snake-overlay .overlay-title {
+  background: linear-gradient(135deg, #00e676, #00bfa5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+#snake-overlay .overlay-score {
+  background: rgba(0,230,118,0.1);
+  border-color: rgba(0,230,118,0.3);
+  color: var(--clr-accent-green);
+}
+
+/* ---- Game Over overlay — red tint ---- */
+#game-over-overlay .overlay-title {
+  background: linear-gradient(135deg, #ff5252, #ff1744);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ---- High score flash animation ---- */
+@keyframes highScoreFlash {
+  0%, 100% { color: var(--clr-accent-green); }
+  50%       { color: #fff; text-shadow: 0 0 20px var(--clr-accent-green); }
+}
+
+.high-score-flash {
+  animation: highScoreFlash 0.5s ease 3;
+}
+
+/* ---- Touch controls snake-specific ---- */
+#snake-touch-controls .touch-btn {
+  border-color: rgba(0,230,118,0.3);
+}
+
+#snake-touch-controls .touch-btn:active {
+  background: rgba(0,230,118,0.15);
+  border-color: var(--clr-accent-green);
+}
+
+@media (max-width: 640px) {
+  .snake-mode-selector {
+    gap: var(--space-2);
+  }
+
+  .mode-chip {
+    width: 100%;
+    max-width: 220px;
+  }
+}

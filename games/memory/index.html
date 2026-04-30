@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="description" content="Play Memory Match offline on Mini Games Hub. Flip cards, memorize the preview, and beat your best time." />
+  <title>Memory Match | Mini Games Hub</title>
+  <link rel="manifest" href="../../manifest.json" />
+  <link rel="icon" type="image/png" href="../../assets/icons/icon-96x96.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="stylesheet" href="../../css/games.css" />
+  <link rel="stylesheet" href="memory.css" />
+</head>
+<body class="dark-mode">
+
+<div class="game-page">
+  <header class="game-header">
+    <div class="game-header-left">
+      <a href="../../index.html" class="back-btn">
+        <i class="fa-solid fa-arrow-left"></i> Back
+      </a>
+      <h1 class="game-header-title">🃏 Memory Match</h1>
+    </div>
+    <div class="game-header-controls">
+      <button class="icon-btn" id="btn-sound-memory" title="Toggle Sound">
+        <i class="fa-solid fa-volume-high"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="game-container">
+    <div class="stats-bar">
+      <div class="stat-card memory-accent">
+        <div class="stat-card-label"><i class="fa-regular fa-clock"></i> Time</div>
+        <div class="stat-card-value" id="memory-timer">00:00</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label"><i class="fa-solid fa-arrows-turn-right"></i> Moves</div>
+        <div class="stat-card-value" id="memory-moves">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label"><i class="fa-solid fa-clone"></i> Pairs</div>
+        <div class="stat-card-value pairs-progress" id="memory-pairs">0 / <strong>8</strong></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label"><i class="fa-solid fa-trophy"></i> Best</div>
+        <div class="stat-card-value" id="memory-best-time">--:--</div>
+      </div>
+    </div>
+
+    <div class="difficulty-selector" id="memory-difficulty">
+      <button class="diff-btn" data-val="easy" id="mem-diff-easy">Easy</button>
+      <button class="diff-btn active" data-val="medium" id="mem-diff-medium">Medium</button>
+      <button class="diff-btn" data-val="hard" id="mem-diff-hard">Hard</button>
+    </div>
+
+    <div class="memory-board" id="memory-board" role="grid" aria-label="Memory card grid">
+      <!-- Cards injected by memory.js -->
+    </div>
+
+    <div
+      class="game-overlay hidden"
+      id="memory-win-overlay"
+      style="position:fixed; border-radius: var(--radius-2xl); z-index: 200; top:50%; left:50%; transform:translate(-50%,-50%); width:320px; max-width: 90vw;"
+    >
+      <div class="overlay-emoji">Win</div>
+      <h2 class="overlay-title">You Won!</h2>
+      <div class="overlay-score">
+        Time <span id="win-time">00:00</span> | Moves <span id="win-moves">0</span>
+      </div>
+      <div class="memory-win-rating" id="win-rating">Sharp recall</div>
+      <div id="win-best-label" style="display:none; color: #FFD700; font-weight: 800; font-size: var(--text-lg); margin-top: var(--space-2);">
+        New best time!
+      </div>
+      <div class="overlay-actions">
+        <button class="btn-game btn-start btn-restart-memory" id="btn-play-again-memory">Play Again</button>
+        <a href="../../index.html" class="btn-game btn-restart">Home</a>
+      </div>
+    </div>
+
+    <div class="game-actions">
+      <button class="btn-game btn-restart btn-restart-memory" id="btn-restart-memory">
+        <i class="fa-solid fa-rotate-right"></i> New Game
+      </button>
+      <a href="../../pages/leaderboard.html" class="btn-game btn-restart">
+        <i class="fa-solid fa-trophy"></i> Scores
+      </a>
+    </div>
+
+    <div class="controls-info">
+      <div class="control-item">Click or tap cards to flip</div>
+      <div class="control-item">Find all matching pairs</div>
+      <div class="control-item">Memorize the preview before the board locks in</div>
+    </div>
+  </div>
+</div>
+
+<script src="../../js/utils.js"></script>
+<script src="../../js/storage.js"></script>
+<script src="memory.js"></script>
+<script>
+  (function() {
+    const btn = document.getElementById('btn-sound-memory');
+    if (!btn) return;
+    const settings = AppStorage.getSettings();
+    btn.textContent = settings.soundEnabled !== false ? '🔊' : '🔇';
+    btn.addEventListener('click', () => {
+      const current = AppStorage.getSettings().soundEnabled;
+      AppStorage.setSetting('soundEnabled', !current);
+      btn.textContent = !current ? '🔊' : '🔇';
+    });
+  })();
+</script>
+</body>
+</html>

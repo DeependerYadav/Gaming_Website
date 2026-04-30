@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+  <meta name="description" content="Play Minesweeper – Mini Games Hub. Clear the minefield using logic — flag bombs, reveal safe tiles, survive!"/>
+  <title>Minesweeper | Mini Games Hub</title>
+  <link rel="manifest" href="../../manifest.json"/>
+  <link rel="icon" type="image/png" href="../../assets/icons/icon-96x96.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="../../css/style.css"/>
+  <link rel="stylesheet" href="../../css/games.css"/>
+  <link rel="stylesheet" href="minesweeper.css"/>
+</head>
+<body class="dark-mode">
+<div class="game-page">
+
+  <!-- HEADER -->
+  <header class="game-header">
+    <div class="game-header-left">
+      <a href="../../index.html" class="back-btn" id="back-btn">
+        <i class="fa-solid fa-arrow-left"></i> Back
+      </a>
+      <h1 class="game-header-title">💣 Minesweeper</h1>
+    </div>
+    <div class="game-header-controls">
+      <div class="difficulty-selector">
+        <button class="diff-btn active" data-diff="easy"   id="diff-easy">Easy</button>
+        <button class="diff-btn"        data-diff="medium" id="diff-medium">Med</button>
+        <button class="diff-btn"        data-diff="hard"   id="diff-hard">Hard</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- GAME CONTAINER -->
+  <div class="game-container">
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+      <div class="stat-card mine-accent">
+        <div class="stat-card-label"><i class="fa-solid fa-bomb"></i> Mines</div>
+        <div class="stat-card-value" id="mine-count">10</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label"><i class="fa-regular fa-clock"></i> Time</div>
+        <div class="stat-card-value" id="timer">0s</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label"><i class="fa-solid fa-trophy"></i> Best</div>
+        <div class="stat-card-value" id="best-time">--</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label"><i class="fa-solid fa-flag"></i> Flags</div>
+        <div class="stat-card-value" id="flag-count">0</div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="game-actions">
+      <button id="restart-btn" class="btn-game btn-restart" aria-label="New Game">
+        <i class="fa-solid fa-rotate-right"></i> New Game
+      </button>
+    </div>
+
+    <!-- Status -->
+    <div id="status-line" class="mine-status">
+      <i class="fa-solid fa-circle-info"></i>
+      Click any tile to start &nbsp;·&nbsp; Right-click / long-press to flag
+    </div>
+
+    <!-- Board -->
+    <div class="mine-board-wrap">
+      <div id="board" class="mine-board"></div>
+    </div>
+
+    <!-- Win / Lose Overlay -->
+    <div id="mine-overlay" class="mine-overlay hidden">
+      <div class="mine-overlay-inner">
+        <div class="mine-overlay-emoji" id="mine-overlay-emoji">🏆</div>
+        <h2 class="mine-overlay-title" id="mine-overlay-title">You Win!</h2>
+        <p  class="mine-overlay-msg"   id="mine-overlay-msg">Board cleared!</p>
+        <button class="btn-game btn-start" id="mine-overlay-btn">
+          <i class="fa-solid fa-rotate-right"></i> Play Again
+        </button>
+      </div>
+    </div>
+
+    <p class="mine-hint">Left-click to reveal &nbsp;·&nbsp; Right-click / long-press to flag</p>
+  </div>
+</div>
+
+<script src="../../js/utils.js"></script>
+<script src="../../js/storage.js"></script>
+<script src="minesweeper.js"></script>
+</body>
+</html>

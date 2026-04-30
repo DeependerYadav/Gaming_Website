@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="description" content="Play Snake Game offline on Mini Games Hub. Guide the snake and eat food!" />
+  <title>Snake Game | Mini Games Hub 🐍</title>
+  <link rel="manifest" href="../../manifest.json" />
+  <link rel="icon" type="image/png" href="../../assets/icons/icon-96x96.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="stylesheet" href="../../css/games.css" />
+  <link rel="stylesheet" href="snake.css" />
+</head>
+<body class="dark-mode">
+
+<div class="game-page">
+
+  <!-- ===== GAME HEADER ===== -->
+  <header class="game-header">
+    <div class="game-header-left">
+      <a href="../../index.html" class="back-btn" id="back-btn">
+        <i class="fa-solid fa-arrow-left"></i> Back
+      </a>
+      <h1 class="game-header-title">🐍 Snake</h1>
+    </div>
+    <div class="game-header-controls">
+      <button class="icon-btn" id="btn-sound-snake" title="Toggle Sound">🔊</button>
+    </div>
+  </header>
+
+  <!-- ===== GAME CONTAINER ===== -->
+  <div class="game-container">
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+      <div class="stat-card snake-accent">
+        <div class="stat-card-label">Score</div>
+        <div class="stat-card-value" id="score-val">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Best</div>
+        <div class="stat-card-value" id="high-score-val">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Speed</div>
+        <div class="stat-card-value" id="level-val">5</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Streak</div>
+        <div class="stat-card-value" id="streak-val">x1</div>
+      </div>
+    </div>
+
+    <div class="snake-mode-selector" id="snake-mode-selector" aria-label="Snake mode">
+      <button class="mode-chip active" type="button" data-mode="classic">Classic Walls</button>
+      <button class="mode-chip" type="button" data-mode="portal">Portal Wrap</button>
+    </div>
+    <p class="snake-mode-hint">Golden food appears during hot streaks and awards bonus points.</p>
+
+    <!-- Canvas -->
+    <div class="game-canvas-wrapper" id="snake-canvas-wrapper">
+      <canvas id="snake-canvas" width="500" height="500" role="img" aria-label="Snake game board"></canvas>
+
+      <!-- Start Overlay -->
+      <div class="game-overlay" id="snake-overlay">
+        <div class="overlay-emoji">🐍</div>
+        <h2 class="overlay-title">Snake Game</h2>
+        <p class="overlay-subtitle">Eat food. Grow longer. Don't hit yourself!</p>
+        <div class="overlay-actions">
+          <button class="btn-game btn-start" id="btn-start-snake">▶ Start Game</button>
+        </div>
+        <div style="font-size: var(--text-xs); color: var(--clr-text-muted); margin-top: var(--space-3);">
+          Press <kbd>Space</kbd> or tap to start. Use Classic for wall collisions or Portal for wrap-around runs.
+        </div>
+      </div>
+
+      <!-- Game Over Overlay -->
+      <div class="game-overlay hidden" id="game-over-overlay">
+        <div class="overlay-emoji">💀</div>
+        <h2 class="overlay-title">Game Over!</h2>
+        <p class="overlay-score" id="final-score">Score: 0 | Best: 0</p>
+        <div id="new-best-label" style="display:none; color: #FFD700; font-weight: 800; font-size: var(--text-lg);">
+          🏆 New High Score!
+        </div>
+        <div class="overlay-actions">
+          <button class="btn-game btn-start"   id="btn-restart-gameover">▶ Play Again</button>
+          <a href="../../index.html" class="btn-game btn-restart">🏠 Home</a>
+        </div>
+      </div>
+    </div><!-- /canvas wrapper -->
+
+    <!-- Action Buttons -->
+    <div class="game-actions">
+      <button class="btn-game btn-pause"   id="btn-pause"><i class="fa-solid fa-pause"></i> Pause</button>
+      <button class="btn-game btn-restart" id="btn-restart-snake"><i class="fa-solid fa-rotate-right"></i> Restart</button>
+      <a href="../../pages/leaderboard.html" class="btn-game btn-restart"><i class="fa-solid fa-trophy"></i> Scores</a>
+    </div>
+
+    <!-- Keyboard Controls Info -->
+    <div class="controls-info">
+      <div class="control-item"><kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> Move</div>
+      <div class="control-item"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> Move</div>
+      <div class="control-item"><kbd>Space</kbd> Pause / Start</div>
+      <div class="control-item">Gold food = bonus score + extra speed burst</div>
+    </div>
+
+    <!-- Mobile Touch D-pad -->
+    <div class="touch-controls" id="snake-touch-controls">
+      <div class="touch-row">
+        <button class="touch-btn" id="touch-up" aria-label="Move Up">↑</button>
+      </div>
+      <div class="touch-row">
+        <button class="touch-btn" id="touch-left"  aria-label="Move Left">←</button>
+        <button class="touch-btn" id="touch-down"  aria-label="Move Down">↓</button>
+        <button class="touch-btn" id="touch-right" aria-label="Move Right">→</button>
+      </div>
+    </div>
+
+  </div><!-- /game-container -->
+</div><!-- /game-page -->
+
+<!-- Scripts -->
+<script src="../../js/utils.js"></script>
+<script src="../../js/storage.js"></script>
+<script src="snake.js"></script>
+<script>
+  // Sound toggle button (local, not global)
+  (function() {
+    const btn = document.getElementById('btn-sound-snake');
+    if (!btn) return;
+    const settings = AppStorage.getSettings();
+    btn.textContent = settings.soundEnabled !== false ? '🔊' : '🔇';
+    btn.addEventListener('click', () => {
+      const cur = AppStorage.getSettings().soundEnabled;
+      AppStorage.setSetting('soundEnabled', !cur);
+      btn.textContent = !cur ? '🔊' : '🔇';
+    });
+  })();
+</script>
+</body>
+</html>

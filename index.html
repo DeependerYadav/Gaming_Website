@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Mini Games Hub – Play Snake, Tetris, 2048, Minesweeper, Flappy Bird, Memory Match, Tic Tac Toe, Ping Pong, Whack-a-Mole & Typing Speed offline. Fast, fun, free!" />
+  <meta name="theme-color" content="#00d4ff" />
+  <title>Mini Games Hub — Play 10 Free Browser Games</title>
+
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-192x192.png" />
+  <link rel="icon" type="image/png" href="assets/icons/icon-96x96.png" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/home.css" />
+</head>
+<body class="dark-mode">
+
+  <!-- ===== SPLASH SCREEN ===== -->
+  <div id="splash-screen" class="splash-screen">
+    <div class="splash-content">
+      <div class="splash-logo-wrap">
+        <div class="splash-ring"></div>
+        <div class="splash-ring-2"></div>
+        <i class="fa-solid fa-gamepad splash-icon"></i>
+      </div>
+      <h1 class="splash-title">Mini Games Hub</h1>
+      <div class="splash-loader"><div class="loader-bar"></div></div>
+    </div>
+  </div>
+
+  <!-- ===== APP ===== -->
+  <div id="app" class="app-wrapper" style="display:none;">
+
+    <!-- HEADER -->
+    <header class="main-header" id="main-header">
+      <nav class="navbar">
+        <a href="index.html" class="nav-brand" id="nav-brand">
+          <div class="brand-icon-wrap">
+            <i class="fa-solid fa-gamepad"></i>
+          </div>
+          <span class="brand-name">Mini Games Hub</span>
+        </a>
+
+        <div class="nav-links" id="nav-links">
+          <a href="index.html" class="nav-link active" id="nav-home">Home</a>
+          <a href="#games-section" class="nav-link" id="nav-games">Games</a>
+          <a href="#features-section" class="nav-link" id="nav-about">About</a>
+        </div>
+
+        <div class="nav-controls">
+          <div class="sound-btn-wrap" id="sound-btn-wrap" data-tip="Toggle Sound">
+            <button class="icon-btn" id="sound-toggle-btn" aria-label="Toggle Sound" title="Toggle Sound">
+              <i class="fa-solid fa-volume-high" id="sound-icon"></i>
+            </button>
+          </div>
+          <button class="hamburger" id="hamburger-btn" aria-label="Toggle Menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Mobile Nav -->
+      <div class="mobile-nav" id="mobile-nav">
+        <a href="index.html" class="mobile-nav-link">
+          <i class="fa-solid fa-house"></i> Home
+        </a>
+        <a href="#games-section" class="mobile-nav-link">
+          <i class="fa-solid fa-gamepad"></i> Games
+        </a>
+        <a href="#features-section" class="mobile-nav-link">
+          <i class="fa-solid fa-circle-info"></i> About
+        </a>
+      </div>
+    </header>
+
+    <main id="main-content" class="main-content">
+
+      <!-- HERO -->
+      <section class="hero-section" id="hero">
+        <div class="hero-bg-particles" id="particles-container"></div>
+
+        <div class="hero-content">
+          <div class="hero-badge">
+            <i class="fa-solid fa-wifi"></i>
+            100% Offline Ready
+          </div>
+          <h1 class="hero-title">
+            Play. Compete.<br>
+            <span class="gradient-text">Conquer.</span>
+          </h1>
+          <p class="hero-subtitle">
+            10 premium browser games crafted for speed and fun — no internet needed after the first load.
+          </p>
+          <div class="hero-actions">
+            <a href="#games-section" class="btn btn-primary" id="btn-play-now">
+              <i class="fa-solid fa-play"></i>
+              <span>Play Now</span>
+            </a>
+            <a href="#features-section" class="btn btn-secondary" id="btn-about">
+              <i class="fa-solid fa-circle-info"></i>
+              About
+            </a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat-item">
+              <span class="stat-number">10</span>
+              <span class="stat-label">Games</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-number" id="total-plays-count">0</span>
+              <span class="stat-label">Total Plays</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-number">100%</span>
+              <span class="stat-label">Free</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-brand-poster">
+            <img
+              src="assets/banners/logo.png"
+              alt="Mini Games Hub neon logo"
+              loading="eager"
+              width="240" height="240"
+            />
+          </div>
+          <div class="floating-card card-snake">
+            <i class="fa-solid fa-worm"></i>
+            <span>Snake</span>
+          </div>
+          <div class="floating-card card-memory">
+            <i class="fa-solid fa-table-cells-large"></i>
+            <span>Tetris</span>
+          </div>
+          <div class="floating-card card-tetris">
+            <i class="fa-solid fa-table-tennis-paddle-ball"></i>
+            <span>Ping Pong</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SEARCH -->
+      <section class="search-section" id="search-section">
+        <div class="container">
+          <div class="search-wrapper">
+            <span class="search-icon-wrap">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </span>
+            <input
+              type="search"
+              id="game-search"
+              class="search-input"
+              placeholder="Search games..."
+              aria-label="Search games"
+              autocomplete="off"
+            />
+            <button class="search-clear" id="search-clear" aria-label="Clear search">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- GAMES GRID -->
+      <section class="games-section" id="games-section">
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title">Choose Your Game</h2>
+            <p class="section-subtitle">All 10 games work offline after the first visit</p>
+          </div>
+
+          <div class="games-grid" id="games-grid">
+
+            <!-- 1. SNAKE -->
+            <article class="game-card" data-game="snake" data-tags="snake arcade classic worm" id="card-snake">
+              <div class="card-glow glow-green"></div>
+              <figure class="card-thumb" style="--thumb-overlay: rgba(0,245,160,0.2); --thumb-bg: url('assets/banners/snake.png');">
+                <img
+                  src="assets/banners/snake.png"
+                  alt="Snake game thumbnail"
+                  loading="lazy"
+                  width="600" height="300"
+                />
+              </figure>
+              <div class="card-inner">
+                <div class="card-header">
+                  <div class="game-icon-wrap"
+                    style="--icon-color:#00f5a0; --icon-bg:rgba(0,245,160,0.12); --icon-border:rgba(0,245,160,0.28); --icon-glow:rgba(0,245,160,0.25);">
+                    <i class="fa-solid fa-worm"></i>
+                  </div>
+                  <div class="card-badges">
+                    <span class="badge badge-classic">Classic</span>
+                    <span class="badge badge-offline">Offline</span>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h3 class="game-title">Snake</h3>
+                  <p class="game-desc">Guide the snake, eat food, grow longer — don't hit the walls or your tail!</p>
+                  <div class="game-meta">
+                    <span class="meta-item" style="--icon-color:#00f5a0;">
+                      <i class="fa-solid fa-keyboard"></i> Arrow Keys / Swipe
+                    </span>
+                    <span class="meta-item" style="--icon-color:#00f5a0;">
+                      <i class="fa-solid fa-user"></i> 1 Player
+                    </span>
+                  </div>
+                  <div class="game-score-preview" style="--icon-color:#00f5a0;">
+                    <span class="score-label">Best Score:</span>
+                    <span class="score-value" id="snake-best">0</span>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <a href="games/snake/index.html" class="btn-play" id="play-snake"
+                     style="background: linear-gradient(135deg,#00f5a0,#00bfa5)">
+                    <span>Play Snake</span>
+                    <span class="btn-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                  </a>
+                </div>
+              </div>
+              <div class="card-shine"></div>
+            </article>
+
+            <!-- 2. MEMORY MATCH -->
+            <article class="game-card" data-game="memory" data-tags="memory cards match brain flip pair" id="card-memory">
+              <div class="card-glow glow-purple"></div>
+              <figure class="card-thumb" style="--thumb-overlay: rgba(155,93,229,0.25); --thumb-bg: url('assets/banners/memory.png');">
+                <img
+                  src="assets/banners/memory.png"
+                  alt="Memory Match game thumbnail"
+                  loading="lazy"
+                  width="600" height="300"
+                />
+              </figure>
+              <div class="card-inner">
+                <div class="card-header">
+                  <div class="game-icon-wrap"
+                    style="--icon-color:#c084fc; --icon-bg:rgba(155,93,229,0.14); --icon-border:rgba(155,93,229,0.3); --icon-glow:rgba(155,93,229,0.3);">
+                    <i class="fa-solid fa-clone"></i>
+                  </div>
+                  <div class="card-badges">
+                    <span class="badge badge-brain">Brain</span>
+                    <span class="badge badge-offline">Offline</span>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h3 class="game-title">Memory Match</h3>
+                  <p class="game-desc">Flip cards and find matching pairs. Train your memory and beat your best time!</p>
+                  <div class="game-meta">
+                    <span class="meta-item" style="--icon-color:#c084fc;">
+                      <i class="fa-solid fa-computer-mouse"></i> Click / Tap
+                    </span>
+                    <span class="meta-item" style="--icon-color:#c084fc;">
+                      <i class="fa-solid fa-user"></i> 1 Player
+                    </span>
+                  </div>
+                  <div class="game-score-preview" style="--icon-color:#c084fc;">
+                    <span class="score-label">Best Time:</span>
+                    <span class="score-value" id="memory-best">--:--</span>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <a href="games/memory/index.html" class="btn-play" id="play-memory"
+                     style="background: linear-gradient(135deg,#9b5de5,#6d28d9)">
+                    <span>Play Memory</span>
+                    <span class="btn-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                  </a>
+                </div>
+              </div>
+              <div class="card-shine"></div>
+            </article>
+
+            <!-- 3. TIC TAC TOE -->
+            <article class="game-card" data-game="tictactoe" data-tags="tictactoe strategy puzzle xo noughts crosses" id="card-tictactoe">
+              <div class="card-glow glow-orange"></div>
+              <figure class="card-thumb" style="--thumb-overlay: rgba(255,149,0,0.2); --thumb-bg: url('assets/banners/tictactoe.png');">
+                <img
+                  src="assets/banners/tictactoe.png"
+                  alt="Tic Tac Toe game thumbnail"
+                  loading="lazy"
+                  width="600" height="300"
+                />
+              </figure>
+              <div class="card-inner">
+                <div class="card-header">
+                  <div class="game-icon-wrap"
+                    style="--icon-color:#ff9500; --icon-bg:rgba(255,149,0,0.12); --icon-border:rgba(255,149,0,0.28); --icon-glow:rgba(255,149,0,0.25);">
+                    <i class="fa-solid fa-xmark"></i>
+                  </div>
+                  <div class="card-badges">
+                    <span class="badge badge-strategy">Strategy</span>
+                    <span class="badge badge-offline">Offline</span>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h3 class="game-title">Tic Tac Toe</h3>
+                  <p class="game-desc">Classic X vs O strategy game. Play vs a friend or challenge the unbeatable AI!</p>
+                  <div class="game-meta">
+                    <span class="meta-item" style="--icon-color:#ff9500;">
+                      <i class="fa-solid fa-computer-mouse"></i> Click / Tap
+                    </span>
+                    <span class="meta-item" style="--icon-color:#ff9500;">
+                      <i class="fa-solid fa-users"></i> 1-2 Players
+                    </span>
+                  </div>
+                  <div class="game-score-preview" style="--icon-color:#ff9500;">
+                    <span class="score-label">Wins:</span>
+                    <span class="score-value" id="ttt-best">0</span>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <a href="games/tictactoe/index.html" class="btn-play" id="play-tictactoe"
+                     style="background: linear-gradient(135deg,#ff9500,#ff6d00)">
+                    <span>Play Tic Tac Toe</span>
+                    <span class="btn-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                  </a>
+                </div>
+              </div>
+              <div class="card-shine"></div>
+            </article>
+
+            <!-- 4. 2048 -->
+            <article class="game-card" data-game="2048" data-tags="2048 puzzle slide numbers math tile" id="card-2048">
+              <div class="card-glow glow-yellow"></div>
+              <figure class="card-thumb" style="--thumb-overlay: rgba(247,201,72,0.2); --thumb-bg: url('assets/banners/2048.png');">
+                <img
+                  src="assets/banners/2048.png"
+                  alt="2048 puzzle game thumbnail"
+                  loading="lazy"
+                  width="600" height="300"
+                />
+              </figure>
+              <div class="card-inner">
+                <div class="card-header">
+                  <div class="game-icon-wrap"
+                    style="--icon-color:#f7c948; --icon-bg:rgba(247,201,72,0.12); --icon-border:rgba(247,201,72,0.28); --icon-glow:rgba(247,201,72,0.25);">
+                    <i class="fa-solid fa-hashtag"></i>
+                  </div>
+                  <div class="card-badges">
+                    <span class="badge badge-puzzle">Puzzle</span>
+                    <span class="badge badge-offline">Offline</span>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h3 class="game-title">2048</h3>
+                  <p class="game-desc">Slide tiles on the grid, merge numbers, reach 2048. Deceptively addictive!</p>
+                  <div class="game-meta">
+                    <span class="meta-item" style="--icon-color:#f7c948;">
+                      <i class="fa-solid fa-keyboard"></i> Arrow Keys / Swipe
+                    </span>
+                    <span class="meta-item" style="--icon-color:#f7c948;">
+                      <i class="fa-solid fa-user"></i> 1 Player
+                    </span>
+                  </div>
+                  <div class="game-score-preview" style="--icon-color:#f7c948;">
+                    <span class="score-label">Best Score:</span>
+                    <span class="score-value" id="g2048-best">0</span>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <a href="games/2048/index.html" class="btn-play" id="play-2048"
+                     style="background: linear-gradient(135deg,#f7c948,#f59e0b)">
+                    <span>Play 2048</span>
+                    <span class="btn-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                  </a>
+                </div>
+              </div>
+              <div class="card-shine"></div>
+            </article>
+
+            <!-- 5. MINESWEEPER -->
+            <article class="game-card" data-game="minesweeper" data-tags="minesweeper mine bomb puzzle logic flag" id="card-minesweeper">
+              <div class="card-glow glow-red"></div>
+              <figure class="card-thumb" style="--thumb-overlay: rgba(255,71,87,0.2); --thumb-bg: url('assets/banners/minesweeper.png');">
+                <img
+                  src="assets/banners/minesweeper.png"
+                  alt="Minesweeper game thumbnail"
+                  loading="lazy"
+                  width="600" height="300"
+                />
+              </figure>
+              <div class="card-inner">
+                <div class="card-header">
+                  <div class="game-icon-wrap"
+                    style="--icon-color:#ff4757; --icon-bg:rgba(255,71,87,0.12); --icon-border:rgba(255,71,87,0.28); --icon-glow:rgba(255,71,87,0.25);">
+                    <i class="fa-solid fa-bomb"></i>
+                  </div>
+                  <div class="card-badges">
+                    <span class="badge badge-action">Logic</span>
+                    <span class="badge badge-offline">Offline</span>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h3 class="game-title">Minesweeper</h3>
+                  <p class="game-desc">Clear the minefield using logic — flag the bombs, reveal safe tiles, survive!</p>
+                  <div class="game-meta">
+                    <span class="meta-item" style="--icon-color:#ff4757;">
+                      <i class="fa-solid fa-computer-mouse"></i> Click to reveal
+                    </span>
+                    <span class="meta-item" style="--icon-color:#ff4757;">
+                      <i class="fa-solid fa-flag"></i> Right-click flag
+                    </span>
+                  </div>
+                  <div class="game-score-preview" style="--icon-color:#ff4757;">
+                    <span class="score-label">Best Time:</span>
+                    <span class="score-value" id="mine-best">--:--</span>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <a href="games/minesweeper/index.html" class="btn-play" id="play-minesweeper"
+                     style="background: linear-gradient(135deg,#ff4757,#c0392b)">
+                    <span>Play Minesweeper</span>
+                    <span class="btn-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                  </a>
+                </div>
+              </div>
+              <div class="card-shine"></div>
+            </article>
+
+            <!-- 6. FLAPPY BIRD -->
+            <article class="game-card" data-game="flappy" data-tags="flappy bird fly arcade action jump pipe" id="card-flappy">
+              <div class="card-glow glow-lime"></div>
+              <figure class="card-thumb" style="--thumb-overlay: rgba(168,255,62,0.15); --thumb-bg: url('assets/banners/flappy.png');">
+                <img
+                  src="assets/banners/flappy.png"
+                  alt="Flappy Bird game thumbnail"
+                  loading="lazy"
+                  width="600" height="300"
+                />
+              </figure>
+              <div class="card-inner">
+                <div class="card-header">
+                  <div class="game-icon-wrap"
+                    style="--icon-color:#a8ff3e; --icon-bg:rgba(168,255,62,0.1); --icon-border:rgba(168,255,62,0.28); --icon-glow:rgba(168,255,62,0.2);">
+                    <i class="fa-solid fa-dove"></i>
+                  </div>
+                  <div class="card-badges">
+                    <span class="badge badge-arcade">Arcade</span>
+                    <span class="badge badge-offline">Offline</span>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h3 class="game-title">Flappy Bird</h3>
+                  <p class="game-desc">Tap to flap, dodge the pipes, and fly as far as you can without crashing!</p>
+                  <div class="game-meta">
+                    <span class="meta-item" style="--icon-color:#a8ff3e;">
+                      <i class="fa-solid fa-computer-mouse"></i> Click / Space / Tap
+                    </span>
+                    <span class="meta-item" style="--icon-color:#a8ff3e;">
+                      <i class="fa-solid fa-user"></i> 1 Player
+                    </span>
+                  </div>
+                  <div class="game-score-preview" style="--icon-color:#a8ff3e;">
+                    <span class="score-label">Best Score:</span>
+                    <span class="score-value" id="flappy-best">0</span>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <a href="games/flappy/index.html" class="btn-play" id="play-flappy"
+                     style="background: linear-gradient(135deg,#a8ff3e,#78d400)">
+                    <span>Play Flappy Bird</span>
+                    <span class="btn-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                  </a>
+                </div>
+              </div>
+              <div class="card-shine"></div>
+            </article>
+
+            <!-- 7. TETRIS -->
+            <article class="game-card" data-game="tetris" data-tags="tetris blocks arcade puzzle fall stack" id="card-tetris">
+              <div class="card-glow glow-pink"></div>
+              <figure class="card-thumb" style="--thumb-overlay: rgba(247,37,133,0.2); --thumb-bg: url('assets/banners/tetris.png');">
+                <img
+                  src="assets/banners/tetris.png"
+                  alt="Tetris game thumbnail"
+                  loading="lazy"
+                  width="600" height="300"
+                />
+              </figure>
+              <div class="card-inner">
+                <div class="card-header">
+                  <div class="game-icon-wrap"
+                    style="--icon-color:#f72585; --icon-bg:rgba(247,37,133,0.12); --icon-border:rgba(247,37,133,0.28); --icon-glow:rgba(247,37,133,0.25);">
+                    <i class="fa-solid fa-th-large"></i>
+                  </div>
+                  <div class="card-badges">
+                    <span class="badge badge-puzzle">Puzzle</span>
+                    <span class="badge badge-offline">Offline</span>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h3 class="game-title">Tetris</h3>
+                  <p class="game-desc">Stack falling blocks, clear complete lines, level up, and beat your high score!</p>
+                  <div class="game-meta">
+                    <span class="meta-item" style="--icon-color:#f72585;">
+                      <i class="fa-solid fa-keyboard"></i> Arrow Keys + Space
+                    </span>
+                    <span class="meta-item" style="--icon-color:#f72585;">
+                      <i class="fa-solid fa-user"></i> 1 Player
+                    </span>
+                  </div>
+                  <div class="game-score-preview" style="--icon-color:#f72585;">
+                    <span class="score-label">Best Score:</span>
+                    <span class="score-value" id="tetris-best">0</span>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <a href="games/tetris/index.html" class="btn-play" id="play-tetris"
+                     style="background: linear-gradient(135deg,#f72585,#b5179e)">
+                    <span>Play Tetris</span>
+                    <span class="btn-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                  </a>
+                </div>
+              </div>
+              <div class="card-shine"></div>
+            </article>
+
+            <!-- 8. PING PONG -->
+            <article class="game-card" data-game="pingpong" data-tags="ping pong ball paddle sports ai table tennis" id="card-pingpong">
+              <div class="card-glow glow-cyan"></div>
+              <figure class="card-thumb" style="--thumb-overlay: rgba(0,212,255,0.2); --thumb-bg: url('assets/banners/pingpong.png');">
+                <img
+                  src="assets/banners/pingpong.png"
+                  alt="Ping Pong game thumbnail"
+                  loading="lazy"
+                  width="600" height="300"
+                />
+              </figure>
+              <div class="card-inner">
+                <div class="card-header">
+                  <div class="game-icon-wrap"
+                    style="--icon-color:#00d4ff; --icon-bg:rgba(0,212,255,0.12); --icon-border:rgba(0,212,255,0.28); --icon-glow:rgba(0,212,255,0.25);">
+                    <i class="fa-solid fa-table-tennis-paddle-ball"></i>
+                  </div>
+                  <div class="card-badges">
+                    <span class="badge badge-arcade">Sports</span>
+                    <span class="badge badge-offline">Offline</span>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h3 class="game-title">Ping Pong</h3>
+                  <p class="game-desc">Move your paddle to hit the ball and outscore the AI. First to 7 wins!</p>
+                  <div class="game-meta">
+                    <span class="meta-item" style="--icon-color:#00d4ff;">
+                      <i class="fa-solid fa-computer-mouse"></i> Mouse / Touch
+                    </span>
+                    <span class="meta-item" style="--icon-color:#00d4ff;">
+                      <i class="fa-solid fa-robot"></i> vs AI
+                    </span>
+                  </div>
+                  <div class="game-score-preview" style="--icon-color:#00d4ff;">
+                    <span class="score-label">Mode:</span>
+                    <span class="score-value">You vs AI</span>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <a href="games/pingpong/index.html" class="btn-play" id="play-pingpong"
+                     style="background: linear-gradient(135deg,#00d4ff,#0099cc)">
+                    <span>Play Ping Pong</span>
+                    <span class="btn-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                  </a>
+                </div>
+              </div>
+              <div class="card-shine"></div>
+            </article>
+
+            <!-- 9. WHACK-A-MOLE -->
+            <article class="game-card" data-game="whack" data-tags="whack mole hammer hit action reflex speed" id="card-whack">
+              <div class="card-glow glow-blue"></div>
+              <figure class="card-thumb" style="--thumb-overlay: rgba(67,97,238,0.2); --thumb-bg: url('assets/banners/whack.png');">
+                <img
+                  src="assets/banners/whack.png"
+                  alt="Whack-a-Mole game thumbnail"
+                  loading="lazy"
+                  width="600" height="300"
+                />
+              </figure>
+              <div class="card-inner">
+                <div class="card-header">
+                  <div class="game-icon-wrap"
+                    style="--icon-color:#4361ee; --icon-bg:rgba(67,97,238,0.12); --icon-border:rgba(67,97,238,0.28); --icon-glow:rgba(67,97,238,0.3);">
+                    <i class="fa-solid fa-hammer"></i>
+                  </div>
+                  <div class="card-badges">
+                    <span class="badge badge-action">Action</span>
+                    <span class="badge badge-offline">Offline</span>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h3 class="game-title">Whack-a-Mole</h3>
+                  <p class="game-desc">Moles pop up — whack them fast! Test your reflexes in 30 seconds of madness!</p>
+                  <div class="game-meta">
+                    <span class="meta-item" style="--icon-color:#4361ee;">
+                      <i class="fa-solid fa-computer-mouse"></i> Click / Tap fast
+                    </span>
+                    <span class="meta-item" style="--icon-color:#4361ee;">
+                      <i class="fa-regular fa-clock"></i> 30 Seconds
+                    </span>
+                  </div>
+                  <div class="game-score-preview" style="--icon-color:#4361ee;">
+                    <span class="score-label">Best Score:</span>
+                    <span class="score-value" id="whack-best">0</span>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <a href="games/whack/index.html" class="btn-play" id="play-whack"
+                     style="background: linear-gradient(135deg,#4361ee,#3a0ca3)">
+                    <span>Play Whack-a-Mole</span>
+                    <span class="btn-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                  </a>
+                </div>
+              </div>
+              <div class="card-shine"></div>
+            </article>
+
+            <!-- 10. TYPING SPEED TEST -->
+            <article class="game-card" data-game="typing" data-tags="typing speed wpm keyboard test reflex accuracy" id="card-typing">
+              <div class="card-glow glow-teal"></div>
+              <figure class="card-thumb" style="--thumb-overlay: rgba(0,207,200,0.2); --thumb-bg: url('assets/banners/typing.png');">
+                <img
+                  src="assets/banners/typing.png"
+                  alt="Typing Speed Test game thumbnail"
+                  loading="lazy"
+                  width="600" height="300"
+                />
+              </figure>
+              <div class="card-inner">
+                <div class="card-header">
+                  <div class="game-icon-wrap"
+                    style="--icon-color:#00cfc8; --icon-bg:rgba(0,207,200,0.12); --icon-border:rgba(0,207,200,0.28); --icon-glow:rgba(0,207,200,0.25);">
+                    <i class="fa-solid fa-keyboard"></i>
+                  </div>
+                  <div class="card-badges">
+                    <span class="badge badge-brain">Skill</span>
+                    <span class="badge badge-offline">Offline</span>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h3 class="game-title">Typing Speed Test</h3>
+                  <p class="game-desc">Type the words as fast as you can! Measure WPM, accuracy, and beat your record!</p>
+                  <div class="game-meta">
+                    <span class="meta-item" style="--icon-color:#00cfc8;">
+                      <i class="fa-solid fa-keyboard"></i> Keyboard
+                    </span>
+                    <span class="meta-item" style="--icon-color:#00cfc8;">
+                      <i class="fa-regular fa-clock"></i> 15 / 30 / 60s
+                    </span>
+                  </div>
+                  <div class="game-score-preview" style="--icon-color:#00cfc8;">
+                    <span class="score-label">Best WPM:</span>
+                    <span class="score-value" id="typing-best">0</span>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <a href="games/typing/index.html" class="btn-play" id="play-typing"
+                     style="background: linear-gradient(135deg,#00cfc8,#00879e)">
+                    <span>Start Typing Test</span>
+                    <span class="btn-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                  </a>
+                </div>
+              </div>
+              <div class="card-shine"></div>
+            </article>
+
+          </div><!-- /games-grid -->
+
+          <div class="no-results" id="no-results" style="display:none;">
+            <i class="fa-regular fa-face-sad-tear"></i>
+            <p>No games found. Try a different search!</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURES -->
+      <section class="features-section" id="features-section">
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title">Why Mini Games Hub?</h2>
+            <p class="section-subtitle">Everything you need, nothing you don't</p>
+          </div>
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon-wrap icon-blue animate-float">
+                <i class="fa-solid fa-wifi"></i>
+              </div>
+              <h3>Works Offline</h3>
+              <p>Play all 10 games without internet after the first visit. Perfect for travel and commutes.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon-wrap icon-purple animate-float">
+                <i class="fa-solid fa-trophy"></i>
+              </div>
+              <h3>Save Scores</h3>
+              <p>Your high scores are saved locally so you can always track your progress and beat records.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon-wrap icon-green animate-float">
+                <i class="fa-solid fa-mobile-screen"></i>
+              </div>
+              <h3>Mobile Ready</h3>
+              <p>Fully responsive and touch-friendly. Works great on phones, tablets, and desktops.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon-wrap icon-orange animate-float">
+                <i class="fa-solid fa-bolt"></i>
+              </div>
+              <h3>Lightning Fast</h3>
+              <p>Instant loading with smart caching. No ads, no tracking, no bloat — just pure games.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="main-footer" id="main-footer">
+        <div class="container">
+          <div class="footer-content">
+            <div class="footer-brand">
+              <div class="footer-logo-icon">
+                <i class="fa-solid fa-gamepad"></i>
+              </div>
+              <span class="footer-brand-name">Mini Games Hub</span>
+            </div>
+            <p class="footer-text">Built with pure HTML, CSS &amp; JavaScript</p>
+            <div class="footer-links">
+              <a href="#games-section">Games</a>
+              <a href="#features-section">About</a>
+            </div>
+            <p class="footer-copy">&copy; 2025 Mini Games Hub. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+
+    </main>
+
+    <!-- Offline indicator -->
+    <div class="offline-indicator" id="offline-indicator">
+      <i class="fa-solid fa-wifi-slash"></i>
+      <span>You're offline — games still work!</span>
+    </div>
+  </div><!-- /app -->
+
+  <!-- Scripts -->
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/sounds.js"></script>
+  <script src="js/offline.js"></script>
+  <script src="js/main.js"></script>
+
+  <script type="application/json" id="legacy-inline-bootstrap-disabled">
+    /* ── Inline bootstrap ── */
+
+    // Load best scores from localStorage onto cards
+    (function loadScores() {
+      const map = {
+        'snake-best':  localStorage.getItem('snake-best')   || '0',
+        'memory-best': localStorage.getItem('memory-best')  || '--',
+        'ttt-best':    localStorage.getItem('ttt-wins')     || '0',
+        'g2048-best':  localStorage.getItem('2048-best')    || '0',
+        'tetris-best': localStorage.getItem('tetris-best')  || '0',
+        'flappy-best': localStorage.getItem('flappy-best')  || '0',
+        'whack-best':  localStorage.getItem('whack-best')   || '0',
+        'typing-best': localStorage.getItem('typing-best')  || '0',
+        'mine-best':   localStorage.getItem('mine-best')    || '--',
+      };
+      Object.entries(map).forEach(([id, val]) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val;
+      });
+    })();
+
+    // ── Sound toggle
+    (function initSound() {
+      const btn  = document.getElementById('sound-toggle-btn');
+      const icon = document.getElementById('sound-icon');
+      if (!btn || !icon) return;
+
+      function updateIcon(enabled) {
+        icon.className = enabled
+          ? 'fa-solid fa-volume-high'
+          : 'fa-solid fa-volume-xmark';
+        btn.classList.toggle('sound-off', !enabled);
+        btn.title = enabled ? 'Mute Sound' : 'Unmute Sound';
+        document.getElementById('sound-btn-wrap').dataset.tip = enabled ? 'Mute Sound' : 'Unmute Sound';
+      }
+
+      updateIcon(SoundEngine.isEnabled());
+
+      btn.addEventListener('click', () => {
+        const newState = !SoundEngine.isEnabled();
+        SoundEngine.toggle(newState);
+        updateIcon(newState);
+        if (newState) SoundEngine.click();
+      });
+    })();
+
+    // ── Play click sound on every play button
+    document.querySelectorAll('.btn-play').forEach(btn => {
+      btn.addEventListener('click', () => SoundEngine.click());
+    });
+
+    // ── Search
+    (function initSearch() {
+      const input   = document.getElementById('game-search');
+      const clear   = document.getElementById('search-clear');
+      const noRes   = document.getElementById('no-results');
+      if (!input) return;
+
+      function doSearch(q) {
+        q = q.toLowerCase().trim();
+        let visible = 0;
+        document.querySelectorAll('.game-card').forEach(card => {
+          const tags  = card.dataset.tags || '';
+          const title = card.querySelector('.game-title')?.textContent?.toLowerCase() || '';
+          const show  = !q || tags.includes(q) || title.includes(q);
+          card.style.display = show ? '' : 'none';
+          if (show) visible++;
+        });
+        if (noRes) noRes.style.display = visible === 0 ? 'flex' : 'none';
+        if (clear) clear.classList.toggle('visible', q.length > 0);
+      }
+
+      input.addEventListener('input', e => doSearch(e.target.value));
+      if (clear) {
+        clear.addEventListener('click', () => {
+          input.value = '';
+          doSearch('');
+          input.focus();
+        });
+      }
+    })();
+
+    // ── Hamburger
+    (function initHamburger() {
+      const btn = document.getElementById('hamburger-btn');
+      const nav = document.getElementById('mobile-nav');
+      if (!btn || !nav) return;
+      btn.addEventListener('click', () => {
+        btn.classList.toggle('open');
+        nav.classList.toggle('open');
+        SoundEngine.click();
+      });
+      nav.querySelectorAll('.mobile-nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          btn.classList.remove('open');
+          nav.classList.remove('open');
+        });
+      });
+    })();
+
+    // ── Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // ── Splash screen
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        const app    = document.getElementById('app');
+        if (splash) {
+          splash.style.opacity    = '0';
+          splash.style.transition = 'opacity 0.55s ease';
+          setTimeout(() => {
+            splash.style.display = 'none';
+            if (app) app.style.display = '';
+          }, 560);
+        }
+      }, 1400);
+    });
+
+    // ── Sticky header shadow on scroll
+    window.addEventListener('scroll', () => {
+      document.getElementById('main-header')
+        ?.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+  </script>
+</body>
+</html>

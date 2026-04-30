@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="description" content="Play Tic Tac Toe offline on Mini Games Hub. Challenge a friend or take on layered AI difficulty levels." />
+  <title>Tic Tac Toe | Mini Games Hub</title>
+  <link rel="manifest" href="../../manifest.json" />
+  <link rel="icon" type="image/png" href="../../assets/icons/icon-96x96.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="stylesheet" href="../../css/games.css" />
+  <link rel="stylesheet" href="tictactoe.css" />
+</head>
+<body class="dark-mode">
+
+<div class="game-page">
+  <header class="game-header">
+    <div class="game-header-left">
+      <a href="../../index.html" class="back-btn">
+        <i class="fa-solid fa-arrow-left"></i> Back
+      </a>
+      <h1 class="game-header-title">✖ Tic Tac Toe</h1>
+    </div>
+    <div class="game-header-controls">
+      <button class="icon-btn" id="btn-sound-ttt" title="Toggle Sound">
+        <i class="fa-solid fa-volume-high"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="game-container" style="align-items:center;">
+    <div class="mode-toggle" id="mode-toggle">
+      <button class="mode-btn active" data-mode="2p" id="mode-2p">2 Player</button>
+      <button class="mode-btn" data-mode="ai" id="mode-ai">vs AI</button>
+    </div>
+
+    <div class="difficulty-selector" id="ai-difficulty" style="display:none;">
+      <button class="diff-btn" data-val="easy" id="ai-easy">Easy</button>
+      <button class="diff-btn" data-val="medium" id="ai-medium">Medium</button>
+      <button class="diff-btn active" data-val="hard" id="ai-hard">Hard</button>
+    </div>
+
+    <div class="ttt-scoreboard" id="ttt-scoreboard">
+      <div class="ttt-score-box x-box active-turn">
+        <div class="ttt-score-label">Player X</div>
+        <div class="ttt-score-value" id="score-x">0</div>
+      </div>
+      <div class="ttt-score-box draw-box">
+        <div class="ttt-score-label">Draws</div>
+        <div class="ttt-score-value" id="score-draw">0</div>
+      </div>
+      <div class="ttt-score-box o-box">
+        <div class="ttt-score-label" id="o-player-label">Player O</div>
+        <div class="ttt-score-value" id="score-o">0</div>
+      </div>
+    </div>
+
+    <div class="ttt-turn-indicator" id="ttt-turn-indicator">
+      <span class="turn-x active" id="turn-x">X Turn</span>
+      <span style="color: var(--clr-text-muted)">vs</span>
+      <span class="turn-o" id="turn-o">O Turn</span>
+    </div>
+
+    <div class="ttt-status-pill" id="ttt-status">Player X opens this round.</div>
+
+    <div class="ttt-game-area">
+      <div class="ttt-board" id="ttt-board" role="grid" aria-label="Tic Tac Toe board">
+        <div class="ttt-cell" role="gridcell" id="cell-0" aria-label="Cell 1"></div>
+        <div class="ttt-cell" role="gridcell" id="cell-1" aria-label="Cell 2"></div>
+        <div class="ttt-cell" role="gridcell" id="cell-2" aria-label="Cell 3"></div>
+        <div class="ttt-cell" role="gridcell" id="cell-3" aria-label="Cell 4"></div>
+        <div class="ttt-cell" role="gridcell" id="cell-4" aria-label="Cell 5"></div>
+        <div class="ttt-cell" role="gridcell" id="cell-5" aria-label="Cell 6"></div>
+        <div class="ttt-cell" role="gridcell" id="cell-6" aria-label="Cell 7"></div>
+        <div class="ttt-cell" role="gridcell" id="cell-7" aria-label="Cell 8"></div>
+        <div class="ttt-cell" role="gridcell" id="cell-8" aria-label="Cell 9"></div>
+      </div>
+
+      <div class="ttt-result-banner" id="ttt-result" style="display:none;"></div>
+    </div>
+
+    <div class="game-actions">
+      <button class="btn-game btn-start" id="btn-restart-ttt">
+        <i class="fa-solid fa-rotate-right"></i> New Game
+      </button>
+      <a href="../../pages/leaderboard.html" class="btn-game btn-restart">
+        <i class="fa-solid fa-trophy"></i> Scores
+      </a>
+    </div>
+
+    <div class="controls-info">
+      <div class="control-item">Click or tap a cell to place your mark</div>
+      <div class="control-item">In AI mode, starting player alternates each round</div>
+    </div>
+  </div>
+</div>
+
+<script src="../../js/utils.js"></script>
+<script src="../../js/storage.js"></script>
+<script src="tictactoe.js"></script>
+<script>
+  (function() {
+    const btn = document.getElementById('btn-sound-ttt');
+    if (!btn) return;
+    const settings = AppStorage.getSettings();
+    btn.textContent = settings.soundEnabled !== false ? '🔊' : '🔇';
+    btn.addEventListener('click', () => {
+      const current = AppStorage.getSettings().soundEnabled;
+      AppStorage.setSetting('soundEnabled', !current);
+      btn.textContent = !current ? '🔊' : '🔇';
+    });
+  })();
+</script>
+</body>
+</html>

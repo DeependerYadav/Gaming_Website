@@ -1,0 +1,195 @@
+/* =============================================
+   2048.css — Advanced 2048 Styles
+   Mini Games Hub
+   ============================================= */
+
+/* ---- Accent card ---- */
+.g2048-accent {
+  border-color: rgba(247,201,72,0.4) !important;
+  background: rgba(247,201,72,0.07) !important;
+}
+.g2048-accent .stat-card-value {
+  color: #f7c948 !important;
+  text-shadow: 0 0 16px rgba(247,201,72,0.5) !important;
+}
+.g2048-icon:hover {
+  background: rgba(247,201,72,0.12) !important;
+  border-color: rgba(247,201,72,0.5) !important;
+  box-shadow: 0 0 20px rgba(247,201,72,0.25) !important;
+  color: #f7c948 !important;
+}
+
+/* ---- Board wrap ---- */
+.g2048-board-wrap {
+  position: relative;
+  padding: 12px;
+  background: rgba(10,8,30,0.8);
+  border: 1.5px solid rgba(247,201,72,0.25);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 0 50px rgba(247,201,72,0.12), var(--shadow-xl);
+  width: fit-content;
+  margin: 0 auto;
+}
+
+/* ---- Grid background (empty cells) ---- */
+.grid-background {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  position: relative;
+}
+.grid-cell {
+  width: 100px;
+  height: 100px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--radius-lg);
+}
+
+/* ---- Tile container ---- */
+.tile-container {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  pointer-events: none;
+}
+
+/* ---- Tiles ---- */
+.tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-lg);
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 2rem;
+  cursor: default;
+  user-select: none;
+  animation: tileAppear 0.12s cubic-bezier(0.34,1.56,0.64,1);
+  transition: background 0.08s ease, box-shadow 0.08s ease;
+  position: relative;
+  overflow: hidden;
+}
+.tile::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 55%);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+@keyframes tileAppear {
+  from { transform: scale(0.5); opacity: 0.6; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+.tile.tile-merge {
+  animation: tileMerge 0.18s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes tileMerge {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.22); }
+  100% { transform: scale(1); }
+}
+
+/* ---- Tile colours ---- */
+.tile[data-val="2"]    { background:#2a2a4e; color:#e0e0ff; box-shadow:0 2px 12px rgba(155,93,229,0.2); }
+.tile[data-val="4"]    { background:#302060; color:#e0e0ff; box-shadow:0 2px 14px rgba(155,93,229,0.3); }
+.tile[data-val="8"]    { background:#ff8c00; color:#fff;    box-shadow:0 4px 20px rgba(255,140,0,0.5); font-size:1.9rem; }
+.tile[data-val="16"]   { background:#ff6b35; color:#fff;    box-shadow:0 4px 20px rgba(255,107,53,0.5); font-size:1.8rem; }
+.tile[data-val="32"]   { background:#ff4757; color:#fff;    box-shadow:0 4px 22px rgba(255,71,87,0.6); font-size:1.7rem; }
+.tile[data-val="64"]   { background:#e040fb; color:#fff;    box-shadow:0 4px 24px rgba(224,64,251,0.6); font-size:1.6rem; }
+.tile[data-val="128"]  { background:#f7c948; color:#1a1a2e; box-shadow:0 4px 26px rgba(247,201,72,0.65); font-size:1.4rem; }
+.tile[data-val="256"]  { background:#ffd700; color:#1a1a2e; box-shadow:0 4px 30px rgba(255,215,0,0.7); font-size:1.3rem; }
+.tile[data-val="512"]  { background:#00d4ff; color:#0a0a1a; box-shadow:0 4px 32px rgba(0,212,255,0.7); font-size:1.2rem; }
+.tile[data-val="1024"] { background:#00f5a0; color:#0a0a1a; box-shadow:0 6px 36px rgba(0,245,160,0.75); font-size:1rem; }
+.tile[data-val="2048"] { background:linear-gradient(135deg,#f7c948,#ff8c00,#e040fb); color:#fff;
+                         box-shadow:0 0 50px rgba(247,201,72,0.9), 0 0 30px rgba(224,64,251,0.7);
+                         font-size:1rem; animation: tile2048Glow 1s ease infinite; }
+@keyframes tile2048Glow {
+  0%,100% { box-shadow:0 0 50px rgba(247,201,72,0.9), 0 0 30px rgba(224,64,251,0.7); }
+  50%     { box-shadow:0 0 80px rgba(247,201,72,1.0), 0 0 50px rgba(224,64,251,1.0); }
+}
+.tile[data-val="8192"] { background:linear-gradient(135deg,#fff,#a8ff3e); color:#1a1a2e;
+                          box-shadow:0 0 60px rgba(255,255,255,0.9); font-size:0.85rem; }
+
+/* Digit scaling */
+.digits-1,.digits-2 { font-size:2rem; }
+.digits-3           { font-size:1.5rem; }
+.digits-4           { font-size:1.2rem; }
+.digits-5           { font-size:1rem; }
+.digits-6           { font-size:0.8rem; }
+
+/* ---- Game Over Overlay ---- */
+.g2048-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10,8,30,0.94);
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  border-radius: inherit;
+  z-index: 20;
+  text-align: center;
+  padding: var(--space-6);
+}
+.g2048-overlay.hidden { display: none; }
+
+/* ---- Score add animation ---- */
+.score-add-anim {
+  position: fixed;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #f7c948;
+  text-shadow: 0 0 20px rgba(247,201,72,0.8);
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0;
+}
+.score-add-anim.pop {
+  animation: scoreAddPop 0.9s ease forwards;
+}
+@keyframes scoreAddPop {
+  0%   { opacity:1; transform: translateY(0) scale(1); }
+  80%  { opacity:1; transform: translateY(-50px) scale(1.1); }
+  100% { opacity:0; transform: translateY(-70px) scale(0.8); }
+}
+
+/* ---- Score pop ---- */
+@keyframes scorePop2048 {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.3); color: #f7c948; text-shadow: 0 0 24px rgba(247,201,72,0.8); }
+  100% { transform: scale(1); }
+}
+.score-pop { animation: scorePop2048 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+
+/* ---- Overlay title ---- */
+.g2048-overlay .overlay-title {
+  background: linear-gradient(135deg, #f7c948, #ff8c00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 520px) {
+  .grid-cell { width: 72px !important; height: 72px !important; }
+  .tile { font-size:1.4rem !important; }
+  .digits-4 { font-size:1rem !important; }
+  .digits-5 { font-size:0.8rem !important; }
+}
+@media (max-width: 380px) {
+  .grid-cell { width: 60px !important; height: 60px !important; }
+  .grid-background, .tile-container { gap: 7px !important; }
+  .tile { font-size:1.1rem !important; }
+}

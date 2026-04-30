@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+  <meta name="description" content="Typing Speed Test – Mini Games Hub. Measure your WPM, accuracy, and beat your record!"/>
+  <title>Typing Speed Test | Mini Games Hub</title>
+  <link rel="manifest" href="../../manifest.json"/>
+  <link rel="icon" type="image/png" href="../../assets/icons/icon-96x96.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="../../css/style.css"/>
+  <link rel="stylesheet" href="../../css/games.css"/>
+  <link rel="stylesheet" href="typing.css"/>
+</head>
+<body class="dark-mode">
+<div class="game-page">
+
+  <!-- HEADER -->
+  <header class="game-header">
+    <div class="game-header-left">
+      <a href="../../index.html" class="back-btn" id="back-btn">
+        <i class="fa-solid fa-arrow-left"></i> Back
+      </a>
+      <h1 class="game-header-title">⌨️ Typing Speed Test</h1>
+    </div>
+    <div class="game-header-controls">
+      <!-- Mode selector (15 / 30 / 60s) -->
+      <div class="difficulty-selector" id="mode-selector">
+        <button class="diff-btn active" data-time="15"  id="mode-15">15s</button>
+        <button class="diff-btn"        data-time="30"  id="mode-30">30s</button>
+        <button class="diff-btn"        data-time="60"  id="mode-60">60s</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- GAME CONTAINER -->
+  <div class="game-container">
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+      <div class="stat-card typing-accent">
+        <div class="stat-card-label"><i class="fa-solid fa-gauge-high"></i> WPM</div>
+        <div class="stat-card-value" id="wpm">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label"><i class="fa-solid fa-bullseye"></i> Accuracy</div>
+        <div class="stat-card-value" id="accuracy">100%</div>
+      </div>
+      <div class="stat-card typing-timer-card">
+        <div class="stat-card-label"><i class="fa-regular fa-clock"></i> Time</div>
+        <div class="stat-card-value" id="countdown">0:15</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label"><i class="fa-solid fa-trophy"></i> Best WPM</div>
+        <div class="stat-card-value" id="best-wpm">0</div>
+      </div>
+    </div>
+
+    <!-- Text Display -->
+    <div class="typing-text-wrap">
+      <div class="typing-passage-meta">
+        <span class="typing-passage-title" id="passage-title">Practice Passage</span>
+        <span class="typing-restart-hint">Start typing below to begin the timer</span>
+      </div>
+      <div class="typing-text-display" id="text-display"></div>
+    </div>
+
+    <!-- Input -->
+    <textarea
+      id="typing-input"
+      class="typing-input"
+      placeholder="Start typing here to begin…"
+      spellcheck="false"
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"
+      aria-label="Typing input"
+    ></textarea>
+
+    <!-- Action Row -->
+    <div class="game-actions">
+      <button id="restart-btn" class="btn-game btn-restart" aria-label="Restart">
+        <i class="fa-solid fa-rotate-right"></i> Restart
+      </button>
+    </div>
+
+    <!-- Result Panel -->
+    <div id="result-panel" class="typing-result hidden">
+      <div class="typing-result-header">
+        <span class="typing-result-icon">🏁</span>
+        <h2 class="typing-result-title">Test Complete!</h2>
+      </div>
+      <div class="typing-result-grid">
+        <div class="typing-r-card typing-accent-card">
+          <div class="typing-r-value" id="r-wpm">0</div>
+          <div class="typing-r-label">WPM</div>
+        </div>
+        <div class="typing-r-card">
+          <div class="typing-r-value" id="r-acc">100%</div>
+          <div class="typing-r-label">Accuracy</div>
+        </div>
+        <div class="typing-r-card">
+          <div class="typing-r-value" id="r-correct">0</div>
+          <div class="typing-r-label">Correct</div>
+        </div>
+        <div class="typing-r-card">
+          <div class="typing-r-value" id="r-errors">0</div>
+          <div class="typing-r-label">Errors</div>
+        </div>
+      </div>
+      <div id="new-best-banner" class="typing-new-best hidden">
+        <i class="fa-solid fa-star"></i> New Personal Best!
+      </div>
+      <button id="retry-btn" class="btn-game btn-start" style="margin-top: var(--space-4)">
+        <i class="fa-solid fa-rotate-right"></i> Try Again
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/utils.js"></script>
+<script src="../../js/storage.js"></script>
+<script src="typing.js"></script>
+</body>
+</html>

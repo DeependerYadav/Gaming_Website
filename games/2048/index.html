@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+  <meta name="description" content="Play 2048 – Mini Games Hub. Slide tiles, merge numbers, reach 2048!"/>
+  <title>2048 | Mini Games Hub</title>
+  <link rel="manifest" href="../../manifest.json"/>
+  <link rel="icon" type="image/png" href="../../assets/icons/icon-96x96.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="../../css/style.css"/>
+  <link rel="stylesheet" href="../../css/games.css"/>
+  <link rel="stylesheet" href="2048.css"/>
+</head>
+<body class="dark-mode">
+<div class="game-page">
+
+  <header class="game-header">
+    <div class="game-header-left">
+      <a href="../../index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back</a>
+      <h1 class="game-header-title">✦ 2048</h1>
+    </div>
+    <div class="game-header-controls">
+      <button id="undo-btn" class="icon-btn g2048-icon" title="Undo" aria-label="Undo">
+        <i class="fa-solid fa-rotate-left"></i>
+      </button>
+      <button id="restart-btn" class="icon-btn g2048-icon" title="New Game" aria-label="New Game">
+        <i class="fa-solid fa-rotate-right"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="game-container">
+    <div class="stats-bar">
+      <div class="stat-card g2048-accent">
+        <div class="stat-card-label">Score</div>
+        <div class="stat-card-value" id="score">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Best</div>
+        <div class="stat-card-value" id="best">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Moves</div>
+        <div class="stat-card-value" id="moves">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Target</div>
+        <div class="stat-card-value" id="target-val">2048</div>
+      </div>
+    </div>
+
+    <!-- Board -->
+    <div class="g2048-board-wrap">
+      <div id="grid-background" class="grid-background"></div>
+      <div id="tile-container"  class="tile-container"></div>
+
+      <!-- Game over overlay -->
+      <div id="game-over-overlay" class="g2048-overlay hidden">
+        <div class="overlay-emoji" id="over-emoji">😵</div>
+        <h2 class="overlay-title" id="over-title">Game Over!</h2>
+        <p class="overlay-subtitle">Score: <span id="final-score" style="color:var(--clr-neon-yellow);font-weight:800">0</span></p>
+        <div class="overlay-actions">
+          <button id="retry-btn" class="btn-game btn-start">
+            <i class="fa-solid fa-rotate-right"></i> Try Again
+          </button>
+          <a href="../../index.html" class="btn-game btn-restart">
+            <i class="fa-solid fa-house"></i> Home
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls info -->
+    <div class="controls-info">
+      <div class="control-item"><kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> Move</div>
+      <div class="control-item"><i class="fa-solid fa-hand-pointer"></i> Swipe</div>
+      <div class="control-item"><kbd>Z</kbd> Undo</div>
+    </div>
+  </div>
+</div>
+
+<!-- Score add animation layer -->
+<div id="score-add" class="score-add-anim"></div>
+
+<script src="../../js/utils.js"></script>
+<script src="../../js/storage.js"></script>
+<script src="2048.js"></script>
+</body>
+</html>

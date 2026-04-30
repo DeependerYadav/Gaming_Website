@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Customize your Mini Games Hub experience." />
+  <title>Settings | Mini Games Hub ⚙️</title>
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="icon" type="image/png" href="../assets/icons/icon-96x96.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/games.css" />
+</head>
+<body class="dark-mode">
+
+  <!-- Header -->
+  <header class="main-header scrolled" id="main-header">
+    <nav class="navbar">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-icon">🎮</span>
+        <span class="brand-name">Mini Games Hub</span>
+      </a>
+      <div class="nav-links">
+        <a href="../index.html" class="nav-link" id="nav-home">Home</a>
+        <a href="leaderboard.html" class="nav-link" id="nav-leaderboard">🏆 Scores</a>
+        <a href="settings.html" class="nav-link active" id="nav-settings">⚙️ Settings</a>
+      </div>
+      <div class="nav-controls">
+        <button class="icon-btn" id="global-sound-toggle" title="Toggle Sound">🔊</button>
+        <button class="hamburger" id="hamburger-btn" aria-label="Toggle Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+    <div class="mobile-nav" id="mobile-nav">
+      <a href="../index.html" class="mobile-nav-link">🏠 Home</a>
+      <a href="leaderboard.html" class="mobile-nav-link">🏆 Leaderboard</a>
+      <a href="settings.html" class="mobile-nav-link">⚙️ Settings</a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="settings-page">
+
+      <div class="section-header" style="margin-top: var(--space-8);">
+        <h1 class="section-title">⚙️ Settings</h1>
+        <p class="section-subtitle">Customize your gaming experience</p>
+      </div>
+
+      <!-- ===== AUDIO SETTINGS ===== -->
+      <div class="settings-section">
+        <p class="settings-title">🔊 Audio</p>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <span class="setting-name">Sound Effects</span>
+            <span class="setting-desc">Enable or disable all game sound effects</span>
+          </div>
+          <label class="toggle-switch" for="setting-sound" aria-label="Toggle sound">
+            <input type="checkbox" id="setting-sound" checked />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <span class="setting-name">Volume</span>
+            <span class="setting-desc">Adjust sound volume (coming soon)</span>
+          </div>
+          <input type="range" class="settings-range" id="setting-volume" min="0" max="100" value="70" aria-label="Volume" />
+        </div>
+      </div>
+
+      <!-- ===== DISPLAY SETTINGS ===== -->
+      <div class="settings-section">
+        <p class="settings-title">🎨 Display</p>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <span class="setting-name">Animations</span>
+            <span class="setting-desc">Enable smooth animations and transitions</span>
+          </div>
+          <label class="toggle-switch" for="setting-animations" aria-label="Toggle animations">
+            <input type="checkbox" id="setting-animations" checked />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <span class="setting-name">Particles</span>
+            <span class="setting-desc">Show background particle effects on homepage</span>
+          </div>
+          <label class="toggle-switch" for="setting-particles" aria-label="Toggle particles">
+            <input type="checkbox" id="setting-particles" checked />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- ===== SNAKE SETTINGS ===== -->
+      <div class="settings-section">
+        <p class="settings-title">🐍 Snake Game</p>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <span class="setting-name">Speed</span>
+            <span class="setting-desc">Snake movement speed (1 = slow, 10 = fast)</span>
+          </div>
+          <input type="range" class="settings-range" id="setting-snake-speed" min="1" max="10" value="5" aria-label="Snake speed" />
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <span class="setting-name">Grid Size</span>
+            <span class="setting-desc">Default difficulty preset</span>
+          </div>
+          <div class="difficulty-selector" id="snake-difficulty">
+            <button class="diff-btn" data-val="easy"   id="diff-easy">Easy</button>
+            <button class="diff-btn active" data-val="medium" id="diff-medium">Medium</button>
+            <button class="diff-btn" data-val="hard"   id="diff-hard">Hard</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== DATA SETTINGS ===== -->
+      <div class="settings-section">
+        <p class="settings-title">💾 Data</p>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <span class="setting-name">Clear High Scores</span>
+            <span class="setting-desc">Reset all saved scores and history</span>
+          </div>
+          <button class="btn btn-restart btn-game" id="btn-clear-data" style="font-size: var(--text-xs); padding: var(--space-2) var(--space-4);">
+            🗑️ Clear
+          </button>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <span class="setting-name">Reset All Settings</span>
+            <span class="setting-desc">Restore all settings to defaults</span>
+          </div>
+          <button class="btn btn-restart btn-game" id="btn-reset-settings" style="font-size: var(--text-xs); padding: var(--space-2) var(--space-4);">
+            ↩️ Reset
+          </button>
+        </div>
+      </div>
+
+      <!-- ===== ABOUT ===== -->
+      <div class="settings-section">
+        <p class="settings-title">ℹ️ About</p>
+        <div class="stat-card" style="padding: var(--space-6); text-align: center;">
+          <div style="font-size: 2rem; margin-bottom: var(--space-3);">🎮</div>
+          <p style="font-weight: 800; font-size: var(--text-lg); margin-bottom: var(--space-2);">Mini Games Hub</p>
+          <p style="color: var(--clr-text-secondary); font-size: var(--text-sm);">Version 1.0.0</p>
+          <p style="color: var(--clr-text-secondary); font-size: var(--text-sm); margin-top: var(--space-2);">
+            Built with pure HTML5, CSS3 &amp; Vanilla JavaScript
+          </p>
+          <p style="color: var(--clr-text-muted); font-size: var(--text-xs); margin-top: var(--space-3);">
+            No frameworks. No dependencies. Just games. 🚀
+          </p>
+        </div>
+      </div>
+
+    </div><!-- /settings-page -->
+  </main>
+
+  <script src="../js/utils.js"></script>
+  <script src="../js/storage.js"></script>
+  <script>
+    (function() {
+      // Load saved settings
+      const settings = AppStorage.getSettings();
+
+      const soundEl      = document.getElementById('setting-sound');
+      const animEl       = document.getElementById('setting-animations');
+      const particlesEl  = document.getElementById('setting-particles');
+      const snakeSpeedEl = document.getElementById('setting-snake-speed');
+
+      soundEl.checked     = settings.soundEnabled !== false;
+      animEl.checked      = settings.animationsEnabled !== false;
+      particlesEl.checked = settings.particlesEnabled !== false;
+      snakeSpeedEl.value  = settings.snakeSpeed || 5;
+
+      // Difficulty buttons
+      document.querySelectorAll('#snake-difficulty .diff-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.val === (settings.difficulty || 'medium'));
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('#snake-difficulty .diff-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          AppStorage.setSetting('difficulty', btn.dataset.val);
+          Utils.showToast(`Difficulty set to ${btn.dataset.val}`, 'success', 2000);
+        });
+      });
+
+      // Sound toggle
+      soundEl.addEventListener('change', () => {
+        AppStorage.setSetting('soundEnabled', soundEl.checked);
+        const soundNavBtn = document.getElementById('global-sound-toggle');
+        if (soundNavBtn) soundNavBtn.textContent = soundEl.checked ? '🔊' : '🔇';
+        Utils.showToast(soundEl.checked ? '🔊 Sound enabled' : '🔇 Sound off', 'info', 2000);
+      });
+
+      // Animation toggle
+      animEl.addEventListener('change', () => {
+        AppStorage.setSetting('animationsEnabled', animEl.checked);
+        Utils.showToast(`Animations ${animEl.checked ? 'enabled' : 'disabled'}`, 'info', 2000);
+      });
+
+      // Particles toggle
+      particlesEl.addEventListener('change', () => {
+        AppStorage.setSetting('particlesEnabled', particlesEl.checked);
+      });
+
+      // Snake speed
+      snakeSpeedEl.addEventListener('input', () => {
+        AppStorage.setSetting('snakeSpeed', parseInt(snakeSpeedEl.value));
+      });
+
+      // Clear data
+      document.getElementById('btn-clear-data').addEventListener('click', () => {
+        if (confirm('Are you sure you want to clear ALL scores and history? This cannot be undone!')) {
+          AppStorage.clearAllScores();
+          Utils.showToast('All scores cleared!', 'success');
+        }
+      });
+
+      // Reset settings
+      document.getElementById('btn-reset-settings').addEventListener('click', () => {
+        if (confirm('Reset all settings to defaults?')) {
+          AppStorage.resetSettings();
+          location.reload();
+        }
+      });
+
+      // Nav sound toggle
+      const soundBtn = document.getElementById('global-sound-toggle');
+      if (soundBtn) {
+        soundBtn.textContent = settings.soundEnabled !== false ? '🔊' : '🔇';
+        soundBtn.addEventListener('click', () => {
+          const cur = AppStorage.getSettings().soundEnabled;
+          AppStorage.setSetting('soundEnabled', !cur);
+          soundEl.checked = !cur;
+          soundBtn.textContent = !cur ? '🔊' : '🔇';
+        });
+      }
+
+      // Hamburger
+      const hamburger = document.getElementById('hamburger-btn');
+      const mobileNav = document.getElementById('mobile-nav');
+      if (hamburger && mobileNav) {
+        hamburger.addEventListener('click', () => {
+          hamburger.classList.toggle('open');
+          mobileNav.classList.toggle('open');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

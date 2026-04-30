@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="View your best scores across all Mini Games Hub games." />
+  <title>Leaderboard | Mini Games Hub 🏆</title>
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="icon" type="image/png" href="../assets/icons/icon-96x96.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/games.css" />
+</head>
+<body class="dark-mode">
+
+  <!-- Header -->
+  <header class="main-header scrolled" id="main-header">
+    <nav class="navbar">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-icon">🎮</span>
+        <span class="brand-name">Mini Games Hub</span>
+      </a>
+      <div class="nav-links">
+        <a href="../index.html" class="nav-link" id="nav-home">Home</a>
+        <a href="leaderboard.html" class="nav-link active" id="nav-leaderboard">🏆 Scores</a>
+        <a href="settings.html" class="nav-link" id="nav-settings">⚙️ Settings</a>
+      </div>
+      <div class="nav-controls">
+        <button class="icon-btn" id="global-sound-toggle" title="Toggle Sound">🔊</button>
+        <button class="hamburger" id="hamburger-btn" aria-label="Toggle Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+    <div class="mobile-nav" id="mobile-nav">
+      <a href="../index.html" class="mobile-nav-link">🏠 Home</a>
+      <a href="leaderboard.html" class="mobile-nav-link">🏆 Leaderboard</a>
+      <a href="settings.html" class="mobile-nav-link">⚙️ Settings</a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="leaderboard-page">
+
+      <!-- Page Header -->
+      <div class="section-header" style="margin-top: var(--space-8);">
+        <h1 class="section-title">🏆 Leaderboard</h1>
+        <p class="section-subtitle">Your personal best scores across all games</p>
+      </div>
+
+      <!-- Best Scores Grid -->
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4); margin-bottom: var(--space-10);">
+
+        <!-- Snake Best -->
+        <div class="stat-card highlight" style="text-align:center; padding: var(--space-6);">
+          <div style="font-size: 2.5rem; margin-bottom: var(--space-3);">🐍</div>
+          <div class="stat-card-label">Snake — Best Score</div>
+          <div class="stat-card-value" id="best-snake" style="font-size: 1.1rem; margin-top: var(--space-2);">0</div>
+        </div>
+
+        <!-- Memory Best -->
+        <div class="stat-card highlight" style="text-align:center; padding: var(--space-6);">
+          <div style="font-size: 2.5rem; margin-bottom: var(--space-3);">🃏</div>
+          <div class="stat-card-label">Memory — Best Time</div>
+          <div class="stat-card-value" id="best-memory" style="font-size: 1.1rem; margin-top: var(--space-2);">--:--</div>
+        </div>
+
+        <!-- Tic Tac Toe Wins -->
+        <div class="stat-card highlight" style="text-align:center; padding: var(--space-6);">
+          <div style="font-size: 2.5rem; margin-bottom: var(--space-3);">❌</div>
+          <div class="stat-card-label">Tic Tac Toe — Total Wins</div>
+          <div class="stat-card-value" id="best-ttt" style="font-size: 1.1rem; margin-top: var(--space-2);">0</div>
+        </div>
+
+        <!-- Total Plays -->
+        <div class="stat-card" style="text-align:center; padding: var(--space-6);">
+          <div style="font-size: 2.5rem; margin-bottom: var(--space-3);">🎮</div>
+          <div class="stat-card-label">Total Games Played</div>
+          <div class="stat-card-value" id="total-plays" style="font-size: 1.1rem; margin-top: var(--space-2);">0</div>
+        </div>
+      </div>
+
+      <!-- Game Filter Tabs -->
+      <div class="leaderboard-tabs" id="leaderboard-tabs">
+        <button class="tab-btn active" data-tab="all"       id="tab-all">All</button>
+        <button class="tab-btn"         data-tab="snake"     id="tab-snake">🐍 Snake</button>
+        <button class="tab-btn"         data-tab="memory"    id="tab-memory">🃏 Memory</button>
+        <button class="tab-btn"         data-tab="tictactoe" id="tab-ttt">❌ Tic Tac Toe</button>
+      </div>
+
+      <!-- Score History List -->
+      <div class="leaderboard-list" id="leaderboard-list">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Empty state -->
+      <div id="lb-empty" style="display:none; text-align:center; padding: var(--space-16) 0; color: var(--clr-text-muted);">
+        <div style="font-size: 3rem; margin-bottom: var(--space-4);">🎮</div>
+        <p style="font-size: var(--text-lg);">No games played yet!</p>
+        <p style="font-size: var(--text-sm); margin-top: var(--space-2);">Play some games to see your scores here.</p>
+        <a href="../index.html" class="btn btn-primary" style="margin-top: var(--space-6); display:inline-flex;">
+          Play Now
+        </a>
+      </div>
+
+      <!-- Clear button -->
+      <div style="text-align:center; margin-top: var(--space-10);">
+        <button class="btn btn-restart btn-game" id="btn-clear-scores" id="btn-clear-scores">
+          🗑️ Clear All Scores
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="../js/utils.js"></script>
+  <script src="../js/storage.js"></script>
+  <script>
+    /* ---- Init leaderboard page ---- */
+    (function() {
+      const gameEmojis = { snake: '🐍', memory: '🃏', tictactoe: '❌' };
+      const gameNames  = { snake: 'Snake', memory: 'Memory Match', tictactoe: 'Tic Tac Toe' };
+      let currentTab   = 'all';
+
+      function formatScore(game, score) {
+        if (game === 'memory') return Utils.formatTime(score) + ' ⏱';
+        if (game === 'tictactoe') return score + ' Wins 🏆';
+        return score + ' pts';
+      }
+
+      function updateBestScores() {
+        const scores = AppStorage.getScores();
+        document.getElementById('best-snake').textContent  = scores.snake || 0;
+        document.getElementById('best-memory').textContent = scores.memory ? Utils.formatTime(scores.memory) : '--:--';
+        document.getElementById('best-ttt').textContent    = scores.tictactoe || 0;
+        document.getElementById('total-plays').textContent = AppStorage.getTotalPlays();
+      }
+
+      function renderHistory(tab = 'all') {
+        const list  = document.getElementById('leaderboard-list');
+        const empty = document.getElementById('lb-empty');
+        let history = AppStorage.getHistory();
+
+        if (tab !== 'all') {
+          history = history.filter(e => e.game === tab);
+        }
+
+        list.innerHTML = '';
+
+        if (history.length === 0) {
+          empty.style.display = 'block';
+          return;
+        }
+
+        empty.style.display = 'none';
+
+        history.forEach((entry, i) => {
+          const rank  = i + 1;
+          const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : `#${rank}`;
+          const el = document.createElement('div');
+          el.className = 'score-entry animate-fade-up';
+          el.style.animationDelay = `${i * 0.05}s`;
+          el.innerHTML = `
+            <div class="score-rank rank-${rank <= 3 ? rank : ''}">${medal}</div>
+            <div class="score-info">
+              <div style="font-weight:700; font-size: var(--text-base);">
+                ${gameEmojis[entry.game] || ''} ${gameNames[entry.game] || entry.game}
+                ${entry.isNewBest ? '<span class="badge badge-classic" style="margin-left:8px;">New Best!</span>' : ''}
+              </div>
+              <div class="score-date">${Utils.formatDate(entry.timestamp)}</div>
+            </div>
+            <div class="score-points">${formatScore(entry.game, entry.score)}</div>
+          `;
+          list.appendChild(el);
+        });
+      }
+
+      // Tab switching
+      document.getElementById('leaderboard-tabs').addEventListener('click', (e) => {
+        const btn = e.target.closest('.tab-btn');
+        if (!btn) return;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentTab = btn.dataset.tab;
+        renderHistory(currentTab);
+      });
+
+      // Clear scores
+      document.getElementById('btn-clear-scores').addEventListener('click', () => {
+        if (confirm('Clear all scores and history? This cannot be undone.')) {
+          AppStorage.clearAllScores();
+          updateBestScores();
+          renderHistory(currentTab);
+          Utils.showToast('All scores cleared!', 'info');
+        }
+      });
+
+      // Sound toggle
+      const soundBtn = document.getElementById('global-sound-toggle');
+      if (soundBtn) {
+        const s = AppStorage.getSettings();
+        soundBtn.textContent = s.soundEnabled ? '🔊' : '🔇';
+        soundBtn.addEventListener('click', () => {
+          const cur = AppStorage.getSettings().soundEnabled;
+          AppStorage.setSetting('soundEnabled', !cur);
+          soundBtn.textContent = !cur ? '🔊' : '🔇';
+        });
+      }
+
+      // Hamburger
+      const hamburger = document.getElementById('hamburger-btn');
+      const mobileNav = document.getElementById('mobile-nav');
+      if (hamburger && mobileNav) {
+        hamburger.addEventListener('click', () => {
+          hamburger.classList.toggle('open');
+          mobileNav.classList.toggle('open');
+        });
+      }
+
+      updateBestScores();
+      renderHistory('all');
+    })();
+  </script>
+</body>
+</html>

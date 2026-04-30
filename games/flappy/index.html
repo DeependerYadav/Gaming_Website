@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+  <meta name="description" content="Play Flappy Bird online – Mini Games Hub. Tap to flap, dodge pipes, beat your score!"/>
+  <title>Flappy Bird | Mini Games Hub</title>
+  <link rel="manifest" href="../../manifest.json"/>
+  <link rel="icon" type="image/png" href="../../assets/icons/icon-96x96.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="../../css/style.css"/>
+  <link rel="stylesheet" href="../../css/games.css"/>
+  <link rel="stylesheet" href="flappy.css"/>
+</head>
+<body class="dark-mode">
+<div class="game-page">
+
+  <!-- HEADER -->
+  <header class="game-header">
+    <div class="game-header-left">
+      <a href="../../index.html" class="back-btn" id="back-btn">
+        <i class="fa-solid fa-arrow-left"></i> Back
+      </a>
+      <h1 class="game-header-title">🐦 Flappy Bird</h1>
+    </div>
+    <div class="game-header-controls">
+      <div class="flappy-diff-selector">
+        <button class="diff-btn active" data-diff="easy" id="diff-easy">Easy</button>
+        <button class="diff-btn" data-diff="medium" id="diff-medium">Med</button>
+        <button class="diff-btn" data-diff="hard" id="diff-hard">Hard</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- GAME CONTAINER -->
+  <div class="game-container">
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+      <div class="stat-card flappy-accent">
+        <div class="stat-card-label">Score</div>
+        <div class="stat-card-value" id="current-score">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Best</div>
+        <div class="stat-card-value" id="best-score">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Medal</div>
+        <div class="stat-card-value" id="medal-display">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Combo</div>
+        <div class="stat-card-value" id="combo-display">x1</div>
+      </div>
+    </div>
+
+    <!-- Canvas -->
+    <div class="game-canvas-wrapper flappy-canvas-wrap" id="flappy-wrapper">
+      <canvas id="canvas" width="380" height="560" role="img" aria-label="Flappy Bird game canvas"></canvas>
+
+      <!-- Start overlay -->
+      <div class="game-overlay" id="start-screen">
+        <div class="overlay-emoji flappy-bounce">🐦</div>
+        <h2 class="overlay-title">Flappy Bird</h2>
+        <p class="overlay-subtitle">Tap, click, or press <strong>Space</strong> to flap!</p>
+        <div class="overlay-actions">
+          <button id="start-btn" class="btn-game btn-start">
+            <i class="fa-solid fa-play"></i> Start Game
+          </button>
+        </div>
+        <div class="flappy-medal-key">
+          <span class="medal-item">🥉 10+</span>
+          <span class="medal-item">🥈 25+</span>
+          <span class="medal-item">🥇 50+</span>
+          <span class="medal-item">💎 100+</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls info -->
+    <div class="controls-info">
+      <div class="control-item"><kbd>Space</kbd> / <kbd>↑</kbd> Flap</div>
+      <div class="control-item"><i class="fa-solid fa-hand-pointer"></i> Click / Tap</div>
+    </div>
+
+    <!-- Tap hint for mobile -->
+    <p class="flappy-tap-hint">Tap the screen to flap</p>
+
+  </div><!-- /game-container -->
+</div><!-- /game-page -->
+
+<script src="../../js/utils.js"></script>
+<script src="../../js/storage.js"></script>
+<script src="flappy.js"></script>
+</body>
+</html>

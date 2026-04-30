@@ -1,0 +1,89 @@
+/* =============================================
+   pingpong.css — Ping Pong Styles
+   Mini Games Hub — Premium Gaming UI
+   ============================================= */
+
+/* ── Canvas glow ── */
+.ping-canvas-wrap {
+  border-color: rgba(0,212,255,0.4) !important;
+  box-shadow: 0 0 60px rgba(0,212,255,0.18), 0 20px 60px rgba(0,0,0,0.6) !important;
+  cursor: none;
+  width: fit-content;
+  margin: 0 auto;
+  transition: box-shadow var(--transition-base);
+}
+.ping-canvas-wrap:hover {
+  box-shadow: 0 0 90px rgba(0,212,255,0.32), var(--shadow-xl) !important;
+}
+
+#canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  background: #050c18;
+  border-radius: var(--radius-lg);
+}
+
+/* ── Stat accent ── */
+.ping-accent {
+  border-color: rgba(0,212,255,0.4) !important;
+  background: rgba(0,212,255,0.07) !important;
+}
+.ping-accent .stat-card-value {
+  color: var(--clr-neon-blue) !important;
+  text-shadow: 0 0 16px rgba(0,212,255,0.5) !important;
+}
+
+/* ── AI score accent ── */
+.ping-ai-accent {
+  border-color: rgba(255,107,107,0.4) !important;
+  background: rgba(255,107,107,0.07) !important;
+}
+.ping-ai-accent .stat-card-value {
+  color: #ff6b6b !important;
+  text-shadow: 0 0 16px rgba(255,107,107,0.5) !important;
+}
+
+/* ── Rally card — glows when heated ── */
+.ping-rally-card .stat-card-value {
+  color: #f7c948;
+  text-shadow: 0 0 16px rgba(247,201,72,0.5);
+  transition: all 0.3s ease;
+}
+.ping-rally-card.hot .stat-card-value {
+  color: #ff6b6b;
+  text-shadow: 0 0 24px rgba(255,107,107,0.8);
+  animation: rallyPulse 0.6s ease infinite;
+}
+@keyframes rallyPulse {
+  0%,100% { transform: scale(1); }
+  50%      { transform: scale(1.12); }
+}
+
+/* ── Touch controls ── */
+.ping-touch .touch-row { gap: var(--space-4); }
+.ping-touch .touch-btn {
+  width: 72px;
+  height: 72px;
+  font-size: 1.6rem;
+  border-color: rgba(0,212,255,0.3);
+}
+.ping-touch .touch-btn:active {
+  background: rgba(0,212,255,0.15);
+  border-color: var(--clr-neon-blue);
+  box-shadow: 0 0 20px rgba(0,212,255,0.3);
+}
+
+/* ── Overlay ── */
+#overlay .overlay-title {
+  background: linear-gradient(135deg, #00d4ff, #9b5de5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Responsive ── */
+@media (max-width: 720px) {
+  #canvas { width: 100% !important; height: auto !important; }
+  .ping-canvas-wrap { width: 100%; }
+}

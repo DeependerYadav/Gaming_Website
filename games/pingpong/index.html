@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+  <meta name="description" content="Play Ping Pong vs AI – Mini Games Hub. Control your paddle, first to 7 wins!"/>
+  <title>Ping Pong | Mini Games Hub</title>
+  <link rel="manifest" href="../../manifest.json"/>
+  <link rel="icon" type="image/png" href="../../assets/icons/icon-96x96.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="../../css/style.css"/>
+  <link rel="stylesheet" href="../../css/games.css"/>
+  <link rel="stylesheet" href="pingpong.css"/>
+</head>
+<body class="dark-mode">
+<div class="game-page">
+
+  <header class="game-header">
+    <div class="game-header-left">
+      <a href="../../index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back</a>
+      <h1 class="game-header-title">🏓 Ping Pong</h1>
+    </div>
+    <div class="game-header-controls">
+      <div class="difficulty-selector">
+        <button class="diff-btn active" data-diff="easy">Easy</button>
+        <button class="diff-btn" data-diff="medium">Med</button>
+        <button class="diff-btn" data-diff="hard">Hard</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="game-container">
+    <div class="stats-bar">
+      <div class="stat-card ping-accent">
+        <div class="stat-card-label"><i class="fa-solid fa-user"></i> You</div>
+        <div class="stat-card-value" id="p-score">0</div>
+      </div>
+      <div class="stat-card ping-rally-card" id="rally-card">
+        <div class="stat-card-label"><i class="fa-solid fa-fire"></i> Rally</div>
+        <div class="stat-card-value" id="rally-val">0</div>
+      </div>
+      <div class="stat-card ping-ai-accent">
+        <div class="stat-card-label"><i class="fa-solid fa-robot"></i> AI</div>
+        <div class="stat-card-value" id="a-score">0</div>
+      </div>
+    </div>
+
+    <div class="game-canvas-wrapper ping-canvas-wrap" id="ping-wrapper">
+      <canvas id="canvas" width="680" height="420" role="img" aria-label="Ping Pong game"></canvas>
+      <div class="game-overlay" id="overlay">
+        <div class="overlay-emoji">🏓</div>
+        <h2 class="overlay-title" id="overlay-title">Ping Pong</h2>
+        <p class="overlay-subtitle" id="overlay-msg">You vs AI — first to <strong>7</strong> wins!</p>
+        <div class="overlay-actions">
+          <button id="start-btn" class="btn-game btn-start">
+            <i class="fa-solid fa-play"></i> Start Game
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-info">
+      <div class="control-item"><i class="fa-solid fa-computer-mouse"></i> Mouse / Touch — move paddle</div>
+      <div class="control-item"><kbd>W</kbd><kbd>S</kbd> Keyboard</div>
+    </div>
+
+    <!-- Mobile touch buttons for paddle -->
+    <div class="touch-controls ping-touch" id="ping-touch">
+      <div class="touch-row">
+        <button class="touch-btn" id="ping-up" aria-label="Paddle Up">
+          <i class="fa-solid fa-chevron-up"></i>
+        </button>
+        <button class="touch-btn" id="ping-down" aria-label="Paddle Down">
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../../js/utils.js"></script>
+<script src="../../js/storage.js"></script>
+<script src="pingpong.js"></script>
+</body>
+</html>

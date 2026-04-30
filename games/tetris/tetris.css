@@ -1,0 +1,155 @@
+/* =============================================
+   tetris.css — Advanced Tetris Styles
+   Mini Games Hub
+   ============================================= */
+
+/* ---- Board glow override ---- */
+.tetris-board-wrap {
+  border-color: rgba(224, 64, 251, 0.4) !important;
+  box-shadow: 0 0 60px rgba(224,64,251,0.18), 0 20px 60px rgba(0,0,0,0.6) !important;
+}
+.tetris-board-wrap:hover {
+  box-shadow: 0 0 90px rgba(224,64,251,0.32), var(--shadow-xl) !important;
+}
+
+/* ---- Tetris accent stat card ---- */
+.tetris-accent {
+  border-color: rgba(224,64,251,0.4) !important;
+  background: rgba(224,64,251,0.07) !important;
+}
+.tetris-accent .stat-card-value {
+  color: #e040fb !important;
+  text-shadow: 0 0 16px rgba(224,64,251,0.5) !important;
+}
+
+/* ---- Main layout ---- */
+.tetris-layout {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+/* ---- Side panels ---- */
+.tetris-side-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 110px;
+}
+
+.tetris-panel-block {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.tetris-panel-label {
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  color: var(--clr-text-muted);
+  font-weight: 700;
+}
+
+#hold-canvas, #next-canvas {
+  display: block;
+  border-radius: var(--radius-md);
+  background: rgba(0,0,0,0.2);
+}
+
+.tetris-restart {
+  width: 100%;
+  justify-content: center;
+}
+
+/* ---- Board canvas ---- */
+#board {
+  display: block;
+  border-radius: var(--radius-lg);
+  background: #0d0d1a;
+}
+
+/* ---- Line clear flash ---- */
+.line-clear-flash {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0;
+  background: radial-gradient(ellipse at center, rgba(224,64,251,0.35) 0%, transparent 70%);
+  transition: opacity 80ms ease;
+}
+.line-clear-flash.flash {
+  animation: clearFlash 0.35s ease forwards;
+}
+@keyframes clearFlash {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.6; }
+  100% { opacity: 0; }
+}
+
+/* ---- Score pop animation ---- */
+@keyframes scorePop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.25); color: #e040fb; text-shadow: 0 0 24px rgba(224,64,251,0.7); }
+  100% { transform: scale(1); }
+}
+.score-pop {
+  animation: scorePop 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+/* ---- High score flash ---- */
+@keyframes bestFlash {
+  0%,100% { color: var(--clr-text-primary); }
+  50%     { color: #e040fb; text-shadow: 0 0 20px rgba(224,64,251,0.8); }
+}
+.best-flash { animation: bestFlash 0.5s ease 3; }
+
+/* ---- Tetris touch controls ---- */
+.tetris-touch .touch-btn {
+  border-color: rgba(224,64,251,0.3);
+  width: 64px;
+  height: 64px;
+  font-size: 1.3rem;
+}
+.tetris-touch .touch-btn:active {
+  background: rgba(224,64,251,0.15);
+  border-color: #e040fb;
+  box-shadow: 0 0 20px rgba(224,64,251,0.3);
+}
+
+/* ---- Overlay pink accent ---- */
+#overlay .overlay-title {
+  background: linear-gradient(135deg, #e040fb, #00d4ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ---- Mobile responsive ---- */
+@media (max-width: 600px) {
+  .tetris-layout {
+    gap: var(--space-2);
+  }
+  .tetris-side-panel {
+    min-width: 80px;
+  }
+  #hold-canvas  { width: 72px !important; height: 72px !important; }
+  #next-canvas  { width: 72px !important; height: 200px !important; }
+  #board        { width: 210px !important; height: 420px !important; }
+  .tetris-panel-block { padding: var(--space-2); }
+}
+
+@media (max-width: 420px) {
+  .tetris-left-panel  { display: none; }
+  .tetris-right-panel { display: none; }
+  #board { width: 260px !important; height: 520px !important; }
+  .tetris-touch { display: flex; }
+}

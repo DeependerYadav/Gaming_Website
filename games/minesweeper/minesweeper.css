@@ -1,0 +1,210 @@
+/* =============================================
+   minesweeper.css — Minesweeper Styles
+   Mini Games Hub — Premium Gaming UI
+   ============================================= */
+
+/* ── Accent for mine counter ── */
+.mine-accent {
+  border-color: rgba(255,71,87,0.4) !important;
+  background: rgba(255,71,87,0.07) !important;
+}
+.mine-accent .stat-card-value {
+  color: #ff4757 !important;
+  text-shadow: 0 0 16px rgba(255,71,87,0.5) !important;
+}
+
+/* ── Status bar ── */
+.mine-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  color: var(--clr-text-secondary);
+  text-align: center;
+  max-width: 720px;
+  width: 100%;
+  justify-content: center;
+  transition: all var(--transition-base);
+}
+.mine-status.win {
+  border-color: rgba(87,224,91,0.4);
+  background: rgba(87,224,91,0.08);
+  color: #57e05b;
+}
+.mine-status.lose {
+  border-color: rgba(255,71,87,0.4);
+  background: rgba(255,71,87,0.08);
+  color: #ff4757;
+}
+
+/* ── Board wrapper ── */
+.mine-board-wrap {
+  background: rgba(13,13,26,0.85);
+  border: 1.5px solid var(--clr-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4);
+  overflow: auto;
+  max-width: 100%;
+  box-shadow: 0 0 40px rgba(255,71,87,0.06), var(--shadow-xl);
+  backdrop-filter: blur(12px);
+}
+
+/* ── Board grid ── */
+.mine-board {
+  display: inline-grid;
+  gap: 3px;
+}
+
+/* ── Cell base ── */
+.mine-cell {
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  background: linear-gradient(145deg, #1a2744, #16213e);
+  border: 1px solid rgba(0,212,255,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: background var(--transition-fast), transform var(--transition-fast),
+              border-color var(--transition-fast), box-shadow var(--transition-fast);
+  -webkit-tap-highlight-color: transparent;
+  font-family: var(--font-primary);
+}
+
+.mine-cell:hover:not(.revealed):not(.flagged) {
+  background: linear-gradient(145deg, #1e3060, #1a2a55);
+  border-color: rgba(0,212,255,0.45);
+  transform: scale(1.07);
+  box-shadow: 0 0 14px rgba(0,212,255,0.25);
+}
+
+.mine-cell.revealed {
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.05);
+  cursor: default;
+}
+
+.mine-cell.flagged {
+  background: rgba(255,71,87,0.1);
+  border-color: rgba(255,71,87,0.45);
+  animation: flagPulse 1.8s ease-in-out infinite;
+}
+@keyframes flagPulse {
+  0%,100% { box-shadow: 0 0 6px rgba(255,71,87,0.2); }
+  50%      { box-shadow: 0 0 18px rgba(255,71,87,0.55); }
+}
+
+.mine-cell.mine-hit {
+  background: rgba(255,71,87,0.3) !important;
+  border-color: #ff4757 !important;
+  animation: explode 0.35s ease;
+}
+@keyframes explode {
+  0%  { transform: scale(1); }
+  45% { transform: scale(1.35); box-shadow: 0 0 32px rgba(255,71,87,0.9); }
+  100%{ transform: scale(1); }
+}
+
+.mine-cell.mine-revealed {
+  background: rgba(255,71,87,0.07);
+  border-color: rgba(255,71,87,0.2);
+}
+
+/* Safe reveal ripple */
+.mine-cell.safe-flash {
+  animation: safeReveal 0.22s ease;
+}
+@keyframes safeReveal {
+  0%   { transform: scale(0.8); opacity: 0.4; }
+  100% { transform: scale(1);   opacity: 1; }
+}
+
+/* ── Number colours ── */
+.mine-cell[data-n="1"] { color: #00d4ff; text-shadow: 0 0 8px rgba(0,212,255,0.6); }
+.mine-cell[data-n="2"] { color: #57e05b; text-shadow: 0 0 8px rgba(87,224,91,0.6); }
+.mine-cell[data-n="3"] { color: #ff6b6b; text-shadow: 0 0 8px rgba(255,107,107,0.6); }
+.mine-cell[data-n="4"] { color: #a855f7; text-shadow: 0 0 8px rgba(168,85,247,0.6); }
+.mine-cell[data-n="5"] { color: #ff8c00; text-shadow: 0 0 8px rgba(255,140,0,0.6); }
+.mine-cell[data-n="6"] { color: #00ffcc; text-shadow: 0 0 8px rgba(0,255,204,0.6); }
+.mine-cell[data-n="7"] { color: #ff4fa3; text-shadow: 0 0 8px rgba(255,79,163,0.6); }
+.mine-cell[data-n="8"] { color: #ffffff; text-shadow: 0 0 8px rgba(255,255,255,0.6); }
+
+/* ── Win / Lose overlay ── */
+.mine-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5,5,16,0.88);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+.mine-overlay.hidden { display: none; }
+
+.mine-overlay-inner {
+  background: rgba(13,13,26,0.98);
+  border: 1.5px solid var(--clr-border);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-10) var(--space-12);
+  text-align: center;
+  max-width: 380px;
+  width: 90%;
+  box-shadow: var(--shadow-glow-blue), var(--shadow-xl);
+  animation: overlayIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes overlayIn {
+  0%   { transform: scale(0.65); opacity: 0; }
+  100% { transform: scale(1);    opacity: 1; }
+}
+
+.mine-overlay-emoji {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: var(--space-4);
+  filter: drop-shadow(0 0 20px rgba(0,212,255,0.5));
+}
+.mine-overlay-title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 900;
+  background: var(--grad-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--space-2);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.mine-overlay-msg {
+  color: var(--clr-text-secondary);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-6);
+  line-height: 1.6;
+}
+
+/* ── Hint ── */
+.mine-hint {
+  font-size: var(--text-xs);
+  color: var(--clr-text-muted);
+  text-align: center;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .mine-cell { width: 28px; height: 28px; font-size: 0.75rem; }
+  .mine-board-wrap { padding: var(--space-3); }
+}
+@media (max-width: 400px) {
+  .mine-cell { width: 22px; height: 22px; font-size: 0.62rem; border-radius: 4px; }
+  .mine-board-wrap { padding: var(--space-2); }
+}
