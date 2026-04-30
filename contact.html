@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Contact Mini Games Hub — Get in touch with us for feedback, bug reports, game suggestions, or general enquiries about our free browser games." />
+  <meta name="keywords" content="contact mini games hub, feedback, bug report, game suggestion" />
+  <meta name="robots" content="index, follow" />
+  <title>Contact Us | Mini Games Hub</title>
+  <link rel="icon" type="image/png" href="assets/icons/icon-96x96.png" />
+  <link rel="canonical" href="https://minigameshub.online/contact.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:#050510;color:#e0e0f0;font-family:'Poppins',sans-serif;min-height:100vh;line-height:1.75}
+    a{color:#00d4ff;text-decoration:none}
+    a:hover{text-decoration:underline}
+    .ph{background:rgba(13,13,30,.95);border-bottom:1px solid rgba(0,212,255,.15);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+    .ph .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700}
+    .ph .brand i{color:#00d4ff}
+    .ph nav a{color:#a0a0c0;margin-left:1.4rem;font-size:.9rem;font-weight:500;text-decoration:none;transition:color .2s}
+    .ph nav a:hover,.ph nav a.active{color:#00d4ff}
+    .hero{background:linear-gradient(135deg,#0d1b2a 0%,#050510 60%);text-align:center;padding:5rem 2rem 4rem;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(0,212,255,.08) 0%,transparent 70%);top:-100px;left:50%;transform:translateX(-50%);pointer-events:none}
+    .hero-icon{width:80px;height:80px;border-radius:50%;background:rgba(0,212,255,.1);border:2px solid rgba(0,212,255,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:2rem;color:#00d4ff}
+    .hero h1{font-family:'Orbitron',sans-serif;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:900;background:linear-gradient(135deg,#00d4ff,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:1rem}
+    .hero p{font-size:1rem;color:#a0a0c0;max-width:520px;margin:0 auto}
+    .content{max-width:860px;margin:0 auto;padding:3rem 2rem 5rem}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem}
+    @media(max-width:640px){.two-col{grid-template-columns:1fr}}
+    .card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:2rem;transition:border-color .3s}
+    .card:hover{border-color:rgba(0,212,255,.2)}
+    .card h2{font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700;color:#00d4ff;margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
+    .card p,.card li{color:#b0b0cc;font-size:.93rem;margin-bottom:.6rem}
+    .contact-info-item{display:flex;align-items:flex-start;gap:.9rem;margin-bottom:1.1rem}
+    .ci-icon{width:42px;height:42px;border-radius:10px;background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.2);display:flex;align-items:center;justify-content:center;color:#00d4ff;font-size:.95rem;flex-shrink:0;margin-top:2px}
+    .ci-text strong{display:block;color:#e0e0f0;font-size:.9rem;margin-bottom:.15rem}
+    .ci-text span{color:#8888aa;font-size:.83rem}
+    .form-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:2.2rem;margin-bottom:2rem}
+    .form-card h2{font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700;color:#00d4ff;margin-bottom:1.4rem;display:flex;align-items:center;gap:.6rem}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+    @media(max-width:520px){.form-row{grid-template-columns:1fr}}
+    .form-group{margin-bottom:1rem}
+    label{display:block;font-size:.85rem;color:#a0a0c0;margin-bottom:.4rem;font-weight:500}
+    input,select,textarea{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:.7rem 1rem;color:#e0e0f0;font-family:'Poppins',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s,box-shadow .2s}
+    input:focus,select:focus,textarea:focus{border-color:rgba(0,212,255,.4);box-shadow:0 0 0 3px rgba(0,212,255,.08)}
+    select option{background:#0d1b2a}
+    textarea{resize:vertical;min-height:130px}
+    .btn-submit{display:inline-flex;align-items:center;gap:.6rem;background:linear-gradient(135deg,#00d4ff,#0099cc);color:#000;font-weight:700;font-size:.93rem;padding:.78rem 2rem;border-radius:50px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;font-family:'Poppins',sans-serif}
+    .btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,255,.4)}
+    .success-msg{display:none;background:rgba(0,245,160,.08);border:1px solid rgba(0,245,160,.3);border-radius:12px;padding:1rem 1.4rem;color:#a8ff3e;font-size:.9rem;margin-top:1rem;align-items:center;gap:.7rem}
+    .success-msg.show{display:flex}
+    footer{text-align:center;padding:2rem;border-top:1px solid rgba(255,255,255,.07);color:#55556a;font-size:.82rem}
+    footer a{color:#00d4ff;margin:0 .45rem}
+  </style>
+</head>
+<body>
+  <header class="ph">
+    <a href="index.html" class="brand"><i class="fa-solid fa-gamepad"></i> Mini Games Hub</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="index.html#games-section">Games</a>
+      <a href="about.html">About</a>
+      <a href="contact.html" class="active">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-icon"><i class="fa-solid fa-envelope"></i></div>
+    <h1>Contact Us</h1>
+    <p>We'd love to hear from you — for feedback, bug reports, or game suggestions.</p>
+  </section>
+
+  <main class="content">
+
+    <div class="two-col">
+      <div class="card">
+        <h2><i class="fa-solid fa-address-card"></i> Get in Touch</h2>
+        <div class="contact-info-item">
+          <div class="ci-icon"><i class="fa-solid fa-envelope"></i></div>
+          <div class="ci-text">
+            <strong>Email</strong>
+            <span><a href="mailto:yadavdeepender68@gmail.com" style="color:#00d4ff;text-decoration:none">yadavdeepender68@gmail.com</a></span>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="ci-icon"><i class="fa-solid fa-globe"></i></div>
+          <div class="ci-text">
+            <strong>Website</strong>
+            <span>minigameshub.online</span>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="ci-icon"><i class="fa-solid fa-clock"></i></div>
+          <div class="ci-text">
+            <strong>Response Time</strong>
+            <span>Usually within 1–3 business days</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><i class="fa-solid fa-circle-question"></i> Common Topics</h2>
+        <p>You can reach us about:</p>
+        <ul style="list-style:none;padding:0;margin-top:.6rem">
+          <li style="padding:.3rem 0;color:#b0b0cc;font-size:.9rem"><i class="fa-solid fa-bug" style="color:#ff6b6b;margin-right:.5rem;width:16px"></i> Bug reports</li>
+          <li style="padding:.3rem 0;color:#b0b0cc;font-size:.9rem"><i class="fa-solid fa-lightbulb" style="color:#f7c948;margin-right:.5rem;width:16px"></i> Game suggestions</li>
+          <li style="padding:.3rem 0;color:#b0b0cc;font-size:.9rem"><i class="fa-solid fa-star" style="color:#a8ff3e;margin-right:.5rem;width:16px"></i> Feature requests</li>
+          <li style="padding:.3rem 0;color:#b0b0cc;font-size:.9rem"><i class="fa-solid fa-handshake" style="color:#00d4ff;margin-right:.5rem;width:16px"></i> Partnerships</li>
+          <li style="padding:.3rem 0;color:#b0b0cc;font-size:.9rem"><i class="fa-solid fa-shield-halved" style="color:#c084fc;margin-right:.5rem;width:16px"></i> Privacy enquiries</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <h2><i class="fa-solid fa-paper-plane"></i> Send Us a Message</h2>
+      <form id="contact-form" onsubmit="handleSubmit(event)" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cf-name">Your Name</label>
+            <input type="text" id="cf-name" name="name" placeholder="Jane Smith" required />
+          </div>
+          <div class="form-group">
+            <label for="cf-email">Email Address</label>
+            <input type="email" id="cf-email" name="email" placeholder="jane@example.com" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="cf-subject">Subject</label>
+          <select id="cf-subject" name="subject">
+            <option value="">— Select a topic —</option>
+            <option value="bug">Bug Report</option>
+            <option value="suggestion">Game Suggestion</option>
+            <option value="feature">Feature Request</option>
+            <option value="partnership">Partnership</option>
+            <option value="privacy">Privacy Enquiry</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="cf-message">Message</label>
+          <textarea id="cf-message" name="message" placeholder="Tell us what's on your mind..." required></textarea>
+        </div>
+        <button type="submit" class="btn-submit"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
+        <div class="success-msg" id="success-msg">
+          <i class="fa-solid fa-circle-check"></i>
+          <span>Thanks for reaching out! We'll reply within 1–3 business days.</span>
+        </div>
+      </form>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Mini Games Hub. All rights reserved. &nbsp;|&nbsp;
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms.html">Terms</a>
+    </p>
+  </footer>
+
+  <script>
+    function handleSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('cf-name').value.trim();
+      const email = document.getElementById('cf-email').value.trim();
+      const msg = document.getElementById('cf-message').value.trim();
+      if (!name || !email || !msg) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+      document.getElementById('contact-form').reset();
+      document.getElementById('success-msg').classList.add('show');
+      setTimeout(() => document.getElementById('success-msg').classList.remove('show'), 6000);
+    }
+  </script>
+</body>
+</html>

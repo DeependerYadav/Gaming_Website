@@ -15,9 +15,9 @@ const FlappyGame = (() => {
 
   // ── Difficulty configs ───────────────────────
   const DIFFS = {
-    easy:   { gravity: 0.38, flap: -8.5,  pipeSpd: 2.4, gap: 170, pipeInt: 100 },
-    medium: { gravity: 0.45, flap: -9.0,  pipeSpd: 2.9, gap: 150, pipeInt: 90  },
-    hard:   { gravity: 0.52, flap: -9.5,  pipeSpd: 3.5, gap: 128, pipeInt: 78  },
+    easy:   { gravity: 0.22, flap: -5.0,  pipeSpd: 1.6, gap: 180, pipeInt: 110 },
+    medium: { gravity: 0.26, flap: -5.5,  pipeSpd: 2.0, gap: 158, pipeInt: 98  },
+    hard:   { gravity: 0.30, flap: -6.0,  pipeSpd: 2.5, gap: 135, pipeInt: 84  },
   };
   let diff = 'easy';
   let cfg  = DIFFS[diff];
@@ -75,10 +75,9 @@ const FlappyGame = (() => {
     return layers;
   }
 
-  // ── Reset ────────────────────────────────────
+  // ── Reset (full game start from ready state) ───
   function resetGame() {
     cfg   = DIFFS[diff];
-    bird  = { x: 80, y: H / 2, vy: 0, r: 16, angle: 0, flapTimer: 0 };
     pipes = [];
     particles = [];
     score = 0;
@@ -88,20 +87,71 @@ const FlappyGame = (() => {
     frame = 0;
     nightRatio = 0;
     state = 'playing';
-
     if (scoreEl) scoreEl.textContent = '0';
     if (comboEl) comboEl.textContent = 'x1';
     raf = requestAnimationFrame(loop);
   }
 
+  // ── Ready state: bird hovers, waits for first input ──
+  function startReady() {
+    cfg   = DIFFS[diff];
+    state = 'ready';
+    bird  = { x: 80, y: H / 2, vy: 0, r: 16, angle: 0, flapTimer: 0 };
+    pipes = []; particles = []; score = 0; combo = 1;
+    comboTimer = 0; scoreFlash = 0; frame = 0; nightRatio = 0;
+    if (scoreEl) scoreEl.textContent = '0';
+    if (comboEl) comboEl.textContent = 'x1';
+    raf = requestAnimationFrame(readyLoop);
+  }
+
+  function readyLoop() {
+    if (state !== 'ready') return;
+    frame++;
+    // Gentle hover: sine wave up/down
+    bird.y      = H / 2 + Math.sin(frame * 0.045) * 12;
+    bird.angle  = Math.sin(frame * 0.045) * 0.18;
+    bird.flapTimer = Math.sin(frame * 0.09) > 0 ? 4 : 0;
+    // Slowly drift clouds
+    cloudLayers.forEach(layer => {
+      layer.forEach(c => {
+        c.x -= c.spd * 0.35;
+        if (c.x + c.r * 2 < 0) c.x = W + c.r;
+      });
+    });
+    stars.forEach(s => { s.twinkle += s.speed; });
+    nightRatio = 0;
+    drawScene();
+    drawReadyHint();
+    raf = requestAnimationFrame(readyLoop);
+  }
+
+  function drawReadyHint() {
+    const alpha = (Math.sin(frame * 0.07) + 1) / 2 * 0.85 + 0.15;
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = '#00d4ff';
+    ctx.font = "bold 15px 'Outfit', sans-serif";
+    ctx.shadowColor = '#00d4ff';
+    ctx.shadowBlur = 14;
+    ctx.fillText('Tap / Space / Click to start!', W / 2, H / 2 + 55);
+    ctx.restore();
+  }
+
   // ── Flap ────────────────────────────────────
   function flap() {
-    if (state === 'playing') {
+    if (state === 'ready') {
+      // First input → launch game, apply flap immediately
+      cancelAnimationFrame(raf);
+      bird.vy = cfg.flap;
+      bird.flapTimer = 8;
+      resetGame();
+    } else if (state === 'playing') {
       bird.vy = cfg.flap;
       bird.flapTimer = 8;
     } else if (state === 'dead') {
       cancelAnimationFrame(raf);
-      resetGame();
+      startReady(); // return to hover state, not instant restart
     }
   }
 
@@ -130,13 +180,17 @@ const FlappyGame = (() => {
     nightRatio = (Math.sin(frame * Math.PI / 600) + 1) / 2;
 
     // Bird physics
-    bird.vy    += cfg.gravity;
-    bird.y     += bird.vy;
-    bird.angle  = Math.min(Math.PI / 4, Math.max(-Math.PI / 3, bird.vy * 0.06));
-    bird.flapTimer = Math.max(0, bird.flapTimer - 1);
+    bird.vy += cfg.gravity;
+    bird.y  += bird.vy;
+    // Smooth angle: tilt up on flap, dive gradually when falling
+    const targetAngle = bird.vy > 0
+      ? Math.min( Math.PI * 0.42, bird.vy * 0.10)   // falling → nose down (max ~75°)
+      : Math.max(-Math.PI / 4,    bird.vy * 0.07);   // rising  → nose up  (max -45°)
+    bird.angle     += (targetAngle - bird.angle) * 0.14; // lerp for smoothness
+    bird.flapTimer  = Math.max(0, bird.flapTimer - 1);
 
-    // Progressive speed boost every 10 points
-    const speedBoost = Math.floor(score / 10) * 0.12;
+    // Progressive speed boost every 10 points (capped so it never gets overwhelming)
+    const speedBoost = Math.min(Math.floor(score / 10) * 0.08, 1.2);
     const curSpd = cfg.pipeSpd + speedBoost;
 
     // Combo timer decay
@@ -477,7 +531,7 @@ const FlappyGame = (() => {
 
   // ── Input ────────────────────────────────────
   function handleInput() {
-    if (state === 'idle') return;
+    if (state === 'idle') return; // start screen still visible — ignore
     flap();
   }
 
@@ -503,13 +557,9 @@ const FlappyGame = (() => {
     startScreen?.classList.add('hidden');
     best = parseInt(localStorage.getItem('flappy-best-' + diff) || '0');
     if (bestEl) bestEl.textContent = best;
-    state = 'idle';
     stars = createStars();
     cloudLayers = createClouds();
-    bird = { x: 80, y: H / 2, vy: 0, r: 16, angle: 0, flapTimer: 0 };
-    pipes = []; particles = []; score = 0; frame = 0; nightRatio = 0; combo = 1;
-    drawScene();
-    resetGame();
+    startReady(); // hover state — waits for first tap/click/space
   });
 
   // ── Initial idle draw ────────────────────────

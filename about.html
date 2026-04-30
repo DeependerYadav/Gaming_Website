@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="About Mini Games Hub — 10 free browser-based classic games including Snake, Tetris, Flappy Bird and 2048. No download, no login required." />
+  <meta name="keywords" content="about mini games hub, free browser games, online mini games, snake tetris flappy bird 2048" />
+  <meta name="robots" content="index, follow" />
+  <title>About Us | Mini Games Hub</title>
+  <link rel="icon" type="image/png" href="assets/icons/icon-96x96.png" />
+  <link rel="canonical" href="https://minigameshub.online/about.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:#050510;color:#e0e0f0;font-family:'Poppins',sans-serif;min-height:100vh;line-height:1.75}
+    a{color:#00d4ff;text-decoration:none}
+    a:hover{text-decoration:underline}
+    .ph{background:rgba(13,13,30,.95);border-bottom:1px solid rgba(0,212,255,.15);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+    .ph .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700}
+    .ph .brand i{color:#00d4ff}
+    .ph nav a{color:#a0a0c0;margin-left:1.4rem;font-size:.9rem;font-weight:500;text-decoration:none;transition:color .2s}
+    .ph nav a:hover,.ph nav a.active{color:#00d4ff}
+    .hero{background:linear-gradient(135deg,#0d1b2a 0%,#050510 60%);text-align:center;padding:5rem 2rem 4rem;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(0,212,255,.08) 0%,transparent 70%);top:-100px;left:50%;transform:translateX(-50%);pointer-events:none}
+    .hero-icon{width:80px;height:80px;border-radius:50%;background:rgba(0,212,255,.1);border:2px solid rgba(0,212,255,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:2rem;color:#00d4ff}
+    .hero h1{font-family:'Orbitron',sans-serif;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:900;background:linear-gradient(135deg,#00d4ff,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:1rem}
+    .hero p{font-size:1rem;color:#a0a0c0;max-width:560px;margin:0 auto}
+    .content{max-width:860px;margin:0 auto;padding:3rem 2rem 5rem}
+    .card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:2.2rem;margin-bottom:1.8rem;transition:border-color .3s}
+    .card:hover{border-color:rgba(0,212,255,.2)}
+    .card h2{font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700;color:#00d4ff;margin-bottom:.9rem;display:flex;align-items:center;gap:.6rem}
+    .card p{color:#b0b0cc;margin-bottom:.8rem;font-size:.95rem}
+    .card p:last-child{margin-bottom:0}
+    .games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:.75rem;margin-top:1.1rem}
+    .g-item{background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.14);border-radius:10px;padding:.6rem 1rem;font-size:.85rem;color:#c0e8ff;display:flex;align-items:center;gap:.55rem;font-weight:500}
+    .g-item i{color:#00d4ff;font-size:.8rem}
+    .feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:1.1rem;margin-top:1.1rem}
+    .feat-item strong{color:#e0e0f0;font-size:.9rem;display:block;margin-bottom:.25rem}
+    .feat-item span{color:#8888aa;font-size:.83rem}
+    .cta{text-align:center;margin-top:2.5rem;padding:2.5rem;background:linear-gradient(135deg,rgba(0,212,255,.08),rgba(167,139,250,.08));border:1px solid rgba(0,212,255,.18);border-radius:20px}
+    .cta h2{font-family:'Orbitron',sans-serif;font-size:1.3rem;color:#fff;margin-bottom:.7rem}
+    .cta p{color:#a0a0c0;margin-bottom:1.4rem;font-size:.93rem}
+    .btn-cta{display:inline-flex;align-items:center;gap:.6rem;background:linear-gradient(135deg,#00d4ff,#0099cc);color:#000;font-weight:700;font-size:.93rem;padding:.75rem 1.8rem;border-radius:50px;text-decoration:none;transition:transform .2s,box-shadow .2s}
+    .btn-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,255,.4);text-decoration:none}
+    footer{text-align:center;padding:2rem;border-top:1px solid rgba(255,255,255,.07);color:#55556a;font-size:.82rem}
+    footer a{color:#00d4ff;margin:0 .45rem}
+  </style>
+</head>
+<body>
+  <header class="ph">
+    <a href="index.html" class="brand"><i class="fa-solid fa-gamepad"></i> Mini Games Hub</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="index.html#games-section">Games</a>
+      <a href="about.html" class="active">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-icon"><i class="fa-solid fa-circle-info"></i></div>
+    <h1>About Mini Games Hub</h1>
+    <p>A free collection of 10 classic browser games — no download, no login, no paywalls.</p>
+  </section>
+
+  <main class="content">
+
+    <div class="card">
+      <h2><i class="fa-solid fa-rocket"></i> What is Mini Games Hub?</h2>
+      <p>Mini Games Hub is a free, browser-based gaming platform built entirely with HTML, CSS, and JavaScript. We host 10 hand-crafted mini-games you can play instantly in your browser — on desktop or mobile — without signing up or installing anything.</p>
+      <p>The site loads fast, works offline after the first visit, and delivers a polished gaming experience without ads or bloat.</p>
+    </div>
+
+    <div class="card">
+      <h2><i class="fa-solid fa-gamepad"></i> Our 10 Games</h2>
+      <p>Every game is built from scratch with smooth animations, progressive difficulty, and local high-score saving.</p>
+      <div class="games-grid">
+        <div class="g-item"><i class="fa-solid fa-worm"></i> Snake</div>
+        <div class="g-item"><i class="fa-solid fa-clone"></i> Memory Match</div>
+        <div class="g-item"><i class="fa-solid fa-xmark"></i> Tic Tac Toe</div>
+        <div class="g-item"><i class="fa-solid fa-hashtag"></i> 2048</div>
+        <div class="g-item"><i class="fa-solid fa-bomb"></i> Minesweeper</div>
+        <div class="g-item"><i class="fa-solid fa-dove"></i> Flappy Bird</div>
+        <div class="g-item"><i class="fa-solid fa-square"></i> Tetris</div>
+        <div class="g-item"><i class="fa-solid fa-table-tennis-paddle-ball"></i> Ping Pong</div>
+        <div class="g-item"><i class="fa-solid fa-hammer"></i> Whack-a-Mole</div>
+        <div class="g-item"><i class="fa-solid fa-keyboard"></i> Typing Speed</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><i class="fa-solid fa-bolt"></i> Platform Features</h2>
+      <div class="feat-grid">
+        <div class="feat-item"><strong>Offline Play</strong><span>Works without internet after first load via Service Worker caching.</span></div>
+        <div class="feat-item"><strong>Zero Installation</strong><span>No app download, no account, no email — just open and play.</span></div>
+        <div class="feat-item"><strong>Score Saving</strong><span>Best scores saved locally in your browser using localStorage.</span></div>
+        <div class="feat-item"><strong>Mobile Friendly</strong><span>Fully responsive with touch controls for phones and tablets.</span></div>
+        <div class="feat-item"><strong>Dark Mode UI</strong><span>Premium dark theme with smooth animations throughout.</span></div>
+        <div class="feat-item"><strong>100% Free</strong><span>No paywalls, no premium tiers — every game is free, forever.</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><i class="fa-solid fa-star"></i> Why We Built This</h2>
+      <p>We wanted a fast, distraction-free gaming hub where anyone can enjoy classic games without popups, forced logins, or paywalls. Mini Games Hub is a passion project focused on clean design, genuine gameplay, and accessibility for all.</p>
+    </div>
+
+    <div class="card">
+      <h2><i class="fa-solid fa-shield-halved"></i> Privacy First</h2>
+      <p>We do not collect personal data, require sign-in, or track users. Your scores are stored only in your own browser. See our <a href="privacy-policy.html">Privacy Policy</a> for full details.</p>
+    </div>
+
+    <div class="cta">
+      <h2>Ready to Play?</h2>
+      <p>Jump into any of our 10 free games right now — no sign-up needed.</p>
+      <a href="index.html#games-section" class="btn-cta"><i class="fa-solid fa-play"></i> Browse All Games</a>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Mini Games Hub. All rights reserved. &nbsp;|&nbsp;
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms.html">Terms</a>
+    </p>
+  </footer>
+</body>
+</html>
