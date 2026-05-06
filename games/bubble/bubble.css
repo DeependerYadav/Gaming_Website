@@ -1,0 +1,26 @@
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050510;--surface:rgba(13,13,30,.95);
+  --cyan:#00d4ff;--purple:#a78bfa;--pink:#f72585;--green:#00f5a0;
+  --text:#e0e0f0;--muted:#6060a0;
+}
+body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min-height:100vh;overflow:hidden}
+.ph{background:var(--surface);border-bottom:1px solid rgba(0,212,255,.18);padding:0 1.5rem;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+.brand{display:flex;align-items:center;gap:8px;text-decoration:none;color:#fff;font-family:'Orbitron',sans-serif;font-size:.9rem;font-weight:700}
+.brand i{color:var(--cyan)}
+.back{color:var(--cyan);text-decoration:none;font-size:.85rem;display:flex;align-items:center;gap:.4rem;transition:opacity .2s}
+.back:hover{opacity:.75}
+.stats-bar{display:flex;justify-content:center;gap:2.5rem;padding:.6rem 0;background:rgba(5,5,20,.8);border-bottom:1px solid rgba(0,212,255,.08)}
+.stat{text-align:center}
+.sv{font-family:'Orbitron',sans-serif;font-size:1.1rem;color:var(--cyan)}
+.sl{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+#canvas{display:block;margin:0 auto;cursor:crosshair;touch-action:none}
+.overlay{position:fixed;inset:0;background:rgba(5,5,16,.88);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:200;opacity:0;pointer-events:none;transition:opacity .3s}
+.overlay.show{opacity:1;pointer-events:all}
+.ov-card{background:rgba(13,13,40,.95);border:1px solid rgba(0,212,255,.3);border-radius:20px;padding:2.5rem;text-align:center;max-width:340px;transform:scale(.95);transition:transform .3s}
+.overlay.show .ov-card{transform:scale(1)}
+.ov-card h2{font-family:'Orbitron',sans-serif;font-size:1.5rem;margin-bottom:.6rem}
+.ov-card .score-big{font-family:'Orbitron',sans-serif;font-size:2rem;color:var(--cyan);margin:.5rem 0 1rem}
+.ov-card p{color:var(--muted);margin-bottom:1.4rem;font-size:.9rem}
+.btn{padding:.55rem 1.4rem;border-radius:50px;background:linear-gradient(135deg,var(--cyan),var(--purple));color:#000;font-weight:700;font-size:.85rem;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;transition:all .25s;font-family:'Poppins',sans-serif}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,212,255,.3)}

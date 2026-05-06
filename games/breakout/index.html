@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Play Breakout free online — neon bricks, glowing ball, 3 lives, progressive levels. No download needed!"/>
+  <title>Breakout | Mini Games Hub</title>
+  <link rel="icon" type="image/png" href="../../assets/icons/icon-96x96.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <link rel="stylesheet" href="breakout.css"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7739890929299549" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="ph">
+  <a href="../../index.html" class="brand"><i class="fa-solid fa-gamepad"></i> Mini Games Hub</a>
+  <a href="../../index.html" class="back"><i class="fa-solid fa-arrow-left"></i> Back</a>
+</header>
+
+<div class="stats-bar">
+  <div class="stat"><div class="sv" id="sv">0</div><div class="sl">Score</div></div>
+  <div class="stat"><div class="sv" id="bv">0</div><div class="sl">Best</div></div>
+  <div class="stat"><div class="sv" id="lv">1</div><div class="sl">Level</div></div>
+  <div class="stat"><div class="sv" id="lf">❤️❤️❤️</div><div class="sl">Lives</div></div>
+</div>
+
+<canvas id="canvas"></canvas>
+<p class="hint"><i class="fa-solid fa-mouse"></i> Mouse / Touch to move &nbsp;·&nbsp; Click / Space to launch</p>
+
+<div class="level-announce" id="lvl-announce"></div>
+
+<div class="overlay" id="ov">
+  <div class="ov-card">
+    <h2 id="ov-title" style="color:#00d4ff">Breakout!</h2>
+    <div class="score-big" id="ov-score">0</div>
+    <p id="ov-best"></p>
+    <button class="btn" onclick="initGame()">
+      <i class="fa-solid fa-rotate"></i> Play Again
+    </button>
+  </div>
+</div>
+
+<script src="breakout.js"></script>
+</body>
+</html>

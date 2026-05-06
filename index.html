@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Mini Games Hub – Play 10 free browser games: Snake, Tetris, 2048, Minesweeper, Flappy Bird, Memory Match, Tic Tac Toe, Ping Pong, Whack-a-Mole &amp; Typing Speed Test. No sign-up required!" />
-  <meta name="keywords" content="free browser games, mini games online, snake game, tetris online, flappy bird, 2048 game, minesweeper, memory match, tic tac toe, ping pong, whack a mole, typing speed test, offline games, no download games" />
+  <meta name="description" content="Mini Games Hub – Play 15 free browser mini games: Snake, Tetris, Sudoku, Breakout, Bubble Shooter, Word Search, Block Puzzle and more. No sign-up required!" />
+  <meta name="keywords" content="free browser games, mini games online, snake game, tetris online, sudoku, breakout, bubble shooter, word search, block puzzle, 2048, minesweeper, flappy bird, no download games" />
   <meta name="robots" content="index, follow" />
-  <meta property="og:title" content="Mini Games Hub — Play 10 Free Browser Games" />
-  <meta property="og:description" content="Play 10 free browser games instantly — Snake, Tetris, Flappy Bird, 2048 and more. No download, no login!" />
+  <meta property="og:title" content="Mini Games Hub — Free Browser Mini Games" />
+  <meta property="og:description" content="Play 15 free browser mini games instantly — Snake, Tetris, Sudoku, Breakout, Bubble Shooter and more. No download, no login!" />
   <meta property="og:url" content="https://minigameshub.online/" />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#00d4ff" />
-  <title>Mini Games Hub — Play 10 Free Browser Games Online</title>
+  <title>Mini Games Hub — Play Free Browser Mini Games Online</title>
   <link rel="canonical" href="https://minigameshub.online/" />
 
   <link rel="manifest" href="manifest.json" />
@@ -105,15 +105,15 @@
 
         <div class="hero-content">
           <div class="hero-badge">
-            <i class="fa-solid fa-wifi"></i>
-            Games Work Offline
+            <i class="fa-solid fa-gamepad"></i>
+            Free Mini Games
           </div>
           <h1 class="hero-title">
             Play. Compete.<br>
             <span class="gradient-text">Conquer.</span>
           </h1>
           <p class="hero-subtitle">
-            10 free browser games crafted for speed and fun — playable offline after your first visit.
+            15 free browser mini games crafted for speed and fun — no download, no sign-up required!
           </p>
           <div class="hero-actions">
             <a href="#games-section" class="btn btn-primary" id="btn-play-now">
@@ -127,8 +127,8 @@
           </div>
           <div class="hero-stats">
             <div class="stat-item">
-              <span class="stat-number">10</span>
-              <span class="stat-label">Games</span>
+              <span class="stat-number">15</span>
+              <span class="stat-label">Mini Games</span>
             </div>
             <div class="stat-divider"></div>
             <div class="stat-item">
@@ -207,7 +207,7 @@
         <div class="container">
           <div class="section-header">
             <h2 class="section-title">Choose Your Game</h2>
-            <p class="section-subtitle">All 10 games work offline after the first visit</p>
+            <p class="section-subtitle">15 free mini games — instant play, no download needed</p>
           </div>
 
           <div class="games-grid" id="games-grid">
@@ -703,6 +703,197 @@
               <div class="card-shine"></div>
             </article>
 
+
+            <!-- 11. SUDOKU -->
+            <article class="game-card" data-game="sudoku" data-tags="sudoku puzzle numbers logic brain grid" id="card-sudoku">
+              <div class="card-glow glow-cyan"></div>
+              <figure class="card-thumb" style="--thumb-overlay: rgba(0,212,255,0.2); --thumb-bg: url('assets/banners/sudoku.png');">
+                <img src="assets/banners/sudoku.png" alt="Sudoku game thumbnail" loading="lazy" width="600" height="300"/>
+              </figure>
+              <div class="card-inner">
+                <div class="card-header">
+                  <div class="game-icon-wrap" style="--icon-color:#00d4ff; --icon-bg:rgba(0,212,255,0.12); --icon-border:rgba(0,212,255,0.28); --icon-glow:rgba(0,212,255,0.25);">
+                    <i class="fa-solid fa-table-cells"></i>
+                  </div>
+                  <div class="card-badges">
+                    <span class="badge badge-brain">Puzzle</span>
+                    <span class="badge badge-brain">Logic</span>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h3 class="game-title">Sudoku</h3>
+                  <p class="game-desc">Fill every row, column and 3×3 box with digits 1–9. Three difficulty levels!</p>
+                  <div class="game-meta">
+                    <span class="meta-item" style="--icon-color:#00d4ff;"><i class="fa-solid fa-computer-mouse"></i> Click / Tap</span>
+                    <span class="meta-item" style="--icon-color:#00d4ff;"><i class="fa-solid fa-user"></i> 1 Player</span>
+                  </div>
+                  <div class="game-score-preview" style="--icon-color:#00d4ff;">
+                    <span class="score-label">Best Time:</span>
+                    <span class="score-value" id="sudoku-best">--:--</span>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <a href="games/sudoku/index.html" class="btn-play" id="play-sudoku" style="background:linear-gradient(135deg,#00d4ff,#0099cc)">
+                    <span>Play Sudoku</span>
+                    <span class="btn-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                  </a>
+                </div>
+              </div>
+              <div class="card-shine"></div>
+            </article>
+
+            <!-- 12. BLOCK PUZZLE -->
+            <article class="game-card" data-game="blockpuzzle" data-tags="block puzzle tetris drag drop grid strategy" id="card-blockpuzzle">
+              <div class="card-glow glow-purple"></div>
+              <figure class="card-thumb" style="--thumb-overlay: rgba(167,139,250,0.2); --thumb-bg: url('assets/banners/blockpuzzle.png');">
+                <img src="assets/banners/blockpuzzle.png" alt="Block Puzzle game thumbnail" loading="lazy" width="600" height="300"/>
+              </figure>
+              <div class="card-inner">
+                <div class="card-header">
+                  <div class="game-icon-wrap" style="--icon-color:#a78bfa; --icon-bg:rgba(167,139,250,0.12); --icon-border:rgba(167,139,250,0.28); --icon-glow:rgba(167,139,250,0.25);">
+                    <i class="fa-solid fa-cube"></i>
+                  </div>
+                  <div class="card-badges">
+                    <span class="badge badge-puzzle">Puzzle</span>
+                    <span class="badge badge-strategy">Strategy</span>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h3 class="game-title">Block Puzzle</h3>
+                  <p class="game-desc">Drag neon blocks onto the grid, fill rows and columns to clear them!</p>
+                  <div class="game-meta">
+                    <span class="meta-item" style="--icon-color:#a78bfa;"><i class="fa-solid fa-hand-pointer"></i> Drag & Drop</span>
+                    <span class="meta-item" style="--icon-color:#a78bfa;"><i class="fa-solid fa-user"></i> 1 Player</span>
+                  </div>
+                  <div class="game-score-preview" style="--icon-color:#a78bfa;">
+                    <span class="score-label">Best Score:</span>
+                    <span class="score-value" id="blockpuzzle-best">0</span>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <a href="games/blockpuzzle/index.html" class="btn-play" id="play-blockpuzzle" style="background:linear-gradient(135deg,#a78bfa,#6d28d9)">
+                    <span>Play Block Puzzle</span>
+                    <span class="btn-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                  </a>
+                </div>
+              </div>
+              <div class="card-shine"></div>
+            </article>
+
+            <!-- 13. BUBBLE SHOOTER -->
+            <article class="game-card" data-game="bubble" data-tags="bubble shooter arcade pop color match" id="card-bubble">
+              <div class="card-glow glow-pink"></div>
+              <figure class="card-thumb" style="--thumb-overlay: rgba(247,37,133,0.2); --thumb-bg: url('assets/banners/bubble.png');">
+                <img src="assets/banners/bubble.png" alt="Bubble Shooter game thumbnail" loading="lazy" width="600" height="300"/>
+              </figure>
+              <div class="card-inner">
+                <div class="card-header">
+                  <div class="game-icon-wrap" style="--icon-color:#f72585; --icon-bg:rgba(247,37,133,0.12); --icon-border:rgba(247,37,133,0.28); --icon-glow:rgba(247,37,133,0.25);">
+                    <i class="fa-solid fa-circle"></i>
+                  </div>
+                  <div class="card-badges">
+                    <span class="badge badge-arcade">Arcade</span>
+                    <span class="badge badge-action">Shooter</span>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h3 class="game-title">Bubble Shooter</h3>
+                  <p class="game-desc">Aim and shoot colorful bubbles — match 3 or more to pop them!</p>
+                  <div class="game-meta">
+                    <span class="meta-item" style="--icon-color:#f72585;"><i class="fa-solid fa-computer-mouse"></i> Click / Tap</span>
+                    <span class="meta-item" style="--icon-color:#f72585;"><i class="fa-solid fa-user"></i> 1 Player</span>
+                  </div>
+                  <div class="game-score-preview" style="--icon-color:#f72585;">
+                    <span class="score-label">Best Score:</span>
+                    <span class="score-value" id="bubble-best">0</span>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <a href="games/bubble/index.html" class="btn-play" id="play-bubble" style="background:linear-gradient(135deg,#f72585,#b5179e)">
+                    <span>Play Bubble Shooter</span>
+                    <span class="btn-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                  </a>
+                </div>
+              </div>
+              <div class="card-shine"></div>
+            </article>
+
+            <!-- 14. WORD SEARCH -->
+            <article class="game-card" data-game="wordsearch" data-tags="word search letters find hidden puzzle brain" id="card-wordsearch">
+              <div class="card-glow glow-lime"></div>
+              <figure class="card-thumb" style="--thumb-overlay: rgba(0,245,160,0.15); --thumb-bg: url('assets/banners/wordsearch.png');">
+                <img src="assets/banners/wordsearch.png" alt="Word Search game thumbnail" loading="lazy" width="600" height="300"/>
+              </figure>
+              <div class="card-inner">
+                <div class="card-header">
+                  <div class="game-icon-wrap" style="--icon-color:#00f5a0; --icon-bg:rgba(0,245,160,0.1); --icon-border:rgba(0,245,160,0.28); --icon-glow:rgba(0,245,160,0.2);">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                  </div>
+                  <div class="card-badges">
+                    <span class="badge badge-brain">Word</span>
+                    <span class="badge badge-brain">Brain</span>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h3 class="game-title">Word Search</h3>
+                  <p class="game-desc">Find all the hidden words in the neon letter grid before time runs out!</p>
+                  <div class="game-meta">
+                    <span class="meta-item" style="--icon-color:#00f5a0;"><i class="fa-solid fa-hand-pointer"></i> Click & Drag</span>
+                    <span class="meta-item" style="--icon-color:#00f5a0;"><i class="fa-solid fa-user"></i> 1 Player</span>
+                  </div>
+                  <div class="game-score-preview" style="--icon-color:#00f5a0;">
+                    <span class="score-label">Best Time:</span>
+                    <span class="score-value" id="wordsearch-best">--:--</span>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <a href="games/wordsearch/index.html" class="btn-play" id="play-wordsearch" style="background:linear-gradient(135deg,#00f5a0,#00bfa5)">
+                    <span>Play Word Search</span>
+                    <span class="btn-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                  </a>
+                </div>
+              </div>
+              <div class="card-shine"></div>
+            </article>
+
+            <!-- 15. BREAKOUT -->
+            <article class="game-card" data-game="breakout" data-tags="breakout arcade ball paddle bricks neon" id="card-breakout">
+              <div class="card-glow glow-yellow"></div>
+              <figure class="card-thumb" style="--thumb-overlay: rgba(247,201,72,0.2); --thumb-bg: url('assets/banners/breakout.png');">
+                <img src="assets/banners/breakout.png" alt="Breakout game thumbnail" loading="lazy" width="600" height="300"/>
+              </figure>
+              <div class="card-inner">
+                <div class="card-header">
+                  <div class="game-icon-wrap" style="--icon-color:#f7c948; --icon-bg:rgba(247,201,72,0.12); --icon-border:rgba(247,201,72,0.28); --icon-glow:rgba(247,201,72,0.25);">
+                    <i class="fa-solid fa-table-tennis-paddle-ball"></i>
+                  </div>
+                  <div class="card-badges">
+                    <span class="badge badge-arcade">Arcade</span>
+                    <span class="badge badge-action">Action</span>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h3 class="game-title">Breakout</h3>
+                  <p class="game-desc">Smash neon bricks with a glowing ball — clear all levels with your paddle!</p>
+                  <div class="game-meta">
+                    <span class="meta-item" style="--icon-color:#f7c948;"><i class="fa-solid fa-computer-mouse"></i> Mouse / Touch</span>
+                    <span class="meta-item" style="--icon-color:#f7c948;"><i class="fa-solid fa-user"></i> 1 Player</span>
+                  </div>
+                  <div class="game-score-preview" style="--icon-color:#f7c948;">
+                    <span class="score-label">Best Score:</span>
+                    <span class="score-value" id="breakout-best">0</span>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <a href="games/breakout/index.html" class="btn-play" id="play-breakout" style="background:linear-gradient(135deg,#f7c948,#f59e0b)">
+                    <span>Play Breakout</span>
+                    <span class="btn-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                  </a>
+                </div>
+              </div>
+              <div class="card-shine"></div>
+            </article>
+
           </div><!-- /games-grid -->
 
           <div class="no-results" id="no-results" style="display:none;">
@@ -722,10 +913,10 @@
           <div class="features-grid">
             <div class="feature-card">
               <div class="feature-icon-wrap icon-blue animate-float">
-                <i class="fa-solid fa-wifi"></i>
+                <i class="fa-solid fa-bolt"></i>
               </div>
-              <h3>Works Offline</h3>
-              <p>Play all 10 games without internet after the first visit. Perfect for travel and commutes.</p>
+              <h3>Instant Play</h3>
+              <p>All 15 mini games load instantly in your browser — no download, no install, no waiting.</p>
             </div>
             <div class="feature-card">
               <div class="feature-icon-wrap icon-purple animate-float">
@@ -778,11 +969,7 @@
 
     </main>
 
-    <!-- Offline indicator -->
-    <div class="offline-indicator" id="offline-indicator">
-      <i class="fa-solid fa-wifi-slash"></i>
-      <span>You're offline — games still work!</span>
-    </div>
+
   </div><!-- /app -->
 
   <!-- Scripts (all local — no unknown external sources) -->

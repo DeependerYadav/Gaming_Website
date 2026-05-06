@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Play Sudoku online free — neon dark theme, 3 difficulty levels, auto-validation. No download needed!"/>
+  <title>Sudoku | Mini Games Hub</title>
+  <link rel="icon" type="image/png" href="../../assets/icons/icon-96x96.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <link rel="stylesheet" href="sudoku.css"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7739890929299549" crossorigin="anonymous"></script>
+</head>
+<body>
+  <header class="ph">
+    <a href="../../index.html" class="brand"><i class="fa-solid fa-gamepad"></i> Mini Games Hub</a>
+    <a href="../../index.html" class="back"><i class="fa-solid fa-arrow-left"></i> Back</a>
+  </header>
+
+  <div class="wrapper">
+    <h1>Sudoku</h1>
+    <p class="subtitle">Fill every row, column, and 3×3 box with digits 1–9</p>
+
+    <div class="controls">
+      <button class="btn active" id="diff-easy" onclick="setDiff('easy',this)">Easy</button>
+      <button class="btn" id="diff-medium" onclick="setDiff('medium',this)">Medium</button>
+      <button class="btn" id="diff-hard" onclick="setDiff('hard',this)">Hard</button>
+      <button class="btn btn-new" id="new-game-btn" onclick="newGame()"><i class="fa-solid fa-rotate"></i> New Game</button>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat"><div class="stat-val" id="timer-val">00:00</div><div class="stat-lbl">Time</div></div>
+      <div class="stat"><div class="stat-val" id="errors-val">0</div><div class="stat-lbl">Errors</div></div>
+      <div class="stat"><div class="stat-val" id="best-val">--</div><div class="stat-lbl">Best</div></div>
+    </div>
+
+    <div class="game-area">
+      <div class="board-wrap">
+        <div id="board"></div>
+      </div>
+
+      <div class="actions">
+        <button class="act-btn" id="pencil-btn" onclick="togglePencil()"><i class="fa-solid fa-pencil"></i> Pencil</button>
+        <button class="act-btn" onclick="undo()"><i class="fa-solid fa-rotate-left"></i> Undo</button>
+        <button class="act-btn" onclick="getHint()"><i class="fa-solid fa-lightbulb"></i> Hint</button>
+        <button class="act-btn" onclick="solve()"><i class="fa-solid fa-wand-magic-sparkles"></i> Solve</button>
+      </div>
+
+      <div class="numpad" id="numpad"></div>
+    </div>
+  </div>
+
+  <div class="win-overlay" id="win-overlay">
+    <div class="win-card">
+      <h2>🎉 Solved!</h2>
+      <p id="win-msg">You completed the puzzle!</p>
+      <button class="btn btn-new" onclick="newGame(); document.getElementById('win-overlay').classList.remove('show')">
+        <i class="fa-solid fa-rotate"></i> Play Again
+      </button>
+    </div>
+  </div>
+
+  <script src="sudoku.js"></script>
+</body>
+</html>

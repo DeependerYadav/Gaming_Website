@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Play Word Search free online — find hidden words in a neon letter grid. 4 themes, drag to select. No download!"/>
+  <title>Word Search | Mini Games Hub</title>
+  <link rel="icon" type="image/png" href="../../assets/icons/icon-96x96.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="wordsearch.css"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7739890929299549" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="ph">
+  <a href="../../index.html" class="brand"><i class="fa-solid fa-gamepad"></i> Mini Games Hub</a>
+  <a href="../../index.html" class="back"><i class="fa-solid fa-arrow-left"></i> Back</a>
+</header>
+<div class="wrapper">
+  <h1>Word Search</h1>
+  <p class="sub">Find all hidden words — click and drag to select!</p>
+  <div class="top-row">
+    <div class="timer" id="timer">00:00</div>
+    <div class="found-c" id="found-c">0 / 0 found</div>
+    <button class="btn" onclick="newGame()"><i class="fa-solid fa-rotate"></i> New Game</button>
+  </div>
+  <div class="main-area">
+    <div id="ws-grid"></div>
+    <div class="word-list"><h3>Find These</h3><div id="word-list-items"></div></div>
+  </div>
+</div>
+
+<div class="overlay" id="ov">
+  <div class="ov-card">
+    <h2>🎉 All Found!</h2>
+    <p id="ov-msg"></p>
+    <button class="btn" onclick="newGame();document.getElementById('ov').classList.remove('show')">
+      <i class="fa-solid fa-rotate"></i> New Game
+    </button>
+  </div>
+</div>
+
+<script src="wordsearch.js"></script>
+</body>
+</html>
