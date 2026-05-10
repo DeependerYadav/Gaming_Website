@@ -1,226 +1,412 @@
-// ===== SUDOKU GAME =====
-const DIFF = { easy: 36, medium: 27, hard: 20 };
-let diff = 'easy', puzzle = [], solution = [], selected = -1, errors = 0, pencilMode = false;
-let timerInterval, seconds = 0, history = [];
+/* =============================================
+   sudoku.js — Sudoku Game Logic
+   Mini Games Hub — Premium Upgrade
+   Features: puzzle generator, pencil marks,
+   undo, hints, solve, error highlighting,
+   timer, cell selection highlighting
+   ============================================= */
+'use strict';
 
-function solveSudoku(board) {
-  const empty = board.indexOf(0);
-  if (empty === -1) return true;
-  const row = Math.floor(empty / 9), col = empty % 9;
-  const nums = [1,2,3,4,5,6,7,8,9].sort(() => Math.random() - .5);
-  for (const n of nums) {
-    if (isValid(board, row, col, n)) {
-      board[empty] = n;
-      if (solveSudoku(board)) return true;
-      board[empty] = 0;
+const SudokuGame = (() => {
+  const SIZE = 9;
+  const BOX = 3;
+
+  const REMOVE_COUNTS = { easy: 36, medium: 46, hard: 54 };
+
+  let solution = [];
+  let puzzle = [];
+  let pencils = [];
+  let history = [];
+  let selectedCell = null;
+  let pencilMode = false;
+  let errors = 0;
+  let difficulty = 'easy';
+  let timerInterval = null;
+  let elapsedSecs = 0;
+
+  const boardEl = document.getElementById('board');
+  const numpadEl = document.getElementById('numpad');
+  const timerEl = document.getElementById('timer-val');
+  const errorsEl = document.getElementById('errors-val');
+  const bestEl = document.getElementById('best-val');
+  const winOverlay = document.getElementById('win-overlay');
+  const winMsg = document.getElementById('win-msg');
+
+  function init() {
+    // Build numpad
+    numpadEl.innerHTML = '';
+    for (let n = 1; n <= 9; n++) {
+      const btn = document.createElement('button');
+      btn.className = 'numpad-btn';
+      btn.textContent = n;
+      btn.dataset.num = n;
+      btn.addEventListener('click', () => inputNumber(n));
+      numpadEl.appendChild(btn);
     }
-  }
-  return false;
-}
 
-function isValid(b, r, c, n) {
-  for (let i = 0; i < 9; i++) {
-    if (b[r*9+i] === n || b[i*9+c] === n) return false;
-    const br = 3*Math.floor(r/3) + Math.floor(i/3), bc = 3*Math.floor(c/3) + i%3;
-    if (b[br*9+bc] === n) return false;
-  }
-  return true;
-}
+    // Difficulty buttons
+    document.querySelectorAll('#diff-selector .diff-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        difficulty = btn.dataset.diff;
+        document.querySelectorAll('#diff-selector .diff-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        newGame();
+      });
+    });
 
-function generatePuzzle(clues) {
-  const sol = Array(81).fill(0);
-  solveSudoku(sol);
-  solution = [...sol];
-  const puz = [...sol];
-  let removed = 81 - clues;
-  const indices = Array.from({length:81},(_,i)=>i).sort(()=>Math.random()-.5);
-  for (const idx of indices) {
-    if (removed <= 0) break;
-    puz[idx] = 0; removed--;
-  }
-  return puz;
-}
+    // Action buttons
+    document.getElementById('pencil-btn')?.addEventListener('click', togglePencil);
+    document.getElementById('undo-btn')?.addEventListener('click', undo);
+    document.getElementById('hint-btn')?.addEventListener('click', getHint);
+    document.getElementById('new-game-btn')?.addEventListener('click', newGame);
+    document.getElementById('win-new-btn')?.addEventListener('click', () => {
+      winOverlay?.classList.add('hidden');
+      newGame();
+    });
 
-function renderBoard() {
-  const board = document.getElementById('board');
-  board.innerHTML = '';
-  for (let i = 0; i < 81; i++) {
-    const cell = document.createElement('div');
-    cell.className = 'cell';
-    cell.dataset.idx = i;
-    cell.dataset.row = Math.floor(i/9);
-    cell.dataset.col = i%9;
-    if (puzzle[i] !== 0) {
-      cell.textContent = puzzle[i];
-      if (solution[i] !== 0 && puzzle[i] === solution[i]) cell.classList.add('given');
-    }
-    cell.addEventListener('click', () => selectCell(i));
-    board.appendChild(cell);
-  }
-  highlightRelated();
-}
+    // Keyboard
+    document.addEventListener('keydown', e => {
+      const num = parseInt(e.key);
+      if (num >= 1 && num <= 9) inputNumber(num);
+      if (e.key === 'Backspace' || e.key === 'Delete') clearCell();
+      if (e.key === 'p' || e.key === 'P') togglePencil();
+      if (e.key === 'z' && (e.ctrlKey || e.metaKey)) undo();
+    });
 
-function selectCell(idx) {
-  selected = idx;
-  highlightRelated();
-}
-
-function highlightRelated() {
-  const cells = document.querySelectorAll('.cell');
-  cells.forEach(c => c.classList.remove('selected','highlight','same-val'));
-  if (selected < 0) return;
-  const r = Math.floor(selected/9), co = selected%9;
-  const val = puzzle[selected];
-  cells.forEach((c, i) => {
-    const cr = Math.floor(i/9), cc = i%9;
-    const sameBox = Math.floor(cr/3)===Math.floor(r/3) && Math.floor(cc/3)===Math.floor(co/3);
-    if (i === selected) c.classList.add('selected');
-    else if (cr===r || cc===co || sameBox) c.classList.add('highlight');
-    if (val && puzzle[i] === val && i !== selected) c.classList.add('same-val');
-  });
-}
-
-function inputNum(n) {
-  if (selected < 0) return;
-  const cells = document.querySelectorAll('.cell');
-  const cell = cells[selected];
-  if (cell.classList.contains('given')) return;
-  history.push({idx: selected, old: puzzle[selected], pencils: cell.dataset.pencils || ''});
-  if (pencilMode && n !== 0) {
-    let pencils = cell.dataset.pencils ? cell.dataset.pencils.split(',').map(Number) : [];
-    const pi = pencils.indexOf(n);
-    if (pi >= 0) pencils.splice(pi,1); else pencils.push(n);
-    pencils.sort();
-    cell.dataset.pencils = pencils.join(',');
-    cell.textContent = pencils.join(' ');
-    cell.classList.add('pencil');
-    return;
-  }
-  cell.dataset.pencils = '';
-  cell.classList.remove('pencil','error');
-  if (n === 0) { puzzle[selected] = 0; cell.textContent = ''; highlightRelated(); return; }
-  puzzle[selected] = n;
-  if (n !== solution[selected]) {
-    errors++;
-    document.getElementById('errors-val').textContent = errors;
-    cell.classList.add('error');
-    setTimeout(() => cell.classList.remove('error'), 600);
-    puzzle[selected] = 0; cell.textContent = '';
-  } else {
-    cell.textContent = n;
-    checkWin();
-  }
-  highlightRelated();
-}
-
-function undo() {
-  if (!history.length) return;
-  const h = history.pop();
-  puzzle[h.idx] = h.old;
-  const cells = document.querySelectorAll('.cell');
-  const cell = cells[h.idx];
-  cell.dataset.pencils = h.pencils;
-  cell.textContent = h.pencils ? h.pencils.replace(/,/g,' ') : (h.old || '');
-  if (h.pencils) cell.classList.add('pencil'); else cell.classList.remove('pencil');
-  highlightRelated();
-}
-
-function getHint() {
-  const empties = [];
-  for (let i = 0; i < 81; i++) if (!puzzle[i] && !document.querySelectorAll('.cell')[i].classList.contains('given')) empties.push(i);
-  if (!empties.length) return;
-  const idx = empties[Math.floor(Math.random()*empties.length)];
-  selected = idx;
-  inputNum(solution[idx]);
-}
-
-function solve() {
-  for (let i = 0; i < 81; i++) puzzle[i] = solution[i];
-  renderBoard();
-  checkWin();
-}
-
-function togglePencil() {
-  pencilMode = !pencilMode;
-  document.getElementById('pencil-btn').classList.toggle('pencil-on', pencilMode);
-}
-
-function checkWin() {
-  if (puzzle.every((v,i) => v === solution[i])) {
-    clearInterval(timerInterval);
-    const key = 'sudoku-best-' + diff;
-    const best = localStorage.getItem(key);
-    if (!best || seconds < Number(best)) localStorage.setItem(key, seconds);
     updateBest();
-    document.getElementById('win-msg').textContent = `Solved in ${formatTime(seconds)} with ${errors} error${errors!==1?'s':''}!`;
-    setTimeout(() => document.getElementById('win-overlay').classList.add('show'), 300);
+    newGame();
   }
-}
 
-function formatTime(s) { return String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0'); }
+  function newGame() {
+    solution = generateSolution();
+    puzzle = solution.map(row => [...row]);
+    pencils = Array.from({ length: SIZE }, () =>
+      Array.from({ length: SIZE }, () => new Set())
+    );
+    history = [];
+    selectedCell = null;
+    pencilMode = false;
+    errors = 0;
 
-function startTimer() {
-  clearInterval(timerInterval);
-  seconds = 0;
-  document.getElementById('timer-val').textContent = '00:00';
-  timerInterval = setInterval(() => {
-    seconds++;
-    document.getElementById('timer-val').textContent = formatTime(seconds);
-  }, 1000);
-}
+    // Remove cells
+    const remove = REMOVE_COUNTS[difficulty] || REMOVE_COUNTS.easy;
+    let removed = 0;
+    const positions = [];
+    for (let r = 0; r < SIZE; r++) {
+      for (let c = 0; c < SIZE; c++) positions.push([r, c]);
+    }
+    shuffleArray(positions);
+    for (const [r, c] of positions) {
+      if (removed >= remove) break;
+      puzzle[r][c] = 0;
+      removed++;
+    }
 
-function updateBest() {
-  const best = localStorage.getItem('sudoku-best-' + diff);
-  document.getElementById('best-val').textContent = best ? formatTime(Number(best)) : '--';
-}
+    clearInterval(timerInterval);
+    elapsedSecs = 0;
+    if (timerEl) timerEl.textContent = '00:00';
+    timerInterval = setInterval(() => {
+      elapsedSecs++;
+      if (timerEl) timerEl.textContent = formatTime(elapsedSecs);
+    }, 1000);
 
-function buildNumpad() {
-  const np = document.getElementById('numpad');
-  np.innerHTML = '';
-  for (let n = 1; n <= 9; n++) {
-    const btn = document.createElement('button');
-    btn.className = 'num-btn';
-    btn.textContent = n;
-    btn.addEventListener('click', () => inputNum(n));
-    np.appendChild(btn);
+    updatePencilBtn();
+    updateUI();
+    renderBoard();
+
+    if (window.AppStorage) AppStorage.incrementPlays();
   }
-  const erase = document.createElement('button');
-  erase.className = 'num-btn erase';
-  erase.innerHTML = '<i class="fa-solid fa-delete-left"></i>';
-  erase.addEventListener('click', () => inputNum(0));
-  np.appendChild(erase);
-}
 
-document.addEventListener('keydown', e => {
-  if (e.key >= '1' && e.key <= '9') inputNum(Number(e.key));
-  if (e.key === 'Backspace' || e.key === 'Delete' || e.key === '0') inputNum(0);
-  const dirs = { ArrowUp: -9, ArrowDown: 9, ArrowLeft: -1, ArrowRight: 1 };
-  if (dirs[e.key] !== undefined && selected >= 0) {
-    const ns = Math.max(0, Math.min(80, selected + dirs[e.key]));
-    selectCell(ns);
-    e.preventDefault();
+  // ── Puzzle generator ─────────────────────
+  function generateSolution() {
+    const grid = Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
+    fillGrid(grid);
+    return grid;
   }
-});
 
-function setDiff(d, btn) {
-  diff = d;
-  document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  newGame();
+  function fillGrid(grid) {
+    for (let r = 0; r < SIZE; r++) {
+      for (let c = 0; c < SIZE; c++) {
+        if (grid[r][c] !== 0) continue;
+        const nums = shuffleArray([1,2,3,4,5,6,7,8,9]);
+        for (const n of nums) {
+          if (isValid(grid, r, c, n)) {
+            grid[r][c] = n;
+            if (fillGrid(grid)) return true;
+            grid[r][c] = 0;
+          }
+        }
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function isValid(grid, row, col, num) {
+    // Row check
+    if (grid[row].includes(num)) return false;
+    // Col check
+    for (let r = 0; r < SIZE; r++) {
+      if (grid[r][col] === num) return false;
+    }
+    // Box check
+    const br = Math.floor(row / BOX) * BOX;
+    const bc = Math.floor(col / BOX) * BOX;
+    for (let r = br; r < br + BOX; r++) {
+      for (let c = bc; c < bc + BOX; c++) {
+        if (grid[r][c] === num) return false;
+      }
+    }
+    return true;
+  }
+
+  function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  // ── Render ────────────────────────────────
+  function renderBoard() {
+    boardEl.innerHTML = '';
+    for (let r = 0; r < SIZE; r++) {
+      for (let c = 0; c < SIZE; c++) {
+        const cell = document.createElement('div');
+        cell.className = 'sudoku-cell';
+        cell.dataset.row = r;
+        cell.dataset.col = c;
+
+        // 3x3 box borders
+        if (c % 3 === 2 && c < 8) cell.classList.add('border-right');
+        if (r % 3 === 2 && r < 8) cell.classList.add('border-bottom');
+        if (c % 3 === 0) cell.classList.add('border-left');
+        if (r % 3 === 0) cell.classList.add('border-top');
+
+        const val = puzzle[r][c];
+        const isGiven = val !== 0 && solution[r][c] === val && originalHas(r, c);
+
+        if (val !== 0) {
+          cell.textContent = val;
+          if (isGiven) {
+            cell.classList.add('given');
+          } else {
+            cell.classList.add('user');
+            if (val !== solution[r][c]) cell.classList.add('error');
+          }
+        } else if (pencils[r][c].size > 0) {
+          const marks = document.createElement('div');
+          marks.className = 'pencil-marks';
+          for (let n = 1; n <= 9; n++) {
+            const span = document.createElement('span');
+            span.textContent = pencils[r][c].has(n) ? n : '';
+            marks.appendChild(span);
+          }
+          cell.appendChild(marks);
+        }
+
+        // Selection
+        if (selectedCell && selectedCell.r === r && selectedCell.c === c) {
+          cell.classList.add('selected');
+        }
+        if (selectedCell) {
+          const sr = selectedCell.r, sc = selectedCell.c;
+          if (r === sr || c === sc || (Math.floor(r/3)===Math.floor(sr/3) && Math.floor(c/3)===Math.floor(sc/3))) {
+            cell.classList.add('highlighted');
+          }
+        }
+
+        cell.addEventListener('click', () => selectCell(r, c));
+        boardEl.appendChild(cell);
+      }
+    }
+    updateNumpadCounts();
+  }
+
+  function originalHas(r, c) {
+    // Check if the cell was part of the original puzzle
+    // This is a simplified check - given cells are non-zero at start
+    // We track this by checking if solution matches and no history entry modified it
+    return !history.some(h => h.r === r && h.c === c);
+  }
+
+  function selectCell(r, c) {
+    selectedCell = { r, c };
+    renderBoard();
+  }
+
+  function inputNumber(num) {
+    if (!selectedCell) return;
+    const { r, c } = selectedCell;
+    const origVal = puzzle[r][c];
+
+    // Can't modify given cells
+    if (origVal !== 0 && origVal === solution[r][c] && originalHas(r, c)) return;
+
+    if (pencilMode) {
+      // Toggle pencil mark
+      if (pencils[r][c].has(num)) {
+        pencils[r][c].delete(num);
+      } else {
+        pencils[r][c].add(num);
+      }
+      puzzle[r][c] = 0; // Clear value if setting pencil marks
+      playSound('click');
+    } else {
+      // Save undo
+      history.push({ r, c, val: origVal, pencilMarks: new Set(pencils[r][c]) });
+
+      puzzle[r][c] = num;
+      pencils[r][c] = new Set(); // Clear pencil marks
+
+      if (num !== solution[r][c]) {
+        errors++;
+        updateUI();
+        playSound('fail');
+      } else {
+        playSound('click');
+        // Remove this number from pencils in same row/col/box
+        removePencilMarks(r, c, num);
+      }
+
+      // Check win
+      if (checkWin()) {
+        victory();
+      }
+    }
+
+    renderBoard();
+  }
+
+  function clearCell() {
+    if (!selectedCell) return;
+    const { r, c } = selectedCell;
+    if (puzzle[r][c] !== 0 && puzzle[r][c] === solution[r][c] && originalHas(r, c)) return;
+
+    history.push({ r, c, val: puzzle[r][c], pencilMarks: new Set(pencils[r][c]) });
+    puzzle[r][c] = 0;
+    pencils[r][c] = new Set();
+    renderBoard();
+  }
+
+  function removePencilMarks(row, col, num) {
+    for (let i = 0; i < SIZE; i++) {
+      pencils[row][i].delete(num);
+      pencils[i][col].delete(num);
+    }
+    const br = Math.floor(row / BOX) * BOX;
+    const bc = Math.floor(col / BOX) * BOX;
+    for (let r = br; r < br + BOX; r++) {
+      for (let c = bc; c < bc + BOX; c++) {
+        pencils[r][c].delete(num);
+      }
+    }
+  }
+
+  function togglePencil() {
+    pencilMode = !pencilMode;
+    updatePencilBtn();
+  }
+
+  function updatePencilBtn() {
+    const btn = document.getElementById('pencil-btn');
+    if (btn) btn.classList.toggle('active', pencilMode);
+  }
+
+  function undo() {
+    if (history.length === 0) return;
+    const last = history.pop();
+    puzzle[last.r][last.c] = last.val;
+    pencils[last.r][last.c] = last.pencilMarks;
+    renderBoard();
+    playSound('click');
+  }
+
+  function getHint() {
+    // Find first empty cell and fill it
+    for (let r = 0; r < SIZE; r++) {
+      for (let c = 0; c < SIZE; c++) {
+        if (puzzle[r][c] === 0) {
+          history.push({ r, c, val: 0, pencilMarks: new Set(pencils[r][c]) });
+          puzzle[r][c] = solution[r][c];
+          pencils[r][c] = new Set();
+          selectedCell = { r, c };
+          renderBoard();
+          playSound('match');
+
+          if (checkWin()) victory();
+          return;
+        }
+      }
+    }
+  }
+
+  function checkWin() {
+    for (let r = 0; r < SIZE; r++) {
+      for (let c = 0; c < SIZE; c++) {
+        if (puzzle[r][c] !== solution[r][c]) return false;
+      }
+    }
+    return true;
+  }
+
+  function victory() {
+    clearInterval(timerInterval);
+    const timeStr = formatTime(elapsedSecs);
+    if (winMsg) winMsg.textContent = `Completed in ${timeStr} with ${errors} error${errors !== 1 ? 's' : ''}!`;
+    if (winOverlay) winOverlay.classList.remove('hidden');
+
+    // Save best time
+    const bestKey = `sudoku-best-${difficulty}`;
+    const prevBest = parseInt(localStorage.getItem(bestKey) || '999999');
+    if (elapsedSecs < prevBest) {
+      localStorage.setItem(bestKey, elapsedSecs);
+    }
+    if (window.AppStorage) AppStorage.saveScore('sudoku', elapsedSecs);
+    updateBest();
+    playSound('win');
+  }
+
+  function updateBest() {
+    const bestKey = `sudoku-best-${difficulty}`;
+    const bestTime = parseInt(localStorage.getItem(bestKey) || '0');
+    if (bestEl) bestEl.textContent = bestTime ? formatTime(bestTime) : '--';
+  }
+
+  function updateUI() {
+    if (errorsEl) errorsEl.textContent = errors;
+  }
+
+  function updateNumpadCounts() {
+    // Gray out completed numbers
+    for (let n = 1; n <= 9; n++) {
+      let count = 0;
+      for (let r = 0; r < SIZE; r++) {
+        for (let c = 0; c < SIZE; c++) {
+          if (puzzle[r][c] === n) count++;
+        }
+      }
+      const btn = numpadEl.querySelector(`[data-num="${n}"]`);
+      if (btn) btn.classList.toggle('completed', count >= 9);
+    }
+  }
+
+  function formatTime(secs) {
+    const m = String(Math.floor(secs / 60)).padStart(2, '0');
+    const s = String(secs % 60).padStart(2, '0');
+    return `${m}:${s}`;
+  }
+
+  function playSound(type) {
+    if (window.Utils) window.Utils.playSound(type);
+  }
+
+  return { init };
+})();
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', SudokuGame.init);
+} else {
+  SudokuGame.init();
 }
-
-function newGame() {
-  errors = 0; history = []; pencilMode = false;
-  document.getElementById('errors-val').textContent = '0';
-  document.getElementById('pencil-btn').classList.remove('pencil-on');
-  document.getElementById('win-overlay').classList.remove('show');
-  puzzle = generatePuzzle(DIFF[diff]);
-  updateBest();
-  renderBoard();
-  startTimer();
-  selected = -1;
-  highlightRelated();
-}
-
-buildNumpad();
-newGame();

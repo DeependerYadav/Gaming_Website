@@ -1,254 +1,372 @@
-// ===== BLOCK PUZZLE GAME =====
-const COLS = 10, ROWS = 10;
-const COLORS = ['#00d4ff','#a78bfa','#f72585','#00f5a0','#f7c948','#ff6b35','#4cc9f0','#7bed9f'];
-const SHAPES = [
-  [[1,1,1],[1,0,0],[1,0,0]], [[1,1,1],[0,0,1],[0,0,1]],
-  [[1,1],[1,1]],
-  [[1,1,1,1]], [[1],[1],[1],[1]],
-  [[1,1,1]], [[1],[1],[1]],
-  [[1,0],[1,0],[1,1]], [[0,1],[0,1],[1,1]],
-  [[1,1,0],[0,1,1]], [[0,1,1],[1,1,0]],
-  [[1,1,1],[1,0,0]], [[1,1,1],[0,0,1]],
-  [[1,1,1],[0,1,0]], [[0,1,0],[1,1,1]],
-  [[1]], [[1,1],[1,0]], [[1,0],[1,1]],
-  [[1,1,1],[1,1,1]]
-];
+/* =============================================
+   blockpuzzle.js — Block Puzzle Game Logic
+   Mini Games Hub — Premium Upgrade
+   Features: drag & drop, neon colors,
+   clear animations, combo scoring,
+   mobile touch support
+   ============================================= */
+'use strict';
 
-let board, score, lines, best, pieces, dragging, dragIdx;
-let previewEls = []; // currently highlighted grid cells
+const BlockPuzzle = (() => {
+  const GRID = 9;
+  const PIECE_COLORS = [
+    '#00d4ff', '#a78bfa', '#f72585', '#00f5a0', '#f7c948', '#ff6b35',
+  ];
 
-// ===== INIT =====
-function startGame() {
-  board = Array.from({ length: ROWS }, () => Array(COLS).fill(null));
-  score = 0; lines = 0;
-  best = Number(localStorage.getItem('bp-best') || 0);
-  dragging = null; dragIdx = null; previewEls = [];
-  updateHUD();
-  renderBoard();
-  spawnPieces();
-  document.getElementById('ov').classList.remove('show');
-}
+  const SHAPES = [
+    [[1]], [[1,1]], [[1,1,1]], [[1,1,1,1]],
+    [[1],[1]], [[1],[1],[1]], [[1],[1],[1],[1]],
+    [[1,1],[1,1]],
+    [[1,1,1],[0,0,1]], [[1,1,1],[1,0,0]],
+    [[1,0],[1,1]], [[0,1],[1,1]],
+    [[1,1],[1,0]], [[1,1],[0,1]],
+    [[1,1,1],[0,1,0]],
+    [[1,0,0],[1,1,1]], [[0,0,1],[1,1,1]],
+    [[1,1,1],[1,0,0]], [[1,1,1],[0,0,1]],
+    [[1,1,1],[1,1,1],[1,1,1]],
+  ];
 
-function updateHUD() {
-  document.getElementById('sv').textContent = score;
-  document.getElementById('bv').textContent = best;
-  document.getElementById('lv').textContent = lines;
-  ['sv','bv','lv'].forEach(id => {
-    const el = document.getElementById(id);
-    el.classList.remove('bump'); void el.offsetWidth;
-    el.classList.add('bump');
-    setTimeout(() => el.classList.remove('bump'), 200);
-  });
-}
+  let board = [];
+  let pieces = [];
+  let score = 0;
+  let best = 0;
+  let linesCleared = 0;
+  let dragPiece = null;
+  let dragOffset = { x: 0, y: 0 };
 
-// ===== BOARD RENDER =====
-// Only call this on full redraws — NOT during hover/preview
-function renderBoard() {
-  const g = document.getElementById('grid');
-  g.innerHTML = '';
-  for (let r = 0; r < ROWS; r++) {
-    for (let c = 0; c < COLS; c++) {
-      const cell = document.createElement('div');
-      cell.className = 'gc';
-      cell.dataset.r = r; cell.dataset.c = c;
-      if (board[r][c]) {
-        cell.classList.add('filled');
-        cell.style.background = board[r][c];
-        cell.style.boxShadow = `0 0 6px ${board[r][c]}66`;
+  const gridEl = document.getElementById('grid');
+  const piecesEl = document.getElementById('pr');
+  const scoreEl = document.getElementById('sv');
+  const bestEl = document.getElementById('bv');
+  const linesEl = document.getElementById('lv');
+  const overlay = document.getElementById('ov');
+  const ovScore = document.getElementById('ov-score');
+
+  function init() {
+    best = parseInt(localStorage.getItem('blockpuzzle-best') || '0');
+    if (bestEl) bestEl.textContent = best;
+
+    document.getElementById('new-game-btn')?.addEventListener('click', startGame);
+    document.getElementById('retry-btn')?.addEventListener('click', startGame);
+
+    startGame();
+  }
+
+  function startGame() {
+    board = Array.from({ length: GRID }, () => Array(GRID).fill(null));
+    score = 0;
+    linesCleared = 0;
+    if (overlay) overlay.classList.add('hidden');
+    generatePieces();
+    renderGrid();
+    updateUI();
+    if (window.AppStorage) AppStorage.incrementPlays();
+  }
+
+  function generatePieces() {
+    pieces = [];
+    for (let i = 0; i < 3; i++) {
+      const shapeIdx = Math.floor(Math.random() * SHAPES.length);
+      const color = PIECE_COLORS[Math.floor(Math.random() * PIECE_COLORS.length)];
+      pieces.push({
+        shape: SHAPES[shapeIdx],
+        color,
+        used: false,
+        id: i,
+      });
+    }
+    renderPieces();
+  }
+
+  function renderGrid() {
+    gridEl.innerHTML = '';
+    for (let r = 0; r < GRID; r++) {
+      for (let c = 0; c < GRID; c++) {
+        const cell = document.createElement('div');
+        cell.className = 'bp-cell';
+        cell.dataset.row = r;
+        cell.dataset.col = c;
+        if (board[r][c]) {
+          cell.classList.add('filled');
+          cell.style.background = board[r][c];
+        }
+
+        // Drop target events
+        cell.addEventListener('dragover', e => {
+          e.preventDefault();
+          highlightPlacement(r, c);
+        });
+        cell.addEventListener('dragleave', clearHighlights);
+        cell.addEventListener('drop', e => {
+          e.preventDefault();
+          clearHighlights();
+          placePiece(r, c);
+        });
+
+        gridEl.appendChild(cell);
       }
-      g.appendChild(cell);
     }
   }
-}
 
-// ===== IN-PLACE PREVIEW (no DOM rebuild) =====
-function showPreview(r, c) {
-  clearPreview();
-  if (!dragging) return;
-  const cells = getCells(dragging.shape, r, c);
-  const ok = canPlace(dragging.shape, r, c);
-  cells.forEach(([pr, pc]) => {
-    const el = document.querySelector(`#grid .gc[data-r="${pr}"][data-c="${pc}"]`);
-    if (el) {
-      el.classList.add('preview');
-      el.style.background = ok ? dragging.color : 'rgba(247,37,133,0.35)';
-      el.style.boxShadow = ok ? `0 0 8px ${dragging.color}88` : '';
-      el.style.opacity = ok ? '0.65' : '0.4';
-      previewEls.push(el);
+  function renderPieces() {
+    piecesEl.innerHTML = '';
+    pieces.forEach((piece, idx) => {
+      if (piece.used) return;
+
+      const rows = piece.shape.length;
+      // Compute max columns across all rows
+      const cols = Math.max(...piece.shape.map(r => r.length));
+      const el = document.createElement('div');
+      el.className = 'bp-piece';
+      el.style.gridTemplateColumns = `repeat(${cols}, 22px)`;
+      el.draggable = true;
+      el.dataset.idx = idx;
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const cell = document.createElement('div');
+          cell.className = 'bp-piece-cell';
+          const val = piece.shape[r][c] || 0;
+          if (val) {
+            cell.classList.add('filled');
+            cell.style.background = piece.color;
+          } else {
+            cell.classList.add('empty');
+          }
+          el.appendChild(cell);
+        }
+      }
+
+      // Desktop drag
+      el.addEventListener('dragstart', e => {
+        dragPiece = piece;
+        el.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+        // Use transparent image as drag image
+        const img = new Image();
+        img.src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+        e.dataTransfer.setDragImage(img, 0, 0);
+      });
+      el.addEventListener('dragend', () => {
+        el.classList.remove('dragging');
+        dragPiece = null;
+        clearHighlights();
+      });
+
+      // Touch drag
+      let touchStartX, touchStartY;
+      el.addEventListener('touchstart', e => {
+        e.preventDefault();
+        dragPiece = piece;
+        el.classList.add('dragging');
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }, { passive: false });
+
+      el.addEventListener('touchmove', e => {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const gridRect = gridEl.getBoundingClientRect();
+        const cellSize = gridRect.width / GRID;
+        const col = Math.floor((touch.clientX - gridRect.left) / cellSize);
+        const row = Math.floor((touch.clientY - gridRect.top) / cellSize);
+        clearHighlights();
+        if (row >= 0 && col >= 0) highlightPlacement(row, col);
+      }, { passive: false });
+
+      el.addEventListener('touchend', e => {
+        e.preventDefault();
+        el.classList.remove('dragging');
+        const touch = e.changedTouches[0];
+        const gridRect = gridEl.getBoundingClientRect();
+        const cellSize = gridRect.width / GRID;
+        const col = Math.floor((touch.clientX - gridRect.left) / cellSize);
+        const row = Math.floor((touch.clientY - gridRect.top) / cellSize);
+        clearHighlights();
+        if (row >= 0 && col >= 0) placePiece(row, col);
+        dragPiece = null;
+      }, { passive: false });
+
+      piecesEl.appendChild(el);
+    });
+  }
+
+  function canPlace(piece, row, col) {
+    const shape = piece.shape;
+    for (let r = 0; r < shape.length; r++) {
+      for (let c = 0; c < shape[0].length; c++) {
+        if (!shape[r][c]) continue;
+        const gr = row + r, gc = col + c;
+        if (gr < 0 || gr >= GRID || gc < 0 || gc >= GRID) return false;
+        if (board[gr][gc]) return false;
+      }
     }
-  });
-}
+    return true;
+  }
 
-function clearPreview() {
-  previewEls.forEach(el => {
-    const r = Number(el.dataset.r), c = Number(el.dataset.c);
-    el.classList.remove('preview');
-    if (board[r][c]) {
-      // Restore the existing block's color
-      el.style.background = board[r][c];
-      el.style.boxShadow = `0 0 6px ${board[r][c]}66`;
-      el.style.opacity = '';
+  function highlightPlacement(row, col) {
+    if (!dragPiece) return;
+    clearHighlights();
+    const shape = dragPiece.shape;
+    const valid = canPlace(dragPiece, row, col);
+    for (let r = 0; r < shape.length; r++) {
+      for (let c = 0; c < shape[0].length; c++) {
+        if (!shape[r][c]) continue;
+        const gr = row + r, gc = col + c;
+        if (gr < GRID && gc < GRID) {
+          const cell = gridEl.children[gr * GRID + gc];
+          if (cell) {
+            cell.classList.add('highlight');
+            cell.style.background = valid
+              ? dragPiece.color + '33'
+              : 'rgba(255,71,87,0.2)';
+          }
+        }
+      }
+    }
+  }
+
+  function clearHighlights() {
+    gridEl.querySelectorAll('.highlight').forEach(cell => {
+      cell.classList.remove('highlight');
+      const r = parseInt(cell.dataset.row);
+      const c = parseInt(cell.dataset.col);
+      cell.style.background = board[r][c] || '';
+    });
+  }
+
+  function placePiece(row, col) {
+    if (!dragPiece || !canPlace(dragPiece, row, col)) return;
+
+    const shape = dragPiece.shape;
+    let cellsPlaced = 0;
+
+    for (let r = 0; r < shape.length; r++) {
+      for (let c = 0; c < shape[0].length; c++) {
+        if (!shape[r][c]) continue;
+        board[row + r][col + c] = dragPiece.color;
+        cellsPlaced++;
+      }
+    }
+
+    score += cellsPlaced;
+    dragPiece.used = true;
+    dragPiece = null;
+
+    playSound('click');
+
+    // Check for line clears
+    const cleared = checkClears();
+    if (cleared > 0) {
+      const bonus = cleared * cleared * 10;
+      score += bonus;
+      linesCleared += cleared;
+      playSound('match');
+    }
+
+    if (score > best) {
+      best = score;
+      localStorage.setItem('blockpuzzle-best', best);
+      if (window.AppStorage) AppStorage.saveScore('blockpuzzle', score);
+    }
+
+    updateUI();
+
+    // Check if all pieces used, generate new ones
+    if (pieces.every(p => p.used)) {
+      generatePieces();
     } else {
-      // Restore empty cell
-      el.style.background = '';
-      el.style.boxShadow = '';
-      el.style.opacity = '';
+      renderPieces();
     }
-  });
-  previewEls = [];
-}
 
-// ===== PIECES =====
-function randPiece() {
-  return {
-    shape: SHAPES[Math.floor(Math.random() * SHAPES.length)],
-    color: COLORS[Math.floor(Math.random() * COLORS.length)]
-  };
-}
+    renderGrid();
 
-function spawnPieces() {
-  pieces = [randPiece(), randPiece(), randPiece()];
-  renderPieces();
-}
-
-function renderPieces() {
-  const pr = document.getElementById('pr');
-  pr.innerHTML = '';
-  pieces.forEach((p, i) => {
-    const slot = document.createElement('div');
-    slot.className = 'piece-slot' + (!p ? ' used' : '');
-    slot.dataset.pi = i;
-    if (!p) { pr.appendChild(slot); return; }
-
-    // Build mini grid preview
-    const mini = document.createElement('div');
-    mini.className = 'piece-mini';
-    mini.style.gridTemplateColumns = `repeat(${p.shape[0].length}, 17px)`;
-    p.shape.forEach(row => row.forEach(v => {
-      const cell = document.createElement('div');
-      cell.className = 'pm-cell';
-      if (v) { cell.style.background = p.color; cell.style.boxShadow = `0 0 6px ${p.color}88`; }
-      mini.appendChild(cell);
-    }));
-    slot.appendChild(mini);
-
-    // ===== POINTER EVENTS (mouse + touch, no HTML5 drag-and-drop) =====
-    slot.addEventListener('pointerdown', e => {
-      e.preventDefault();
-      dragging = p; dragIdx = i;
-      slot.setPointerCapture(e.pointerId);
-      slot.classList.add('dragging-active');
-    });
-
-    slot.addEventListener('pointermove', e => {
-      if (!dragging || dragIdx !== i) return;
-      e.preventDefault();
-      const el = document.elementFromPoint(e.clientX, e.clientY);
-      if (el && el.dataset.r !== undefined) {
-        showPreview(Number(el.dataset.r), Number(el.dataset.c));
-      } else {
-        clearPreview();
-      }
-    });
-
-    slot.addEventListener('pointerup', e => {
-      if (!dragging || dragIdx !== i) return;
-      slot.classList.remove('dragging-active');
-      clearPreview();
-      const el = document.elementFromPoint(e.clientX, e.clientY);
-      if (el && el.dataset.r !== undefined) {
-        doDrop(Number(el.dataset.r), Number(el.dataset.c));
-      } else {
-        dragging = null; dragIdx = null;
-      }
-    });
-
-    slot.addEventListener('pointercancel', () => {
-      slot.classList.remove('dragging-active');
-      clearPreview();
-      dragging = null; dragIdx = null;
-    });
-
-    pr.appendChild(slot);
-  });
-}
-
-// ===== PLACEMENT =====
-function getCells(shape, sr, sc) {
-  const cells = [];
-  shape.forEach((row, dr) => row.forEach((v, dc) => {
-    if (v) cells.push([sr + dr, sc + dc]);
-  }));
-  return cells;
-}
-
-function canPlace(shape, sr, sc) {
-  return getCells(shape, sr, sc).every(([r, c]) =>
-    r >= 0 && r < ROWS && c >= 0 && c < COLS && !board[r][c]
-  );
-}
-
-function doDrop(r, c) {
-  if (!dragging) return;
-  const idx = dragIdx;
-  dragging = null; dragIdx = null;
-  if (!canPlace(pieces[idx].shape, r, c)) return;
-
-  const piece = pieces[idx];
-  getCells(piece.shape, r, c).forEach(([rr, cc]) => board[rr][cc] = piece.color);
-  score += piece.shape.flat().filter(Boolean).length * 2;
-  pieces[idx] = null;
-
-  renderBoard(); // show placed piece; DOM ready for clearing animation
-  const hadLines = clearLines();
-  if (!hadLines) {
-    if (pieces.every(p => !p)) spawnPieces();
-    else { renderPieces(); checkGameOver(); }
+    // Check game over
+    if (!hasValidMove()) {
+      setTimeout(gameOver, 400);
+    }
   }
+
+  function checkClears() {
+    let cleared = 0;
+    const rowsToClear = [];
+    const colsToClear = [];
+
+    // Check rows
+    for (let r = 0; r < GRID; r++) {
+      if (board[r].every(cell => cell !== null)) {
+        rowsToClear.push(r);
+      }
+    }
+
+    // Check columns
+    for (let c = 0; c < GRID; c++) {
+      let full = true;
+      for (let r = 0; r < GRID; r++) {
+        if (!board[r][c]) { full = false; break; }
+      }
+      if (full) colsToClear.push(c);
+    }
+
+    // Animate clearing
+    rowsToClear.forEach(r => {
+      for (let c = 0; c < GRID; c++) {
+        const cell = gridEl.children[r * GRID + c];
+        if (cell) cell.classList.add('clearing');
+      }
+    });
+    colsToClear.forEach(c => {
+      for (let r = 0; r < GRID; r++) {
+        const cell = gridEl.children[r * GRID + c];
+        if (cell) cell.classList.add('clearing');
+      }
+    });
+
+    // Clear the board data
+    rowsToClear.forEach(r => {
+      for (let c = 0; c < GRID; c++) board[r][c] = null;
+    });
+    colsToClear.forEach(c => {
+      for (let r = 0; r < GRID; r++) board[r][c] = null;
+    });
+
+    cleared = rowsToClear.length + colsToClear.length;
+    return cleared;
+  }
+
+  function hasValidMove() {
+    for (const piece of pieces) {
+      if (piece.used) continue;
+      for (let r = 0; r < GRID; r++) {
+        for (let c = 0; c < GRID; c++) {
+          if (canPlace(piece, r, c)) return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  function gameOver() {
+    if (ovScore) ovScore.textContent = `Score: ${score} · Lines: ${linesCleared}`;
+    if (overlay) overlay.classList.remove('hidden');
+    playSound('fail');
+  }
+
+  function updateUI() {
+    if (scoreEl) scoreEl.textContent = score;
+    if (bestEl) bestEl.textContent = best;
+    if (linesEl) linesEl.textContent = linesCleared;
+  }
+
+  function playSound(type) {
+    if (window.Utils) window.Utils.playSound(type);
+  }
+
+  return { init };
+})();
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', BlockPuzzle.init);
+} else {
+  BlockPuzzle.init();
 }
-
-// ===== LINE CLEAR =====
-function clearLines() {
-  const rowsToClear = [], colsToClear = [];
-  for (let r = 0; r < ROWS; r++) if (board[r].every(Boolean)) rowsToClear.push(r);
-  for (let c = 0; c < COLS; c++) if (board.every(row => row[c])) colsToClear.push(c);
-  const n = rowsToClear.length + colsToClear.length;
-  if (!n) return false;
-
-  const allCells = [];
-  rowsToClear.forEach(r => { for (let c = 0; c < COLS; c++) allCells.push([r, c]); });
-  colsToClear.forEach(c => { for (let r = 0; r < ROWS; r++) allCells.push([r, c]); });
-
-  allCells.forEach(([r, c]) => {
-    const el = document.querySelector(`#grid .gc[data-r="${r}"][data-c="${c}"]`);
-    if (el) el.classList.add('clearing');
-  });
-
-  setTimeout(() => {
-    rowsToClear.forEach(r => board[r].fill(null));
-    colsToClear.forEach(c => board.forEach(row => row[c] = null));
-    lines += n;
-    score += n > 1 ? n * n * 10 : 10;
-    if (score > best) { best = score; localStorage.setItem('bp-best', best); }
-    updateHUD();
-    renderBoard();
-    if (pieces.every(p => !p)) spawnPieces();
-    else { renderPieces(); checkGameOver(); }
-  }, 380);
-
-  return true;
-}
-
-// ===== GAME OVER =====
-function checkGameOver() {
-  const available = pieces.filter(Boolean);
-  for (const p of available)
-    for (let r = 0; r < ROWS; r++)
-      for (let c = 0; c < COLS; c++)
-        if (canPlace(p.shape, r, c)) return;
-
-  document.getElementById('ov-score').textContent = score;
-  document.getElementById('ov').classList.add('show');
-}
-
-startGame();

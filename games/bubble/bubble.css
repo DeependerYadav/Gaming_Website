@@ -1,26 +1,75 @@
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#050510;--surface:rgba(13,13,30,.95);
-  --cyan:#00d4ff;--purple:#a78bfa;--pink:#f72585;--green:#00f5a0;
-  --text:#e0e0f0;--muted:#6060a0;
+/* =============================================
+   bubble.css — Bubble Shooter Game Styles
+   Mini Games Hub — Premium Gaming UI
+   ============================================= */
+
+/* ---- Canvas wrapper accent ---- */
+.bubble-canvas-wrap {
+  border-color: rgba(247, 37, 133, 0.35);
+  box-shadow: 0 0 60px rgba(247, 37, 133, 0.12), 0 20px 60px rgba(0,0,0,0.6);
 }
-body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min-height:100vh;overflow:hidden}
-.ph{background:var(--surface);border-bottom:1px solid rgba(0,212,255,.18);padding:0 1.5rem;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
-.brand{display:flex;align-items:center;gap:8px;text-decoration:none;color:#fff;font-family:'Orbitron',sans-serif;font-size:.9rem;font-weight:700}
-.brand i{color:var(--cyan)}
-.back{color:var(--cyan);text-decoration:none;font-size:.85rem;display:flex;align-items:center;gap:.4rem;transition:opacity .2s}
-.back:hover{opacity:.75}
-.stats-bar{display:flex;justify-content:center;gap:2.5rem;padding:.6rem 0;background:rgba(5,5,20,.8);border-bottom:1px solid rgba(0,212,255,.08)}
-.stat{text-align:center}
-.sv{font-family:'Orbitron',sans-serif;font-size:1.1rem;color:var(--cyan)}
-.sl{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-#canvas{display:block;margin:0 auto;cursor:crosshair;touch-action:none}
-.overlay{position:fixed;inset:0;background:rgba(5,5,16,.88);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:200;opacity:0;pointer-events:none;transition:opacity .3s}
-.overlay.show{opacity:1;pointer-events:all}
-.ov-card{background:rgba(13,13,40,.95);border:1px solid rgba(0,212,255,.3);border-radius:20px;padding:2.5rem;text-align:center;max-width:340px;transform:scale(.95);transition:transform .3s}
-.overlay.show .ov-card{transform:scale(1)}
-.ov-card h2{font-family:'Orbitron',sans-serif;font-size:1.5rem;margin-bottom:.6rem}
-.ov-card .score-big{font-family:'Orbitron',sans-serif;font-size:2rem;color:var(--cyan);margin:.5rem 0 1rem}
-.ov-card p{color:var(--muted);margin-bottom:1.4rem;font-size:.9rem}
-.btn{padding:.55rem 1.4rem;border-radius:50px;background:linear-gradient(135deg,var(--cyan),var(--purple));color:#000;font-weight:700;font-size:.85rem;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;transition:all .25s;font-family:'Poppins',sans-serif}
-.btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,212,255,.3)}
+
+.bubble-canvas-wrap:hover {
+  box-shadow: 0 0 80px rgba(247, 37, 133, 0.22), var(--shadow-xl);
+}
+
+#canvas {
+  background: linear-gradient(180deg, #050510 0%, #0a0820 50%, #0d0d1a 100%);
+  display: block;
+  border-radius: var(--radius-lg);
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---- Stat card accents ---- */
+.bubble-accent {
+  border-color: rgba(247, 37, 133, 0.4) !important;
+  background: rgba(247, 37, 133, 0.07) !important;
+}
+
+.bubble-accent .stat-card-value {
+  color: var(--clr-neon-pink) !important;
+  text-shadow: 0 0 16px rgba(247, 37, 133, 0.5);
+}
+
+.bubble-shots-card .stat-card-value {
+  color: #00d4ff;
+  text-shadow: 0 0 12px rgba(0, 212, 255, 0.4);
+}
+
+/* ---- Overlay accents ---- */
+#start-overlay .overlay-title {
+  background: linear-gradient(135deg, #f72585, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+#ov .overlay-title {
+  background: linear-gradient(135deg, #ff6b6b, #f72585);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ---- Score pop animation ---- */
+@keyframes scorePop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.25); color: #f72585; }
+  100% { transform: scale(1); }
+}
+
+.score-pop {
+  animation: scorePop 0.35s ease;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 520px) {
+  #canvas {
+    width: 100%;
+  }
+
+  .bubble-canvas-wrap {
+    width: 100%;
+  }
+}

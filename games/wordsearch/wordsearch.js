@@ -1,140 +1,284 @@
-// ===== WORD SEARCH GAME =====
-const SIZE = 12;
-const WORD_BANK = [
-  ['PYTHON','JAVA','SWIFT','RUBY','KOTLIN','RUST','REACT','ARRAY','LOOP','CLASS','OBJECT','FUNCTION'],
-  ['APPLE','MANGO','GRAPE','PEACH','LEMON','BERRY','MELON','PLUM','GUAVA','KIWI','PAPAYA','CHERRY'],
-  ['OCEAN','RIVER','CLOUD','STORM','EARTH','FLAME','FROST','STONE','PLANT','SOLAR','LUNAR','COMET'],
-  ['LION','TIGER','PANDA','EAGLE','SHARK','WHALE','COBRA','GECKO','BISON','HYENA','ZEBRA','CRANE']
-];
-const HIGHLIGHT_COLORS = [
-  'rgba(0,212,255,.35)','rgba(167,139,250,.35)','rgba(247,37,133,.35)',
-  'rgba(0,245,160,.35)','rgba(247,201,72,.35)','rgba(255,107,53,.35)','rgba(76,201,240,.35)'
-];
-const DIRS = [[0,1],[1,0],[1,1],[1,-1],[0,-1],[-1,0],[-1,-1],[-1,1]];
+/* =============================================
+   wordsearch.js — Word Search Game Logic
+   Mini Games Hub — Premium Upgrade
+   Features: 4 themes, drag selection,
+   timer, found animation, responsive grid
+   ============================================= */
+'use strict';
 
-let grid, placed, foundWords, selStart, selCells, timerSec, timerInt, words;
+const WordSearchGame = (() => {
+  const THEMES = {
+    animals:   ['TIGER','EAGLE','SHARK','SNAKE','PANDA','WHALE','HORSE','MOUSE','ZEBRA','CRANE'],
+    space:     ['COMET','ORBIT','LUNAR','SOLAR','QUASAR','NEBULA','TITAN','VENUS','EARTH','PLUTO'],
+    food:      ['MANGO','PIZZA','PASTA','SUSHI','BREAD','STEAK','CANDY','SALAD','GRAPE','MELON'],
+    sports:    ['RUGBY','GOLF','SWIM','DIVE','SURF','CLIMB','VAULT','FENCING','SKATE','TRACK'],
+  };
 
-function newGame() {
-  clearInterval(timerInt); timerSec = 0;
-  const bank = WORD_BANK[Math.floor(Math.random() * WORD_BANK.length)];
-  words = bank.slice(0, 8);
-  grid = Array.from({length: SIZE}, () => Array(SIZE).fill(''));
-  placed = []; foundWords = new Set(); selStart = null; selCells = [];
-  words.forEach(w => placeWord(w));
-  fillRandom();
-  renderGrid(); renderWordList();
-  timerInt = setInterval(() => { timerSec++; document.getElementById('timer').textContent = fmt(timerSec); }, 1000);
-  document.getElementById('found-c').textContent = `0 / ${words.length} found`;
-}
+  const DIRS = [
+    [0,1], [1,0], [1,1], [0,-1], [-1,0], [-1,-1], [1,-1], [-1,1],
+  ];
 
-function placeWord(word) {
-  let tries = 200;
-  while (tries-- > 0) {
-    const dir = DIRS[Math.floor(Math.random() * DIRS.length)];
-    const r = Math.floor(Math.random() * SIZE), c = Math.floor(Math.random() * SIZE);
-    const cells = []; let ok = true;
-    for (let i = 0; i < word.length; i++) {
-      const nr = r + dir[0]*i, nc = c + dir[1]*i;
-      if (nr < 0 || nr >= SIZE || nc < 0 || nc >= SIZE) { ok = false; break; }
-      if (grid[nr][nc] && grid[nr][nc] !== word[i]) { ok = false; break; }
-      cells.push([nr, nc]);
-    }
-    if (ok) { cells.forEach(([rr,cc],i) => grid[rr][cc] = word[i]); placed.push({word, cells}); return; }
+  const SIZE = 12;
+  let grid = [];
+  let words = [];
+  let foundWords = new Set();
+  let selecting = false;
+  let selection = [];
+  let timerInterval = null;
+  let elapsedSecs = 0;
+
+  const gridEl = document.getElementById('ws-grid');
+  const wordListEl = document.getElementById('word-list-items');
+  const timerEl = document.getElementById('timer');
+  const foundEl = document.getElementById('found-c');
+  const overlay = document.getElementById('ov');
+  const ovMsg = document.getElementById('ov-msg');
+
+  function init() {
+    document.getElementById('new-game-btn')?.addEventListener('click', newGame);
+    document.getElementById('retry-btn')?.addEventListener('click', () => {
+      overlay?.classList.add('hidden');
+      newGame();
+    });
+    newGame();
   }
-}
 
-function fillRandom() {
-  const abc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  for (let r = 0; r < SIZE; r++)
-    for (let c = 0; c < SIZE; c++)
-      if (!grid[r][c]) grid[r][c] = abc[Math.floor(Math.random() * 26)];
-}
+  function newGame() {
+    // Pick random theme
+    const themeKeys = Object.keys(THEMES);
+    const theme = themeKeys[Math.floor(Math.random() * themeKeys.length)];
+    words = [...THEMES[theme]].sort(() => Math.random() - 0.5).slice(0, 8);
+    foundWords = new Set();
+    selection = [];
+    selecting = false;
 
-function fmt(s) { return String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0'); }
+    // Stop old timer
+    clearInterval(timerInterval);
+    elapsedSecs = 0;
+    if (timerEl) timerEl.textContent = '00:00';
 
-function renderGrid() {
-  const el = document.getElementById('ws-grid');
-  el.innerHTML = '';
-  el.style.gridTemplateColumns = `repeat(${SIZE},1fr)`;
-  for (let r = 0; r < SIZE; r++) {
-    for (let c = 0; c < SIZE; c++) {
-      const cell = document.createElement('div');
-      cell.className = 'ws-cell';
-      cell.textContent = grid[r][c];
-      cell.dataset.r = r; cell.dataset.c = c;
-      cell.addEventListener('pointerdown', e => { e.preventDefault(); startSel(r, c); });
-      cell.addEventListener('pointerenter', e => { if (e.buttons) moveSel(r, c); });
-      cell.addEventListener('pointerup', endSel);
-      el.appendChild(cell);
-    }
+    // Build grid
+    grid = Array.from({ length: SIZE }, () => Array(SIZE).fill(''));
+    placeWords();
+    fillRandom();
+    renderGrid();
+    renderWordList();
+    updateStats();
+
+    // Start timer
+    timerInterval = setInterval(() => {
+      elapsedSecs++;
+      if (timerEl) timerEl.textContent = formatTime(elapsedSecs);
+    }, 1000);
+
+    if (window.AppStorage) AppStorage.incrementPlays();
   }
-  el.addEventListener('pointerleave', endSel);
-}
 
-function renderWordList() {
-  const el = document.getElementById('word-list-items');
-  el.innerHTML = '';
-  words.forEach(w => {
-    const d = document.createElement('div');
-    d.className = 'word-item' + (foundWords.has(w) ? ' found' : '');
-    d.textContent = w; d.id = 'wi-' + w;
-    el.appendChild(d);
-  });
-}
+  function formatTime(secs) {
+    const m = String(Math.floor(secs / 60)).padStart(2, '0');
+    const s = String(secs % 60).padStart(2, '0');
+    return `${m}:${s}`;
+  }
 
-function startSel(r, c) { selStart = {r, c}; selCells = [[r, c]]; highlight(); }
+  function placeWords() {
+    words.forEach(word => {
+      let placed = false;
+      let attempts = 0;
+      while (!placed && attempts < 200) {
+        attempts++;
+        const dir = DIRS[Math.floor(Math.random() * DIRS.length)];
+        const r = Math.floor(Math.random() * SIZE);
+        const c = Math.floor(Math.random() * SIZE);
 
-function moveSel(r, c) {
-  if (!selStart) return;
-  const dr = r - selStart.r, dc = c - selStart.c;
-  const len = Math.max(Math.abs(dr), Math.abs(dc));
-  if (len === 0) { selCells = [[selStart.r, selStart.c]]; highlight(); return; }
-  let sr = 0, sc = 0;
-  if (dr !== 0) sr = dr / Math.abs(dr);
-  if (dc !== 0) sc = dc / Math.abs(dc);
-  if (Math.abs(dr) !== Math.abs(dc) && dr !== 0 && dc !== 0) { highlight(); return; }
-  selCells = [];
-  for (let i = 0; i <= len; i++) selCells.push([selStart.r + sr*i, selStart.c + sc*i]);
-  highlight();
-}
-
-function endSel() {
-  if (!selCells.length) { selStart = null; return; }
-  checkWord(); selStart = null; selCells = []; highlight();
-}
-
-function highlight() {
-  document.querySelectorAll('.ws-cell').forEach(c => {
-    if (!c.classList.contains('found')) { c.classList.remove('selecting'); c.style.background = ''; }
-  });
-  selCells.forEach(([r, c]) => {
-    const cell = document.querySelector(`.ws-cell[data-r="${r}"][data-c="${c}"]`);
-    if (cell && !cell.classList.contains('found')) cell.classList.add('selecting');
-  });
-}
-
-function checkWord() {
-  const str = selCells.map(([r,c]) => grid[r][c]).join('');
-  const rev = str.split('').reverse().join('');
-  for (const w of words) {
-    if ((str === w || rev === w) && !foundWords.has(w)) {
-      foundWords.add(w);
-      const colorIdx = foundWords.size - 1;
-      const color = HIGHLIGHT_COLORS[colorIdx % HIGHLIGHT_COLORS.length];
-      selCells.forEach(([r, c]) => {
-        const cell = document.querySelector(`.ws-cell[data-r="${r}"][data-c="${c}"]`);
-        if (cell) { cell.classList.add('found'); cell.classList.remove('selecting'); cell.style.background = color; }
-      });
-      document.getElementById('wi-' + w).classList.add('found');
-      document.getElementById('found-c').textContent = `${foundWords.size} / ${words.length} found`;
-      if (foundWords.size === words.length) {
-        clearInterval(timerInt);
-        document.getElementById('ov-msg').textContent = `Completed in ${fmt(timerSec)}!`;
-        setTimeout(() => document.getElementById('ov').classList.add('show'), 400);
+        let ok = true;
+        for (let i = 0; i < word.length; i++) {
+          const nr = r + dir[0] * i;
+          const nc = c + dir[1] * i;
+          if (nr < 0 || nr >= SIZE || nc < 0 || nc >= SIZE) { ok = false; break; }
+          if (grid[nr][nc] && grid[nr][nc] !== word[i]) { ok = false; break; }
+        }
+        if (ok) {
+          for (let i = 0; i < word.length; i++) {
+            grid[r + dir[0] * i][c + dir[1] * i] = word[i];
+          }
+          placed = true;
+        }
       }
-      return;
+    });
+  }
+
+  function fillRandom() {
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    for (let r = 0; r < SIZE; r++) {
+      for (let c = 0; c < SIZE; c++) {
+        if (!grid[r][c]) {
+          grid[r][c] = letters[Math.floor(Math.random() * letters.length)];
+        }
+      }
     }
   }
-}
 
-newGame();
+  function renderGrid() {
+    gridEl.innerHTML = '';
+    gridEl.style.gridTemplateColumns = `repeat(${SIZE}, 1fr)`;
+
+    for (let r = 0; r < SIZE; r++) {
+      for (let c = 0; c < SIZE; c++) {
+        const cell = document.createElement('div');
+        cell.className = 'ws-cell';
+        cell.textContent = grid[r][c];
+        cell.dataset.row = r;
+        cell.dataset.col = c;
+
+        // Mouse events
+        cell.addEventListener('mousedown', e => {
+          e.preventDefault();
+          startSelect(r, c);
+        });
+        cell.addEventListener('mouseenter', () => {
+          if (selecting) updateSelect(r, c);
+        });
+        cell.addEventListener('mouseup', () => endSelect());
+
+        // Touch events
+        cell.addEventListener('touchstart', e => {
+          e.preventDefault();
+          startSelect(r, c);
+        }, { passive: false });
+
+        cell.addEventListener('touchmove', e => {
+          e.preventDefault();
+          const touch = e.touches[0];
+          const el = document.elementFromPoint(touch.clientX, touch.clientY);
+          if (el?.classList.contains('ws-cell')) {
+            updateSelect(parseInt(el.dataset.row), parseInt(el.dataset.col));
+          }
+        }, { passive: false });
+
+        cell.addEventListener('touchend', () => endSelect());
+
+        gridEl.appendChild(cell);
+      }
+    }
+
+    // Global mouseup to catch edge cases
+    document.addEventListener('mouseup', () => {
+      if (selecting) endSelect();
+    });
+  }
+
+  function startSelect(r, c) {
+    selecting = true;
+    selection = [{ r, c }];
+    highlightSelection();
+  }
+
+  function updateSelect(r, c) {
+    if (!selecting || selection.length === 0) return;
+    const start = selection[0];
+
+    // Must be in a valid direction (straight line)
+    const dr = Math.sign(r - start.r);
+    const dc = Math.sign(c - start.c);
+    if (dr === 0 && dc === 0) { selection = [start]; highlightSelection(); return; }
+
+    // Only allow 8 directions
+    const absDr = Math.abs(r - start.r);
+    const absDc = Math.abs(c - start.c);
+    if (absDr !== absDc && absDr !== 0 && absDc !== 0) return;
+
+    const len = Math.max(absDr, absDc) + 1;
+    selection = [];
+    for (let i = 0; i < len; i++) {
+      selection.push({ r: start.r + dr * i, c: start.c + dc * i });
+    }
+    highlightSelection();
+  }
+
+  function highlightSelection() {
+    gridEl.querySelectorAll('.ws-cell').forEach(cell => {
+      cell.classList.remove('selecting');
+    });
+    selection.forEach(({ r, c }) => {
+      const cell = gridEl.children[r * SIZE + c];
+      if (cell) cell.classList.add('selecting');
+    });
+  }
+
+  function endSelect() {
+    if (!selecting) return;
+    selecting = false;
+
+    const selectedWord = selection.map(({ r, c }) => grid[r][c]).join('');
+    const reversedWord = selectedWord.split('').reverse().join('');
+
+    let matchedWord = null;
+    for (const word of words) {
+      if (!foundWords.has(word) && (selectedWord === word || reversedWord === word)) {
+        matchedWord = word;
+        break;
+      }
+    }
+
+    if (matchedWord) {
+      foundWords.add(matchedWord);
+      // Mark cells as found
+      selection.forEach(({ r, c }) => {
+        const cell = gridEl.children[r * SIZE + c];
+        if (cell) cell.classList.add('found');
+      });
+      // Mark word in list
+      const wordItem = wordListEl.querySelector(`[data-word="${matchedWord}"]`);
+      if (wordItem) wordItem.classList.add('found');
+
+      updateStats();
+      playSound('match');
+
+      if (foundWords.size === words.length) {
+        victory();
+      }
+    } else {
+      playSound('fail');
+    }
+
+    // Clear selection highlights
+    gridEl.querySelectorAll('.selecting').forEach(cell => {
+      cell.classList.remove('selecting');
+    });
+    selection = [];
+  }
+
+  function renderWordList() {
+    wordListEl.innerHTML = '';
+    words.forEach(word => {
+      const item = document.createElement('div');
+      item.className = 'ws-word-item';
+      item.textContent = word;
+      item.dataset.word = word;
+      wordListEl.appendChild(item);
+    });
+  }
+
+  function updateStats() {
+    if (foundEl) foundEl.textContent = `${foundWords.size} / ${words.length}`;
+  }
+
+  function victory() {
+    clearInterval(timerInterval);
+    if (ovMsg) ovMsg.textContent = `All ${words.length} words found in ${formatTime(elapsedSecs)}!`;
+    if (overlay) overlay.classList.remove('hidden');
+    playSound('win');
+  }
+
+  function playSound(type) {
+    if (window.Utils) window.Utils.playSound(type);
+  }
+
+  return { init };
+})();
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', WordSearchGame.init);
+} else {
+  WordSearchGame.init();
+}

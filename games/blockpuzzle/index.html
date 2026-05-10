@@ -2,46 +2,102 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Play Block Puzzle free online — drag colorful pieces onto the grid, fill rows and columns to clear them. No download needed!"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+  <meta name="description" content="Play Block Puzzle free online on Mini Games Hub — drag colorful neon blocks onto the grid, fill rows and columns to clear them!"/>
+  <meta name="keywords" content="block puzzle online, free block puzzle, grid puzzle, drag drop puzzle"/>
+  <meta name="robots" content="index, follow"/>
+  <meta property="og:title" content="Block Puzzle | Mini Games Hub"/>
+  <meta property="og:description" content="Play Block Puzzle free — drag neon blocks, fill rows & columns to clear!"/>
+  <meta property="og:url" content="https://minigameshub.online/games/blockpuzzle/"/>
+  <meta property="og:type" content="website"/>
+  <link rel="canonical" href="https://minigameshub.online/games/blockpuzzle/"/>
   <title>Block Puzzle | Mini Games Hub</title>
+  <link rel="manifest" href="../../manifest.json"/>
   <link rel="icon" type="image/png" href="../../assets/icons/icon-96x96.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <link rel="stylesheet" href="../../css/style.css"/>
+  <link rel="stylesheet" href="../../css/games.css"/>
   <link rel="stylesheet" href="blockpuzzle.css"/>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7739890929299549" crossorigin="anonymous"></script>
 </head>
-<body>
-<header class="ph">
-  <a href="../../index.html" class="brand"><i class="fa-solid fa-gamepad"></i> Mini Games Hub</a>
-  <a href="../../index.html" class="back"><i class="fa-solid fa-arrow-left"></i> Back</a>
-</header>
-<div class="wrapper">
-  <h1>Block Puzzle</h1>
-  <p class="sub">Drag pieces onto the grid — fill rows or columns to clear them!</p>
-  <div class="stats-row">
-    <div class="stat"><div class="sv" id="sv">0</div><div class="sl">Score</div></div>
-    <div class="stat"><div class="sv" id="bv">0</div><div class="sl">Best</div></div>
-    <div class="stat"><div class="sv" id="lv">0</div><div class="sl">Lines</div></div>
+<body class="dark-mode">
+<div class="game-page">
+
+  <header class="game-header">
+    <div class="game-header-left">
+      <a href="../../index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back</a>
+      <h1 class="game-header-title">🧩 Block Puzzle</h1>
+    </div>
+    <div class="game-header-controls">
+      <button class="icon-btn" id="btn-sound" title="Toggle Sound">🔊</button>
+    </div>
+  </header>
+
+  <div class="game-container">
+    <div class="stats-bar">
+      <div class="stat-card block-accent">
+        <div class="stat-card-label"><i class="fa-solid fa-star"></i> Score</div>
+        <div class="stat-card-value" id="sv">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label"><i class="fa-solid fa-trophy"></i> Best</div>
+        <div class="stat-card-value" id="bv">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label"><i class="fa-solid fa-bars-staggered"></i> Lines</div>
+        <div class="stat-card-value" id="lv">0</div>
+      </div>
+    </div>
+
+    <div class="bp-game-area">
+      <div id="grid" class="bp-grid"></div>
+      <div class="bp-pieces-section">
+        <p class="bp-pieces-label">Drag pieces onto the grid</p>
+        <div class="bp-pieces-row" id="pr"></div>
+      </div>
+    </div>
+
+    <div class="game-actions">
+      <button class="btn-game btn-start" id="new-game-btn">
+        <i class="fa-solid fa-rotate-right"></i> New Game
+      </button>
+    </div>
+
+    <!-- Game Over Overlay -->
+    <div class="bp-overlay hidden" id="ov">
+      <div class="bp-overlay-card">
+        <div class="overlay-emoji">💔</div>
+        <h2 class="overlay-title">Game Over!</h2>
+        <p class="overlay-score" id="ov-score">0</p>
+        <p class="overlay-subtitle">No moves available. Try again!</p>
+        <div class="overlay-actions">
+          <button class="btn-game btn-start" id="retry-btn">
+            <i class="fa-solid fa-rotate-right"></i> Play Again
+          </button>
+          <a href="../../index.html" class="btn-game btn-restart">🏠 Home</a>
+        </div>
+      </div>
+    </div>
   </div>
-  <div id="grid"></div>
-  <div class="pieces-row" id="pr"></div>
-  <button class="btn" onclick="startGame()"><i class="fa-solid fa-rotate"></i> New Game</button>
 </div>
 
-<div class="overlay" id="ov">
-  <div class="ov-card">
-    <h2>Game Over!</h2>
-    <div class="score-big" id="ov-score">0</div>
-    <p>No moves available. Try again!</p>
-    <button class="btn" onclick="startGame();document.getElementById('ov').classList.remove('show')">
-      <i class="fa-solid fa-rotate"></i> Play Again
-    </button>
-  </div>
-</div>
-
+<script src="../../js/utils.js"></script>
+<script src="../../js/storage.js"></script>
 <script src="blockpuzzle.js"></script>
+<script>
+  (function() {
+    const btn = document.getElementById('btn-sound');
+    if (!btn) return;
+    const settings = AppStorage.getSettings();
+    btn.textContent = settings.soundEnabled !== false ? '🔊' : '🔇';
+    btn.addEventListener('click', () => {
+      const cur = AppStorage.getSettings().soundEnabled;
+      AppStorage.setSetting('soundEnabled', !cur);
+      btn.textContent = !cur ? '🔊' : '🔇';
+    });
+  })();
+</script>
 </body>
 </html>
