@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta name="description" content="Play Simon Says free online on Mini Games Hub. Watch the color pattern and repeat it — how far can you go? Classic memory game!" />
+  <meta name="keywords" content="simon says game online, free simon game, pattern memory game, color sequence game" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Simon Says | Mini Games Hub" />
+  <meta property="og:description" content="Play Simon Says free online — repeat the color pattern and test your memory!" />
+  <meta property="og:url" content="https://minigameshub.online/games/simon/" />
+  <meta property="og:type" content="website" />
+  <link rel="canonical" href="https://minigameshub.online/games/simon/" />
+  <title>Simon Says | Mini Games Hub</title>
+  <link rel="icon" type="image/png" href="../../assets/icons/icon-96x96.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="../../css/style.css?v=1778637532" />
+  <link rel="stylesheet" href="../../css/games.css?v=1778637532" />
+  <link rel="stylesheet" href="simon.css?v=1778637532" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7739890929299549" crossorigin="anonymous"></script>
+</head>
+<body class="dark-mode">
+<div class="game-page">
+  <header class="game-header">
+    <div class="game-header-left">
+      <a href="../../index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back</a>
+      <h1 class="game-header-title">🎨 Simon Says</h1>
+    </div>
+    <div class="game-header-controls">
+      <button class="icon-btn" id="btn-sound-simon" title="Toggle Sound">🔊</button>
+    </div>
+  </header>
+
+  <div class="game-container">
+    <div class="stats-bar">
+      <div class="stat-card highlight">
+        <div class="stat-card-label">Round</div>
+        <div class="stat-card-value" id="simon-round">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Best</div>
+        <div class="stat-card-value" id="simon-best">0</div>
+      </div>
+    </div>
+
+    <div class="simon-status" id="simon-status">Press Start to Play!</div>
+
+    <div class="simon-board-wrap">
+      <div class="simon-board" id="simon-board">
+        <button class="simon-pad" data-color="green" id="pad-green"></button>
+        <button class="simon-pad" data-color="red" id="pad-red"></button>
+        <button class="simon-pad" data-color="yellow" id="pad-yellow"></button>
+        <button class="simon-pad" data-color="blue" id="pad-blue"></button>
+        <div class="simon-center" id="simon-center">
+          <span class="simon-center-round" id="center-round">0</span>
+        </div>
+      </div>
+
+      <div class="game-overlay" id="simon-overlay">
+        <div class="overlay-emoji">🎨</div>
+        <h2 class="overlay-title">Simon Says</h2>
+        <p class="overlay-subtitle">Watch the pattern, then repeat it!</p>
+        <div class="overlay-actions">
+          <button class="btn-game btn-start" id="btn-start-simon">▶ Start Game</button>
+        </div>
+      </div>
+
+      <div class="game-overlay hidden" id="simon-gameover">
+        <div class="overlay-emoji" id="simon-go-emoji">💀</div>
+        <h2 class="overlay-title" id="simon-go-title">Game Over!</h2>
+        <p class="overlay-score" id="simon-go-score">You reached round 0</p>
+        <div class="overlay-actions">
+          <button class="btn-game btn-start" id="btn-retry-simon">▶ Try Again</button>
+          <a href="../../index.html" class="btn-game btn-restart">🏠 Home</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="game-actions">
+      <button class="btn-game btn-restart" id="btn-restart-simon"><i class="fa-solid fa-rotate-right"></i> Restart</button>
+      <a href="../../index.html" class="btn-game btn-restart"><i class="fa-solid fa-house"></i> Home</a>
+    </div>
+
+    <div class="controls-info">
+      <div class="control-item">Watch the sequence, then click/tap the pads in the same order</div>
+    </div>
+  </div>
+</div>
+
+<script src="../../js/utils.js?v=1778637532"></script>
+<script src="../../js/storage.js?v=1778637532"></script>
+<script src="simon.js?v=1778637532"></script>
+<script src="../../js/how-to-play.js?v=1778637532"></script>
+<script>
+  (function() {
+    const btn = document.getElementById('btn-sound-simon');
+    if (!btn) return;
+    const s = AppStorage.getSettings();
+    btn.textContent = s.soundEnabled !== false ? '🔊' : '🔇';
+    btn.addEventListener('click', () => {
+      const c = AppStorage.getSettings().soundEnabled;
+      AppStorage.setSetting('soundEnabled', !c);
+      btn.textContent = !c ? '🔊' : '🔇';
+    });
+  })();
+</script>
+</body>
+</html>

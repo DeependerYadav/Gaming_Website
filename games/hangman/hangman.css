@@ -1,0 +1,214 @@
+/* =============================================
+   hangman.css — Hangman Game Styles
+   Mini Games Hub — Premium Gaming UI
+   ============================================= */
+
+/* ---- Game Area ---- */
+.hm-game-area {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  width: 100%;
+  max-width: 600px;
+}
+
+/* ---- Category ---- */
+.hm-category {
+  font-size: var(--text-sm);
+  color: var(--clr-text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.hm-category span {
+  color: var(--clr-neon-blue);
+}
+
+/* ---- Canvas ---- */
+.hm-canvas-wrap {
+  background: rgba(13, 13, 42, 0.6);
+  border: 1.5px solid var(--clr-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4);
+  box-shadow: 0 0 40px rgba(0, 100, 255, 0.08);
+}
+
+#hangman-canvas {
+  display: block;
+}
+
+/* ---- Word Display ---- */
+.hm-word {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  min-height: 60px;
+}
+
+.hm-letter-slot {
+  width: 38px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--clr-text-primary);
+  border-bottom: 3px solid rgba(0, 212, 255, 0.4);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
+
+.hm-letter-slot.revealed {
+  color: var(--clr-neon-blue);
+  border-bottom-color: var(--clr-neon-blue);
+  text-shadow: 0 0 16px rgba(0, 212, 255, 0.5);
+  animation: letterReveal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hm-letter-slot.wrong-reveal {
+  color: var(--clr-neon-red);
+  border-bottom-color: var(--clr-neon-red);
+  text-shadow: 0 0 16px rgba(255, 71, 87, 0.5);
+}
+
+@keyframes letterReveal {
+  0% { transform: scale(0.5) translateY(10px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* ---- Wrong Letters ---- */
+.hm-wrong {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-5);
+  background: rgba(255, 71, 87, 0.06);
+  border: 1px solid rgba(255, 71, 87, 0.15);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  min-height: 36px;
+}
+
+.hm-wrong-label {
+  color: var(--clr-neon-red);
+  font-weight: 700;
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.hm-wrong-letters {
+  color: rgba(255, 71, 87, 0.7);
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+/* ---- Keyboard ---- */
+.hm-keyboard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  max-width: 500px;
+}
+
+.hm-key {
+  width: 42px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1.5px solid var(--clr-border);
+  color: var(--clr-text-primary);
+  font-size: var(--text-base);
+  font-weight: 700;
+  font-family: var(--font-display);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+.hm-key:hover:not(.used) {
+  border-color: var(--clr-neon-blue);
+  background: rgba(0, 212, 255, 0.1);
+  box-shadow: 0 0 14px rgba(0, 212, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.hm-key.correct {
+  background: rgba(0, 245, 160, 0.15);
+  border-color: rgba(0, 245, 160, 0.5);
+  color: var(--clr-neon-green);
+  box-shadow: 0 0 12px rgba(0, 245, 160, 0.2);
+  cursor: default;
+}
+
+.hm-key.wrong {
+  background: rgba(255, 71, 87, 0.1);
+  border-color: rgba(255, 71, 87, 0.3);
+  color: rgba(255, 71, 87, 0.5);
+  cursor: default;
+  opacity: 0.5;
+}
+
+.hm-key.used {
+  pointer-events: none;
+}
+
+/* ---- Overlay positioning ---- */
+.hm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  border-radius: 0;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 520px) {
+  .hm-key {
+    width: 34px;
+    height: 38px;
+    font-size: var(--text-sm);
+  }
+
+  .hm-letter-slot {
+    width: 30px;
+    height: 42px;
+    font-size: 1.3rem;
+  }
+
+  .hm-canvas-wrap {
+    padding: var(--space-2);
+  }
+
+  #hangman-canvas {
+    width: 200px;
+    height: 230px;
+  }
+}
+
+@media (max-width: 380px) {
+  .hm-key {
+    width: 28px;
+    height: 34px;
+    font-size: var(--text-xs);
+    border-radius: var(--radius-sm);
+  }
+
+  .hm-letter-slot {
+    width: 24px;
+    height: 36px;
+    font-size: 1rem;
+    gap: 4px;
+  }
+}

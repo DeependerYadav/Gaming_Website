@@ -1,0 +1,157 @@
+/* =============================================
+   checkers.css — Checkers Game Styles
+   Mini Games Hub — Premium Gaming UI
+   ============================================= */
+
+.chk-turn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-6);
+  background: var(--clr-bg-card);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--clr-text-primary);
+  transition: all var(--transition-base);
+}
+
+.chk-disc { display: inline-block; width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; }
+.chk-disc.small { width: 16px; height: 16px; }
+.chk-disc-red { background: radial-gradient(circle at 35% 35%, #ff6b7a, #c0392b); box-shadow: 0 0 8px rgba(255,71,87,0.4); }
+.chk-disc-black { background: radial-gradient(circle at 35% 35%, #555, #222); box-shadow: 0 0 8px rgba(100,100,100,0.3); }
+
+.stat-card.chk-red { border-color: rgba(255,71,87,0.3); }
+.stat-card.chk-black { border-color: rgba(120,120,120,0.3); }
+
+.chk-board-wrap {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: 0 0 60px rgba(139,90,43,0.1), var(--shadow-xl);
+  border: 2px solid rgba(139,90,43,0.3);
+}
+
+.chk-board {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  width: 400px;
+  height: 400px;
+}
+
+.chk-cell {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: default;
+}
+
+.chk-cell.light {
+  background: linear-gradient(135deg, #d4a76a, #c49a5e);
+}
+
+.chk-cell.dark {
+  background: linear-gradient(135deg, #5c3a1e, #4a2e16);
+}
+
+.chk-cell.highlight {
+  cursor: pointer;
+}
+
+.chk-cell.highlight::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(0,212,255,0.3);
+  box-shadow: 0 0 12px rgba(0,212,255,0.4);
+  animation: pulseMove 1.2s ease-in-out infinite;
+}
+
+@keyframes pulseMove {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.3); opacity: 1; }
+}
+
+.chk-cell.capture-highlight::after {
+  background: rgba(255,71,87,0.3);
+  box-shadow: 0 0 12px rgba(255,71,87,0.5);
+  width: 24px;
+  height: 24px;
+}
+
+/* Pieces */
+.chk-piece {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: default;
+  transition: all 0.2s ease;
+  position: relative;
+  z-index: 2;
+  border: 2px solid transparent;
+}
+
+.chk-piece.red {
+  background: radial-gradient(circle at 35% 35%, #ff8a95, #c0392b);
+  box-shadow: 0 3px 10px rgba(192,57,43,0.5), inset 0 2px 4px rgba(255,255,255,0.2);
+  border-color: rgba(255,100,100,0.3);
+}
+
+.chk-piece.black {
+  background: radial-gradient(circle at 35% 35%, #666, #1a1a1a);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.5), inset 0 2px 4px rgba(255,255,255,0.1);
+  border-color: rgba(100,100,100,0.3);
+}
+
+.chk-piece.selected {
+  transform: scale(1.12);
+  box-shadow: 0 0 20px rgba(0,212,255,0.6), 0 0 40px rgba(0,212,255,0.2);
+  border-color: var(--clr-neon-blue);
+}
+
+.chk-piece.selectable:hover {
+  transform: scale(1.08);
+  cursor: pointer;
+}
+
+.chk-piece.black {
+  cursor: default;
+}
+
+/* King crown */
+.chk-piece.king::after {
+  content: '♛';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2rem;
+  color: #ffd700;
+  text-shadow: 0 0 8px rgba(255,215,0,0.6);
+}
+
+/* Move animation */
+.chk-piece.moving {
+  transition: none;
+  z-index: 10;
+}
+
+/* Responsive */
+@media (max-width: 440px) {
+  .chk-board { width: 320px; height: 320px; }
+  .chk-cell { width: 40px; height: 40px; }
+  .chk-piece { width: 30px; height: 30px; }
+  .chk-piece.king::after { font-size: 0.9rem; }
+  .chk-cell.highlight::after { width: 16px; height: 16px; }
+}
+
+@media (max-width: 360px) {
+  .chk-board { width: 280px; height: 280px; }
+  .chk-cell { width: 35px; height: 35px; }
+  .chk-piece { width: 26px; height: 26px; }
+}

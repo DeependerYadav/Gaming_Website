@@ -1,0 +1,183 @@
+/* =============================================
+   connectfour.css — Connect Four Game Styles
+   Mini Games Hub — Premium Gaming UI
+   ============================================= */
+
+/* ---- Turn Indicator ---- */
+.c4-turn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-6);
+  background: var(--clr-bg-card);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--clr-text-primary);
+  transition: all var(--transition-base);
+}
+
+.c4-turn.red-turn { border-color: rgba(255, 71, 87, 0.4); box-shadow: 0 0 20px rgba(255, 71, 87, 0.15); }
+.c4-turn.yellow-turn { border-color: rgba(247, 201, 72, 0.4); box-shadow: 0 0 20px rgba(247, 201, 72, 0.15); }
+
+/* ---- Discs ---- */
+.c4-disc {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.c4-disc.small { width: 18px; height: 18px; }
+
+.c4-disc-red {
+  background: radial-gradient(circle at 35% 35%, #ff6b7a, #e63950);
+  box-shadow: 0 0 12px rgba(255, 71, 87, 0.5), inset 0 2px 4px rgba(255,255,255,0.2);
+}
+
+.c4-disc-yellow {
+  background: radial-gradient(circle at 35% 35%, #ffe066, #f7c948);
+  box-shadow: 0 0 12px rgba(247, 201, 72, 0.5), inset 0 2px 4px rgba(255,255,255,0.25);
+}
+
+/* ---- Board Wrapper ---- */
+.c4-board-wrapper {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: 0 0 60px rgba(0, 100, 255, 0.12), var(--shadow-xl);
+  border: 1.5px solid var(--clr-border);
+}
+
+/* ---- Board ---- */
+.c4-board {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  padding: 16px;
+  background: linear-gradient(180deg, #0a1628 0%, #0f1d3d 100%);
+  border-radius: var(--radius-xl);
+  width: fit-content;
+}
+
+/* ---- Cells ---- */
+.c4-cell {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(0, 20, 50, 0.8);
+  border: 2px solid rgba(0, 100, 200, 0.15);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.c4-cell:hover:not(.filled) {
+  border-color: rgba(0, 212, 255, 0.5);
+  box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 16px rgba(0, 212, 255, 0.15);
+}
+
+.c4-cell.filled {
+  cursor: default;
+}
+
+/* ---- Placed Discs ---- */
+.c4-cell .disc {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.c4-cell .disc.red {
+  background: radial-gradient(circle at 35% 35%, #ff8a95, #e63950);
+  box-shadow: 0 0 16px rgba(255, 71, 87, 0.5), inset 0 2px 6px rgba(255,255,255,0.2);
+}
+
+.c4-cell .disc.yellow {
+  background: radial-gradient(circle at 35% 35%, #ffe680, #f7c948);
+  box-shadow: 0 0 16px rgba(247, 201, 72, 0.5), inset 0 2px 6px rgba(255,255,255,0.25);
+}
+
+/* Drop animation */
+.c4-cell .disc.dropping {
+  animation: dropDisc 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes dropDisc {
+  0%   { transform: translateY(-300px); opacity: 0; }
+  60%  { transform: translateY(8px); opacity: 1; }
+  80%  { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
+
+/* Winning cells glow */
+.c4-cell.win-cell .disc {
+  animation: winPulse 0.8s ease-in-out infinite alternate;
+}
+
+.c4-cell.win-cell .disc.red {
+  box-shadow: 0 0 24px rgba(255, 71, 87, 0.8), 0 0 48px rgba(255, 71, 87, 0.4);
+}
+
+.c4-cell.win-cell .disc.yellow {
+  box-shadow: 0 0 24px rgba(247, 201, 72, 0.8), 0 0 48px rgba(247, 201, 72, 0.4);
+}
+
+@keyframes winPulse {
+  from { transform: scale(1); }
+  to   { transform: scale(1.08); }
+}
+
+/* ---- Column hover highlight ---- */
+.c4-board.col-hover-0 .c4-cell:nth-child(7n+1):not(.filled),
+.c4-board.col-hover-1 .c4-cell:nth-child(7n+2):not(.filled),
+.c4-board.col-hover-2 .c4-cell:nth-child(7n+3):not(.filled),
+.c4-board.col-hover-3 .c4-cell:nth-child(7n+4):not(.filled),
+.c4-board.col-hover-4 .c4-cell:nth-child(7n+5):not(.filled),
+.c4-board.col-hover-5 .c4-cell:nth-child(7n+6):not(.filled),
+.c4-board.col-hover-6 .c4-cell:nth-child(7n+7):not(.filled) {
+  border-color: rgba(0, 212, 255, 0.3);
+  background: rgba(0, 40, 80, 0.6);
+}
+
+/* ---- Accent stat cards ---- */
+.stat-card.c4-red   { border-color: rgba(255, 71, 87, 0.3); }
+.stat-card.c4-yellow { border-color: rgba(247, 201, 72, 0.3); }
+
+/* ---- Responsive ---- */
+@media (max-width: 520px) {
+  .c4-cell {
+    width: 42px;
+    height: 42px;
+  }
+  .c4-cell .disc {
+    width: 34px;
+    height: 34px;
+  }
+  .c4-board {
+    gap: 4px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 380px) {
+  .c4-cell {
+    width: 36px;
+    height: 36px;
+  }
+  .c4-cell .disc {
+    width: 28px;
+    height: 28px;
+  }
+  .c4-board {
+    gap: 3px;
+    padding: 8px;
+  }
+}
