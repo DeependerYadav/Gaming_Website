@@ -106,7 +106,8 @@
           if (moves[mi].tr === r && moves[mi].tc === c) { moveHere = moves[mi]; break; }
         }
         if (moveHere) {
-          cell.classList.add(moveHere.cr !== undefined ? 'capture-highlight' : 'highlight');
+          cell.classList.add('highlight');
+          if (moveHere.cr !== undefined) cell.classList.add('capture-highlight');
           (function (m) {
             cell.addEventListener('click', function () { doMove(m); });
           })(moveHere);

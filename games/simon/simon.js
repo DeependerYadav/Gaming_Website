@@ -22,6 +22,7 @@
   let gameActive = false;
   let acceptingInput = false;
   let audioCtx = null;
+  let idleFlickerTimer = null;
 
   const pads = {};
   const roundEl = document.getElementById('simon-round');
@@ -39,7 +40,9 @@
     COLORS.forEach(c => { pads[c] = document.getElementById('pad-' + c); });
     loadBest();
     bindEvents();
+    enablePads(false);
     updateDisplay();
+    startIdleFlicker();
   }
 
   function bindEvents() {
@@ -55,6 +58,7 @@
 
   function startGame() {
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    stopIdleFlicker();
     sequence = [];
     playerIndex = 0;
     round = 0;
@@ -146,14 +150,64 @@
         }
         updateDisplay();
         gameover.classList.remove('hidden');
+        startIdleFlicker();
       }, 700);
     }
   }
 
-  function flashPad(color, duration) {
+  function flashPad(color, duration, className = 'flash') {
     const pad = pads[color];
-    pad.classList.add('flash');
-    setTimeout(() => pad.classList.remove('flash'), duration);
+    pad.classList.add(className);
+    setTimeout(() => pad.classList.remove(className), duration);
+  }
+
+  function startIdleFlicker() {
+    if (shouldReduceMotion() || idleFlickerTimer) return;
+    board.classList.add('idle-flicker');
+    scheduleIdleFlicker();
+  }
+
+  function scheduleIdleFlicker() {
+    idleFlickerTimer = setTimeout(() => {
+      idleFlickerTimer = null;
+      if (gameActive || acceptingInput) {
+        stopIdleFlicker();
+        return;
+      }
+
+      const flashes = Math.random() < 0.25 ? 2 : 1;
+      const used = [];
+
+      for (let i = 0; i < flashes; i++) {
+        let color = randomColor();
+        while (used.includes(color)) color = randomColor();
+        used.push(color);
+        flashPad(color, randomInt(120, 260), 'idle-flash');
+      }
+
+      scheduleIdleFlicker();
+    }, randomInt(160, 620));
+  }
+
+  function stopIdleFlicker() {
+    if (idleFlickerTimer) {
+      clearTimeout(idleFlickerTimer);
+      idleFlickerTimer = null;
+    }
+    board.classList.remove('idle-flicker');
+    COLORS.forEach(color => pads[color].classList.remove('idle-flash'));
+  }
+
+  function randomColor() {
+    return COLORS[Math.floor(Math.random() * COLORS.length)];
+  }
+
+  function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function shouldReduceMotion() {
+    return window.Utils && window.Utils.prefersReducedMotion && window.Utils.prefersReducedMotion();
   }
 
   function enablePads(enabled) {
