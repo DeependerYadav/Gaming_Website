@@ -357,6 +357,46 @@
         ['Red dots', 'Capture moves']
       ],
       tips: 'Control the center of the board and try to get Kings early. Keep pieces on the back row as long as possible for defense!'
+    },
+
+    sliding: {
+      title: 'Sliding Puzzle',
+      icon: '🧩',
+      rules: [
+        'The board contains numbered tiles (1 to N²-1) with one empty space.',
+        'Click or tap any tile directly adjacent (up, down, left, or right) to the empty space to slide it there.',
+        'Arrange all tiles in numerical order from left to right, top to bottom.',
+        'The empty space should end up in the bottom-right corner when you win.',
+        'Complete the puzzle in as few moves and as little time as possible!'
+      ],
+      controls: [
+        ['Click / Tap', 'Slide adjacent tile into empty space'],
+        ['3×3', '8 tiles — Easy mode'],
+        ['4×4', '15 tiles — Medium mode'],
+        ['5×5', '24 tiles — Hard mode'],
+        ['Shuffle', 'Generate a new puzzle']
+      ],
+      tips: 'Solve the top rows first, then work down row by row. For the last two positions in a row, use a rotation trick: slide pieces into an L-shape and rotate them into place!'
+    },
+
+    rps: {
+      title: 'Rock Paper Scissors',
+      icon: '✊',
+      rules: [
+        'Choose Rock ✊, Paper ✋, or Scissors ✌️ as your move each round.',
+        'Rock crushes Scissors, Scissors cuts Paper, Paper covers Rock.',
+        'In Best of 3, the first player to win 2 rounds wins the match.',
+        'In Best of 5, the first player to win 3 rounds wins the match.',
+        'In Endless mode, play as many rounds as you like — the score keeps accumulating!'
+      ],
+      controls: [
+        ['✊ Rock', 'Beats Scissors'],
+        ['✋ Paper', 'Beats Rock'],
+        ['✌️ Scissors', 'Beats Paper'],
+        ['Click / Tap', 'Choose your move'],
+        ['Mode bar', 'Switch Best of 3 / 5 / Endless']
+      ],
+      tips: 'The AI tracks your last 5 moves and occasionally tries to counter your most-used choice. Mix up your picks to keep it guessing — and watch the round pips to see who\'s ahead!'
     }
   };
 

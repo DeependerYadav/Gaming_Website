@@ -1,0 +1,268 @@
+/* =============================================
+   rps.css — Rock Paper Scissors Game Styles
+   Mini Games Hub — Premium Gaming UI
+   ============================================= */
+
+/* Mode bar */
+.rps-mode-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.rps-mode-label {
+  font-size: var(--text-xs);
+  color: var(--clr-text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.rps-mode-btn {
+  background: var(--clr-bg-secondary);
+  border: 1.5px solid var(--clr-border);
+  color: var(--clr-text-secondary);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  padding: 5px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rps-mode-btn:hover { border-color: #ff6b35; color: #ff6b35; }
+.rps-mode-btn.active {
+  background: linear-gradient(135deg, #ff6b35, #f7c948);
+  border-color: #ff6b35;
+  color: #0d0d1a;
+  box-shadow: 0 0 14px rgba(255, 107, 53, 0.4);
+}
+
+/* Arena layout */
+.rps-arena {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  max-width: 520px;
+  margin: 0 auto 24px;
+  padding: 20px 16px;
+  background: rgba(255, 107, 53, 0.05);
+  border: 1.5px solid rgba(255, 107, 53, 0.18);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 0 40px rgba(255, 107, 53, 0.08);
+  position: relative;
+}
+
+.rps-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.rps-label {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--clr-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.rps-hand {
+  font-size: 4rem;
+  min-height: 72px;
+  line-height: 1;
+  filter: drop-shadow(0 0 16px rgba(255,107,53,0.4));
+  transition: transform 0.15s ease, filter 0.3s ease;
+}
+
+.rps-player .rps-hand { transform: scaleX(-1); }
+
+.rps-hand.shake {
+  animation: rpsShake 0.5s ease;
+}
+
+@keyframes rpsShake {
+  0%   { transform: translateY(0) scaleX(var(--sx, 1)); }
+  20%  { transform: translateY(-12px) scaleX(var(--sx, 1)); }
+  40%  { transform: translateY(6px) scaleX(var(--sx, 1)); }
+  60%  { transform: translateY(-8px) scaleX(var(--sx, 1)); }
+  80%  { transform: translateY(4px) scaleX(var(--sx, 1)); }
+  100% { transform: translateY(0) scaleX(var(--sx, 1)); }
+}
+
+.rps-player .rps-hand.shake {
+  animation: rpsShakeFlip 0.5s ease;
+}
+
+@keyframes rpsShakeFlip {
+  0%   { transform: translateY(0) scaleX(-1); }
+  20%  { transform: translateY(-12px) scaleX(-1); }
+  40%  { transform: translateY(6px) scaleX(-1); }
+  60%  { transform: translateY(-8px) scaleX(-1); }
+  80%  { transform: translateY(4px) scaleX(-1); }
+  100% { transform: translateY(0) scaleX(-1); }
+}
+
+.rps-choice-name {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--clr-text-secondary);
+  min-height: 22px;
+  transition: color 0.3s ease;
+}
+
+/* Center VS panel */
+.rps-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.rps-vs {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--clr-text-muted);
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+}
+
+.rps-result-text {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 800;
+  text-align: center;
+  min-height: 22px;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.rps-result-text.win   { color: #2ecc71; text-shadow: 0 0 12px rgba(46,204,113,0.6); }
+.rps-result-text.lose  { color: #ff4757; text-shadow: 0 0 12px rgba(255,71,87,0.6); }
+.rps-result-text.draw  { color: #f7c948; text-shadow: 0 0 12px rgba(247,201,72,0.5); }
+
+/* Progress pips for best-of */
+.rps-progress {
+  display: flex;
+  gap: 5px;
+}
+
+.rps-pip {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--clr-border);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+.rps-pip.pip-player { background: #2ecc71; box-shadow: 0 0 8px rgba(46,204,113,0.7); }
+.rps-pip.pip-ai     { background: #ff4757; box-shadow: 0 0 8px rgba(255,71,87,0.7); }
+
+/* Choice Buttons */
+.rps-choices {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.rps-choice-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: var(--clr-bg-secondary);
+  border: 2px solid var(--clr-border);
+  border-radius: var(--radius-xl);
+  padding: 18px 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  min-width: 90px;
+}
+
+.rps-choice-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,107,53,0.15), transparent);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.rps-choice-btn:hover {
+  border-color: #ff6b35;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(255, 107, 53, 0.3);
+}
+
+.rps-choice-btn:hover::before { opacity: 1; }
+
+.rps-choice-btn:active {
+  transform: translateY(-1px) scale(0.97);
+}
+
+.rps-choice-btn[data-choice="rock"]:hover    { border-color: #ff6b35; box-shadow: 0 8px 24px rgba(255,107,53,0.4); }
+.rps-choice-btn[data-choice="paper"]:hover   { border-color: #a78bfa; box-shadow: 0 8px 24px rgba(167,139,250,0.4); }
+.rps-choice-btn[data-choice="scissors"]:hover{ border-color: #f7c948; box-shadow: 0 8px 24px rgba(247,201,72,0.4); }
+
+.rps-choice-btn.selected {
+  border-color: #ff6b35;
+  background: rgba(255, 107, 53, 0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 0 20px rgba(255, 107, 53, 0.4);
+}
+
+.rps-choice-btn.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.rps-choice-emoji {
+  font-size: 2.4rem;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+.rps-choice-btn:hover .rps-choice-emoji { transform: scale(1.15); }
+
+.rps-choice-label {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--clr-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Game Over Overlay */
+.game-container { position: relative; }
+
+#rps-gameover {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  border-radius: 0;
+  background: rgba(13, 13, 26, 0.88);
+  backdrop-filter: blur(8px);
+}
+
+/* Score colors */
+.rps-score-player { color: #2ecc71; }
+.rps-score-ai     { color: #ff4757; }
+
+/* Responsive */
+@media (max-width: 480px) {
+  .rps-arena { gap: 8px; padding: 14px 10px; }
+  .rps-hand  { font-size: 3rem; }
+  .rps-choices { gap: 10px; }
+  .rps-choice-btn { padding: 14px 16px; min-width: 76px; }
+  .rps-choice-emoji { font-size: 2rem; }
+}

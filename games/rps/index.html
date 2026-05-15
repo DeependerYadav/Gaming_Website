@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta name="description" content="Play Rock Paper Scissors free online on Mini Games Hub. Battle the AI in a best-of-5 neon showdown — rock, paper, or scissors?" />
+  <meta name="keywords" content="rock paper scissors online, free rps game, browser rock paper scissors, play vs ai" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Rock Paper Scissors | Mini Games Hub" />
+  <meta property="og:description" content="Play Rock Paper Scissors free online — challenge the AI in best-of-5 rounds!" />
+  <meta property="og:url" content="https://minigameshub.online/games/rps/" />
+  <meta property="og:type" content="website" />
+  <link rel="canonical" href="https://minigameshub.online/games/rps/" />
+  <title>Rock Paper Scissors | Mini Games Hub</title>
+  <link rel="icon" type="image/png" href="../../assets/icons/icon-96x96.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="../../css/style.css?v=1778843926" />
+  <link rel="stylesheet" href="../../css/games.css?v=1778843926" />
+  <link rel="stylesheet" href="rps.css?v=1778843926" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7739890929299549" crossorigin="anonymous"></script>
+</head>
+<body class="dark-mode">
+<div class="game-page">
+  <header class="game-header">
+    <div class="game-header-left">
+      <a href="../../index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back</a>
+      <h1 class="game-header-title">✊ Rock Paper Scissors</h1>
+    </div>
+    <div class="game-header-controls">
+      <button class="icon-btn" id="btn-sound-rps" title="Toggle Sound">🔊</button>
+    </div>
+  </header>
+
+  <div class="game-container">
+    <div class="stats-bar">
+      <div class="stat-card highlight">
+        <div class="stat-card-label">You</div>
+        <div class="stat-card-value" id="rps-score-player">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Draws</div>
+        <div class="stat-card-value" id="rps-score-draw">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">AI</div>
+        <div class="stat-card-value" id="rps-score-ai">0</div>
+      </div>
+    </div>
+
+    <div class="rps-mode-bar">
+      <span class="rps-mode-label">Mode:</span>
+      <button class="rps-mode-btn active" data-mode="best5" id="mode-best5">Best of 5</button>
+      <button class="rps-mode-btn" data-mode="best3" id="mode-best3">Best of 3</button>
+      <button class="rps-mode-btn" data-mode="endless" id="mode-endless">Endless</button>
+    </div>
+
+    <div class="rps-arena">
+      <!-- Opponent -->
+      <div class="rps-side rps-opponent">
+        <div class="rps-label">AI</div>
+        <div class="rps-hand" id="rps-ai-hand">❓</div>
+        <div class="rps-choice-name" id="rps-ai-name">Waiting...</div>
+      </div>
+
+      <!-- Center result -->
+      <div class="rps-center">
+        <div class="rps-vs" id="rps-vs-text">VS</div>
+        <div class="rps-result-text" id="rps-result-text"></div>
+        <div class="rps-progress" id="rps-progress">
+          <div class="rps-pip" id="pip-0"></div>
+          <div class="rps-pip" id="pip-1"></div>
+          <div class="rps-pip" id="pip-2"></div>
+          <div class="rps-pip" id="pip-3"></div>
+          <div class="rps-pip" id="pip-4"></div>
+        </div>
+      </div>
+
+      <!-- Player -->
+      <div class="rps-side rps-player">
+        <div class="rps-label">You</div>
+        <div class="rps-hand" id="rps-player-hand">❓</div>
+        <div class="rps-choice-name" id="rps-player-name">Pick a move!</div>
+      </div>
+    </div>
+
+    <!-- Choice buttons -->
+    <div class="rps-choices" id="rps-choices">
+      <button class="rps-choice-btn" data-choice="rock" id="btn-rock" title="Rock">
+        <span class="rps-choice-emoji">✊</span>
+        <span class="rps-choice-label">Rock</span>
+      </button>
+      <button class="rps-choice-btn" data-choice="paper" id="btn-paper" title="Paper">
+        <span class="rps-choice-emoji">✋</span>
+        <span class="rps-choice-label">Paper</span>
+      </button>
+      <button class="rps-choice-btn" data-choice="scissors" id="btn-scissors" title="Scissors">
+        <span class="rps-choice-emoji">✌️</span>
+        <span class="rps-choice-label">Scissors</span>
+      </button>
+    </div>
+
+    <div class="game-overlay hidden" id="rps-gameover">
+      <div class="overlay-emoji" id="rps-go-emoji">🏆</div>
+      <h2 class="overlay-title" id="rps-go-title">You Win!</h2>
+      <p class="overlay-score" id="rps-go-score">3 - 1</p>
+      <div class="overlay-actions">
+        <button class="btn-game btn-start" id="btn-replay-rps">▶ Play Again</button>
+        <a href="../../index.html" class="btn-game btn-restart">🏠 Home</a>
+      </div>
+    </div>
+
+    <div class="game-actions">
+      <button class="btn-game btn-restart" id="btn-reset-rps"><i class="fa-solid fa-rotate-right"></i> Reset</button>
+      <a href="../../index.html" class="btn-game btn-restart"><i class="fa-solid fa-house"></i> Home</a>
+    </div>
+
+    <div class="controls-info">
+      <div class="control-item">Choose Rock ✊, Paper ✋, or Scissors ✌️ to beat the AI</div>
+    </div>
+  </div>
+</div>
+
+<script src="../../js/utils.js?v=1778843926"></script>
+<script src="../../js/storage.js?v=1778843926"></script>
+<script src="rps.js?v=1778843926"></script>
+<script src="../../js/how-to-play.js?v=1778843926"></script>
+<script>
+  (function() {
+    const btn = document.getElementById('btn-sound-rps');
+    if (!btn) return;
+    const s = AppStorage.getSettings();
+    btn.textContent = s.soundEnabled !== false ? '🔊' : '🔇';
+    btn.addEventListener('click', () => {
+      const c = AppStorage.getSettings().soundEnabled;
+      AppStorage.setSetting('soundEnabled', !c);
+      btn.textContent = !c ? '🔊' : '🔇';
+    });
+  })();
+</script>
+</body>
+</html>
