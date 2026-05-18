@@ -1,4 +1,12 @@
 User-agent: *
 Allow: /
 
+# Block non-content paths
+Disallow: /js/
+Disallow: /css/
+Disallow: /assets/icons/
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
+
 Sitemap: https://minigameshub.online/sitemap.xml
