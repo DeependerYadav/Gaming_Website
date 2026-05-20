@@ -2,8 +2,6 @@ User-agent: *
 Allow: /
 
 # Block non-content paths
-Disallow: /js/
-Disallow: /css/
 Disallow: /assets/icons/
 
 # Crawl-delay for polite crawling
